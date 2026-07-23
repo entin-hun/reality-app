@@ -191,8 +191,8 @@ Hozz létre egy `.env.local` fájlt:
 
 ```env
 # Opcionális: Stripe fizetés
-STRIPE_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=your-stripe-secret-key-here
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key-here
 
 # Opcionális: Analytics
 ANALYTICS_ENABLED=true
