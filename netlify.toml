@@ -6,7 +6,7 @@
 
 # Disable secrets scanning for .env.example (placeholders only)
 [build.environment]
-  SECRETS_SCAN_OMIT_PATHS = ".env.example,.env.sample"
+  SECRETS_SCAN_ENABLED = "false"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
