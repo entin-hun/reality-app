@@ -39,7 +39,7 @@ function BlockRenderer({ block }: { block: Block }) {
     const { title, subtitle, ctaText, ctaLink } = block.content;
     return (
       <section
-        className={`${paddingClass} ${block.layout === 'centered' ? 'text-center' : ''}`}
+        className={`${paddingClass} ${block.layout === 'split' ? 'text-center' : ''}`}
         style={bgStyle}
       >
         <div className="container mx-auto px-4">
