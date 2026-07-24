@@ -11,23 +11,27 @@ auth_endpoint: auth
 collections:
   - name: "pages"
     label: "Oldalak"
+    label_singular: "Oldal"
     folder: "data/cms/pages"
     extension: "json"
     format: "json"
     identifier_field: "slug"
     create: true
+    summary: "{{slug}} — {{title.hu}} ({{blocks.length}} blokk)"
     fields:
       - { label: "Azonosító", name: "id", widget: "string", required: true }
-      - { label: "URL slug", name: "slug", widget: "string", required: true }
+      - { label: "URL slug", name: "slug", widget: "string", required: true, hint: "Pl. 'home', 'rolunk', 'reality', 'szponzorok', 'harcosok'" }
       - label: "Cím"
         name: "title"
         widget: "object"
+        required: true
         fields:
           - { label: "Magyar", name: "hu", widget: "string", required: true }
           - { label: "English", name: "en", widget: "string", required: true }
       - label: "SEO"
         name: "seo"
         widget: "object"
+        required: false
         fields:
           - label: "SEO Cím"
             name: "title"
@@ -42,52 +46,479 @@ collections:
               - { label: "Magyar", name: "hu", widget: "string" }
               - { label: "English", name: "en", widget: "string" }
       - { label: "Publikált", name: "published", widget: "boolean", default: true }
-      - { label: "Létrehozva", name: "createdAt", widget: "datetime" }
-      - { label: "Frissítve", name: "updatedAt", widget: "datetime" }
+      - { label: "Létrehozva", name: "createdAt", widget: "datetime", required: false }
+      - { label: "Frissítve", name: "updatedAt", widget: "datetime", required: false }
+      - { label: "Szerző", name: "author", widget: "string", required: false, default: "admin" }
       - label: "Blokkok"
         name: "blocks"
         widget: "list"
+        required: false
+        label_singular: "Blokk"
         types:
+          # ═══════════════════════════════════════════════════════
+          # HERO blokk — teljes körű
+          # ═══════════════════════════════════════════════════════
           - label: "Hero szekció"
             name: "hero"
             widget: "object"
+            summary: "Hero · {{id}}"
             fields:
-              - { label: "Blokk azonosító", name: "id", widget: "string" }
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "hero-1" }
               - { label: "Típus", name: "type", widget: "hidden", default: "hero" }
               - { label: "Elrendezés", name: "layout", widget: "select", options: ["full", "centered", "split"], default: "full" }
               - label: "Tartalom"
                 name: "content"
                 widget: "object"
+                required: true
                 fields:
+                  - label: "Badge (kis felirat a logo felett)"
+                    name: "badge"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Cím (logo felirat)"
+                    name: "title"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Helyszín"
+                    name: "location"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Dátum"
+                    name: "date"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Alcím (leírás)"
+                    name: "subtitle"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "text" }
+                      - { label: "English", name: "en", widget: "text" }
+                  - label: "Státusz badge"
+                    name: "statusBadge"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Elsődleges CTA"
+                    name: "ctaPrimary"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - label: "Szöveg"
+                        name: "text"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Link"
+                        name: "link"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                  - label: "Másodlagos CTA 1"
+                    name: "ctaSecondary1"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - label: "Szöveg"
+                        name: "text"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Link"
+                        name: "link"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                  - label: "Másodlagos CTA 2"
+                    name: "ctaSecondary2"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - label: "Szöveg"
+                        name: "text"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Link"
+                        name: "link"
+                        widget: "object"
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+              - label: "Beállítások"
+                name: "settings"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "large" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 0 }
+              - { label: "Látható", name: "visible", widget: "boolean", default: true }
+
+          # ═══════════════════════════════════════════════════════
+          # TEXT blokk — alap szöveges (eyebrow + title + body + body2 + CTA)
+          # ═══════════════════════════════════════════════════════
+          - label: "Szöveges blokk"
+            name: "text"
+            widget: "object"
+            summary: "Text · {{id}}"
+            fields:
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "text-1" }
+              - { label: "Típus", name: "type", widget: "hidden", default: "text" }
+              - { label: "Elrendezés", name: "layout", widget: "select", options: ["full", "wide", "narrow", "split"], default: "full" }
+              - label: "Tartalom"
+                name: "content"
+                widget: "object"
+                required: true
+                fields:
+                  - label: "Eyebrow (kis felirat a cím felett)"
+                    name: "eyebrow"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
                   - label: "Cím"
                     name: "title"
                     widget: "object"
+                    required: false
                     fields:
                       - { label: "Magyar", name: "hu", widget: "string" }
                       - { label: "English", name: "en", widget: "string" }
-                  - label: "Alcím"
-                    name: "subtitle"
+                  - label: "Bekezdés 1"
+                    name: "body"
                     widget: "object"
+                    required: false
                     fields:
-                      - { label: "Magyar", name: "hu", widget: "string" }
-                      - { label: "English", name: "en", widget: "string" }
+                      - { label: "Magyar", name: "hu", widget: "text" }
+                      - { label: "English", name: "en", widget: "text" }
+                  - label: "Bekezdés 2"
+                    name: "body2"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "text" }
+                      - { label: "English", name: "en", widget: "text" }
                   - label: "CTA szöveg"
                     name: "ctaText"
                     widget: "object"
+                    required: false
                     fields:
                       - { label: "Magyar", name: "hu", widget: "string" }
                       - { label: "English", name: "en", widget: "string" }
                   - label: "CTA link"
                     name: "ctaLink"
                     widget: "object"
+                    required: false
                     fields:
                       - { label: "Magyar", name: "hu", widget: "string" }
                       - { label: "English", name: "en", widget: "string" }
               - label: "Beállítások"
                 name: "settings"
                 widget: "object"
+                required: false
                 fields:
                   - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
-                  - { label: "Padding", name: "padding", widget: "select", options: ["small", "medium", "large"], default: "large" }
-              - { label: "Sorrend", name: "order", widget: "number", default: 0 }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "large" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 1 }
+              - { label: "Látható", name: "visible", widget: "boolean", default: true }
+
+          # ═══════════════════════════════════════════════════════
+          # TEXT blokk — pillars (3 oszlopos kártyák)
+          # ═══════════════════════════════════════════════════════
+          - label: "Pillérekk (3 oszlop)"
+            name: "text-pillars"
+            widget: "object"
+            summary: "Pillars · {{id}}"
+            fields:
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "pillars-1" }
+              - { label: "Típus", name: "type", widget: "hidden", default: "text" }
+              - { label: "Elrendezés", name: "layout", widget: "hidden", default: "full" }
+              - label: "Tartalom"
+                name: "content"
+                widget: "object"
+                required: true
+                fields:
+                  - label: "Eyebrow"
+                    name: "eyebrow"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Cím"
+                    name: "title"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Pillérekk"
+                    name: "pillars"
+                    widget: "list"
+                    required: false
+                    label_singular: "Pillér"
+                    fields:
+                      - { label: "Ikon (emoji)", name: "icon", widget: "string", default: "🎯" }
+                      - label: "Címke"
+                        name: "label"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Cím"
+                        name: "title"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Leírás"
+                        name: "body"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "text" }
+                          - { label: "English", name: "en", widget: "text" }
+              - label: "Beállítások"
+                name: "settings"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "large" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 2 }
+              - { label: "Látható", name: "visible", widget: "boolean", default: true }
+
+          # ═══════════════════════════════════════════════════════
+          # TEXT blokk — cards (kártya grid)
+          # ═══════════════════════════════════════════════════════
+          - label: "Kártyák (grid)"
+            name: "text-cards"
+            widget: "object"
+            summary: "Cards · {{id}}"
+            fields:
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "cards-1" }
+              - { label: "Típus", name: "type", widget: "hidden", default: "text" }
+              - { label: "Elrendezés", name: "layout", widget: "hidden", default: "full" }
+              - label: "Tartalom"
+                name: "content"
+                widget: "object"
+                required: true
+                fields:
+                  - label: "Eyebrow"
+                    name: "eyebrow"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Cím"
+                    name: "title"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Bevezető"
+                    name: "body"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "text" }
+                      - { label: "English", name: "en", widget: "text" }
+                  - label: "Kártyák"
+                    name: "cards"
+                    widget: "list"
+                    required: false
+                    label_singular: "Kártya"
+                    fields:
+                      - { label: "Ikon (emoji)", name: "icon", widget: "string", default: "🏆" }
+                      - label: "Cím"
+                        name: "title"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Badge"
+                        name: "badge"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Leírás"
+                        name: "body"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "text" }
+                          - { label: "English", name: "en", widget: "text" }
+              - label: "Beállítások"
+                name: "settings"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "large" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 3 }
+              - { label: "Látható", name: "visible", widget: "boolean", default: true }
+
+          # ═══════════════════════════════════════════════════════
+          # TEXT blokk — rules (szabályrendszer)
+          # ═══════════════════════════════════════════════════════
+          - label: "Szabályok"
+            name: "text-rules"
+            widget: "object"
+            summary: "Rules · {{id}}"
+            fields:
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "rules-1" }
+              - { label: "Típus", name: "type", widget: "hidden", default: "text" }
+              - { label: "Elrendezés", name: "layout", widget: "hidden", default: "full" }
+              - label: "Tartalom"
+                name: "content"
+                widget: "object"
+                required: true
+                fields:
+                  - label: "Eyebrow"
+                    name: "eyebrow"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Cím"
+                    name: "title"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Bevezető"
+                    name: "body"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "text" }
+                      - { label: "English", name: "en", widget: "text" }
+                  - label: "CTA szöveg"
+                    name: "ctaText"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "CTA link"
+                    name: "ctaLink"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Szabályok"
+                    name: "rules"
+                    widget: "list"
+                    required: false
+                    label_singular: "Szabály"
+                    fields:
+                      - label: "Cím"
+                        name: "title"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Alcím"
+                        name: "subtitle"
+                        widget: "object"
+                        required: false
+                        fields:
+                          - { label: "Magyar", name: "hu", widget: "string" }
+                          - { label: "English", name: "en", widget: "string" }
+                      - label: "Pontok"
+                        name: "items"
+                        widget: "list"
+                        required: false
+                        label_singular: "Pont"
+                        field:
+                          label: "Szöveg"
+                          name: "i18n"
+                          widget: "object"
+                          fields:
+                            - { label: "Magyar", name: "hu", widget: "string" }
+                            - { label: "English", name: "en", widget: "string" }
+              - label: "Beállítások"
+                name: "settings"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "large" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 4 }
+              - { label: "Látható", name: "visible", widget: "boolean", default: true }
+
+          # ═══════════════════════════════════════════════════════
+          # TEXT blokk — footer (badge-ek)
+          # ═══════════════════════════════════════════════════════
+          - label: "Footer"
+            name: "text-footer"
+            widget: "object"
+            summary: "Footer · {{id}}"
+            fields:
+              - { label: "Blokk azonosító", name: "id", widget: "string", required: true, default: "footer-1" }
+              - { label: "Típus", name: "type", widget: "hidden", default: "text" }
+              - { label: "Elrendezés", name: "layout", widget: "hidden", default: "full" }
+              - label: "Tartalom"
+                name: "content"
+                widget: "object"
+                required: true
+                fields:
+                  - label: "Cím (copyright)"
+                    name: "title"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - { label: "Magyar", name: "hu", widget: "string" }
+                      - { label: "English", name: "en", widget: "string" }
+                  - label: "Badge-ek"
+                    name: "badges"
+                    widget: "list"
+                    required: false
+                    label_singular: "Badge"
+                    field:
+                      label: "Szöveg"
+                      name: "i18n"
+                      widget: "object"
+                      fields:
+                        - { label: "Magyar", name: "hu", widget: "string" }
+                        - { label: "English", name: "en", widget: "string" }
+              - label: "Beállítások"
+                name: "settings"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Háttérszín", name: "backgroundColor", widget: "color", default: "#0A0A0A" }
+                  - { label: "Padding", name: "padding", widget: "select", options: ["none", "small", "medium", "large"], default: "small" }
+              - { label: "Sorrend", name: "order", widget: "number", default: 99 }
               - { label: "Látható", name: "visible", widget: "boolean", default: true }
