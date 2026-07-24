@@ -1,0 +1,101 @@
+{
+  "id": "harcosok",
+  "slug": "harcosok",
+  "title": {
+    "hu": "Harcosok",
+    "en": "Fighters"
+  },
+  "blocks": [
+    {
+      "id": "hero-1",
+      "type": "hero",
+      "layout": "full",
+      "content": {
+        "badge": { "hu": "EFU · Harcosok", "en": "EFU · Fighters" },
+        "title": { "hu": "Elite Fight Universe", "en": "Elite Fight Universe" },
+        "location": { "hu": "Harcosok", "en": "Fighters" },
+        "date": { "hu": "Reality · Fight Night · Profi karrier", "en": "Reality · Fight Night · Pro career" },
+        "subtitle": { "hu": "Ismerd meg az EFU Reality és Fight Night harcosait — a történetüket, az EFU útjukat és a mérlegüket. Friss profilok, fotók, eddigi mérkőzések.", "en": "Get to know the EFU Reality and Fight Night fighters — their stories, their EFU path, and their record. Fresh profiles, photos, past matches." },
+        "statusBadge": { "hu": "🚧 Hamarosan érkeznek a harcosok", "en": "🚧 Fighters coming soon" },
+        "ctaPrimary": { "text": { "hu": "🥊 Jelentkezz harcosnak", "en": "🥊 Apply as a fighter" }, "link": { "hu": "/jelentkezz", "en": "/jelentkezz" } },
+        "ctaSecondary1": { "text": { "hu": "🏠 EFU Reality", "en": "🏠 EFU Reality" }, "link": { "hu": "/reality", "en": "/reality" } },
+        "ctaSecondary2": { "text": { "hu": "ℹ️ Rólunk", "en": "ℹ️ About us" }, "link": { "hu": "/rolunk", "en": "/rolunk" } }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 0,
+      "visible": true
+    },
+    {
+      "id": "szures-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Harcosok", "en": "Fighters" },
+        "title": { "hu": "Ismerd meg a harcosainkat", "en": "Meet our fighters" },
+        "body": { "hu": "Jelenleg nincs megjelent harcos. Hamarosan érkeznek. A harcosok az EFU három lépcsős karrierútján haladnak: a Reality-ben tűnnek fel, a Fight Night-on bizonyítanak, majd a profi ranglistán kiteljesedik a történetük.", "en": "There are no published fighters yet. They are coming soon. Fighters progress on EFU's three-step career path: they appear in Reality, prove themselves in Fight Night, then their story is fulfilled on the pro ranking list." },
+        "body2": { "hu": "Szűrés: Mind · Reality · Fight Night · Profi. A harcosok profiloldalán megtalálod a bemutatkozást, a történetet, az EFU utat, a mérleget és a videókat.", "en": "Filter: All · Reality · Fight Night · Pro. On the fighter profile pages you'll find the intro, story, EFU path, record, and videos." }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "karrierut-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "EFU út", "en": "EFU path" },
+        "title": { "hu": "Hogyan épül fel egy EFU harcos karrierje?", "en": "How is an EFU fighter's career built?" },
+        "body": { "hu": "Az EFU három lépcsős karrierutat kínál a harcosoknak. Minden lépcsőn új kihívások, új lehetőségek és új szintek várnak.", "en": "EFU offers a three-step career path for fighters. At each step, new challenges, new opportunities, and new levels await." },
+        "cards": [
+          { "icon": "🎯", "title": { "hu": "EFU Reality", "en": "EFU Reality" }, "badge": { "hu": "Tehetségkutatás", "en": "Talent search" }, "body": { "hu": "A harcosok a Reality-ben tűnnek fel. Többhetes formátum, ahol a versenyzők feladatokon, kihívásokon és küzdelmeken keresztül bizonyítják rátermettségüket.", "en": "Fighters appear in Reality. A multi-week format where fighters prove their skills through tasks, challenges, and fights." } },
+          { "icon": "🥊", "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "badge": { "hu": "Gálasorozat", "en": "Gala series" }, "body": { "hu": "A Reality legjobbjai az EFU hivatalos gálasorozatán mérettetik meg magukat — amatőr, félprofi és profi kategóriákban.", "en": "The best of Reality compete on EFU's official gala series — in amateur, semi-pro, and pro categories." } },
+          { "icon": "🏆", "title": { "hu": "Profi karrier", "en": "Pro career" }, "badge": { "hu": "Nemzetközi karrier", "en": "International career" }, "body": { "hu": "A folyamatosan épülő EFU rangsoroló és bajnoki rendszer nyit utat a nemzetközi profi karrier felé.", "en": "The continuously growing EFU ranking and championship system opens the way to an international pro career." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "jelentkezz-cta-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Csatlakozz", "en": "Join" },
+        "title": { "hu": "Te lehetsz a következő EFU harcos", "en": "You could be the next EFU fighter" },
+        "body": { "hu": "Jelentkezz a 2026-os szezonra. A Ház vár, a ketrec vár, a közönség vár.", "en": "Apply for the 2026 season. The House awaits, the cage awaits, the audience awaits." },
+        "ctaText": { "hu": "Jelentkezz harcosnak", "en": "Apply as a fighter" },
+        "ctaLink": { "hu": "/jelentkezz", "en": "/jelentkezz" }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "footer-1",
+      "type": "text",
+      "layout": "efu",
+      "content": {
+        "title": { "hu": "© 2026 Elite Fight Universe — Minden jog fenntartva", "en": "© 2026 Elite Fight Universe — All rights reserved" },
+        "badges": [
+          { "hu": "EFU Reality", "en": "EFU Reality" },
+          { "hu": "EFU Fight Night", "en": "EFU Fight Night" },
+          { "hu": "EFU TV", "en": "EFU TV" }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
+      "order": 4,
+      "visible": true
+    }
+  ],
+  "seo": {
+    "title": { "hu": "Harcosok · EFU — Elite Fight Universe", "en": "Fighters · EFU — Elite Fight Universe" },
+    "oldAnchor": "harcosok",
+    "description": { "hu": "Ismerd meg az EFU Reality és EFU Fight Night harcosait — a történetüket, az EFU útjukat és a mérlegüket. Friss profilok, fotók, eddigi mérkőzések.", "en": "Get to know the EFU Reality and EFU Fight Night fighters — their stories, their EFU path, and their record. Fresh profiles, photos, past matches." }
+  },
+  "published": true,
+  "createdAt": "2025-01-15T10:00:00.000Z",
+  "updatedAt": "2025-01-15T10:00:00.000Z",
+  "author": "cms-sync"
+}

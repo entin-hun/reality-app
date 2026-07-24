@@ -1,0 +1,121 @@
+{
+  "id": "szponzorok",
+  "slug": "szponzorok",
+  "title": {
+    "hu": "Szponzorok és partnerek",
+    "en": "Sponsors and partners"
+  },
+  "blocks": [
+    {
+      "id": "hero-1",
+      "type": "hero",
+      "layout": "full",
+      "content": {
+        "badge": { "hu": "EFU · Partnerség", "en": "EFU · Partnership" },
+        "title": { "hu": "Elite Fight Universe", "en": "Elite Fight Universe" },
+        "location": { "hu": "Szponzorok és partnerek", "en": "Sponsors and partners" },
+        "date": { "hu": "Az EFU büszke partnereire", "en": "EFU is proud of its partners" },
+        "subtitle": { "hu": "Az EFU partnerszintek célja, hogy a szponzorok testre szabott megjelenést kapjanak a gálákon, a közvetítésekben és a digitális platformjainkon. Minden partnerszinthez dedikált aktivációk és láthatósági csomagok tartoznak.", "en": "The EFU partnership levels aim to give sponsors customized visibility at galas, broadcasts, and on our digital platforms. Each level comes with dedicated activations and visibility packages." },
+        "statusBadge": { "hu": "🤝 Partnereket keresünk", "en": "🤝 Looking for partners" },
+        "ctaPrimary": { "text": { "hu": "📋 Partnerszintek", "en": "📋 Partnership levels" }, "link": { "hu": "#szintek", "en": "#szintek" } },
+        "ctaSecondary1": { "text": { "hu": "💡 Miért az EFU?", "en": "💡 Why EFU?" }, "link": { "hu": "#miert", "en": "#miert" } },
+        "ctaSecondary2": { "text": { "hu": "📞 Kapcsolat", "en": "📞 Contact" }, "link": { "hu": "#kapcsolat", "en": "#kapcsolat" } }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 0,
+      "visible": true
+    },
+    {
+      "id": "miert-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Miért az EFU?", "en": "Why EFU?" },
+        "title": { "hu": "Egy platform, három formátum, kilenc piac", "en": "One platform, three formats, nine markets" },
+        "body": { "hu": "Az EFU egyszerre épít reality-formátumot, gálasorozatot és digitális platformot. A szponzorok ezáltal nem egy-egy esemény mellé, hanem egy egész éves, integrált kommunikációs ökoszisztémához csatlakoznak.", "en": "EFU simultaneously builds a reality format, gala series, and digital platform. Sponsors thus join a year-round, integrated communication ecosystem, not just individual events." },
+        "body2": { "hu": "Célcsoportunk: 18–45 éves férfiak és nők, akik aktívan követik a küzdősportokat. Közép-európai közönség 9 nyelven.", "en": "Our target audience: men and women aged 18–45 who actively follow combat sports. Central European audience in 9 languages." }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "szintek-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Partnerszintek", "en": "Partnership levels" },
+        "title": { "hu": "Válaszd ki a márkádhoz illő szintet", "en": "Choose the level that fits your brand" },
+        "body": { "hu": "Az árak tájékoztató jellegűek — a végleges csomag testre szabható. Kérj személyre szabott ajánlatot a Kapcsolat menüpontban.", "en": "Prices are indicative — the final package is customizable. Request a personalized offer in the Contact section." },
+        "cards": [
+          { "icon": "🥉", "title": { "hu": "Bronz", "en": "Bronze" }, "badge": { "hu": "Belépő szint", "en": "Entry level" }, "body": { "hu": "Láthatóság a digitális felületeken. Logó megjelenítése az EFU weboldal Szponzorok oldalán, megjelenés a közösségi média posztok láblécében, hálás köszönet a Reality stáblistájában, hozzáférés az EFU zárt szponzori hírleveléhez.", "en": "Visibility on digital surfaces. Logo on the EFU Sponsors page, social media footer, Reality credits, access to the EFU sponsor newsletter." } },
+          { "icon": "🥈", "title": { "hu": "Ezüst", "en": "Silver" }, "badge": { "hu": "Közép szint", "en": "Mid level" }, "body": { "hu": "Digitális jelenlét + stáblista. A Bronz csomag minden eleme, plusz logó az EFU Fight Night közvetítések stáblistájában, rövid reklámszpot a Reality epizódok előtt, egyedi branded hashtag, EFU TV rövid interjú.", "en": "Digital presence + credits. Everything in Bronze, plus logo in EFU Fight Night broadcast credits, short ad spot before Reality episodes, custom branded hashtag, EFU TV short interview." } },
+          { "icon": "🥇", "title": { "hu": "Arany", "en": "Gold" }, "badge": { "hu": "Haladó szint", "en": "Advanced level" }, "body": { "hu": "Gála + Reality jelenlét. Az Ezüst csomag minden eleme, plusz logó a ring-side szőnyegen és a fight card poszteren, dedikált branded zóna a Fight Night helyszínen, termékminta a helyszíni aktivációs pultnál, részvétel 1 gálán 4 fő részére.", "en": "Gala + Reality presence. Everything in Silver, plus logo on ring-side mat and fight card poster, dedicated branded zone at Fight Night venue, product sample at activation booth, participation for 4 at 1 gala." } },
+          { "icon": "🏠", "title": { "hu": "Reality-integráció", "en": "Reality integration" }, "badge": { "hu": "Prémium", "en": "Premium" }, "body": { "hu": "Márkád belép a reality házba. Termékmegjelenés a reality-házban (product placement), branded zóna a házban, szponzor által kurált kihívás, logó a Reality stáblistájában epizódonkénti említéssel, exkluzív social media aktiváció.", "en": "Your brand enters the reality house. Product placement in the reality house, branded zone, sponsor-curated challenge, logo in Reality credits with per-episode mention, exclusive social media activation." } },
+          { "icon": "🥊", "title": { "hu": "Fight Night-integráció", "en": "Fight Night integration" }, "badge": { "hu": "Prémium", "en": "Premium" }, "body": { "hu": "Márkád a ring mellett. Ring-side branded placement, szponzorált fight card, replay sponsorship, dedikált kommentátori említések, részvétel a teljes Fight Night szezonra (3-4 gála).", "en": "Your brand at ring-side. Ring-side branded placement, sponsored fight card, replay sponsorship, dedicated commentator mentions, participation in the full Fight Night season (3-4 galas)." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "integraciok-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Integrációs lehetőségek", "en": "Integration opportunities" },
+        "title": { "hu": "Reality és Fight Night integráció", "en": "Reality and Fight Night integration" },
+        "body": { "hu": "Két fő integrációs irány — Reality és Fight Night — amelyek egymással kombinálhatók is.", "en": "Two main integration directions — Reality and Fight Night — which can also be combined." },
+        "pillars": [
+          { "icon": "🏠", "label": { "hu": "EFU Reality", "en": "EFU Reality" }, "title": { "hu": "Reality integráció", "en": "Reality integration" }, "body": { "hu": "Product placement a reality-házban, branded zónák, szponzor által kurált kihívások, epizódonkénti említés és stáblista.", "en": "Product placement in the reality house, branded zones, sponsor-curated challenges, per-episode mention and credits." } },
+          { "icon": "🥊", "label": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "title": { "hu": "Fight Night integráció", "en": "Fight Night integration" }, "body": { "hu": "Ring-side placement, sponsored fight card, replay sponsorship, kommentátori említések a teljes közvetítés alatt.", "en": "Ring-side placement, sponsored fight card, replay sponsorship, commentator mentions throughout the broadcast." } },
+          { "icon": "📺", "label": { "hu": "EFU TV", "en": "EFU TV" }, "title": { "hu": "Digitális platform", "en": "Digital platform" }, "body": { "hu": "Élő közvetítések, interjúk, háttéranyagok, rövid formátumú tartalmak — a szponzorok a digitális felületeken is megjelennek.", "en": "Live broadcasts, interviews, behind-the-scenes content, short-format content — sponsors also appear on digital surfaces." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 3,
+      "visible": true
+    },
+    {
+      "oldAnchor": "kapcsolat",
+      "id": "kapcsolat-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Csatlakozz", "en": "Join" },
+        "title": { "hu": "Csatlakozz az EFU partnereihez", "en": "Join the EFU partners" },
+        "body": { "hu": "Kérj személyre szabott ajánlatot, és beszéljük meg, hogyan illeszkedik a márkád az EFU ökoszisztémájába.", "en": "Request a personalized offer and let's discuss how your brand fits into the EFU ecosystem." },
+        "ctaText": { "hu": "Kapcsolatfelvétel", "en": "Contact us" },
+        "ctaLink": { "hu": "mailto:partners@efu.hu", "en": "mailto:partners@efu.hu" }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "footer-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "title": { "hu": "© 2026 Elite Fight Universe — Minden jog fenntartva", "en": "© 2026 Elite Fight Universe — All rights reserved" },
+        "badges": [
+          { "hu": "EFU Reality", "en": "EFU Reality" },
+          { "hu": "EFU Fight Night", "en": "EFU Fight Night" },
+          { "hu": "EFU TV", "en": "EFU TV" }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
+      "order": 5,
+      "visible": true
+    }
+  ],
+  "seo": {
+    "title": { "hu": "Szponzorok és partnerek · EFU", "en": "Sponsors and partners · EFU" },
+    "description": { "hu": "Az EFU szponzorai a harcművészeti tehetségkutatás és a gálasorozat mellé állnak. Ismerd meg a partnerszinteket, a Reality és Fight Night integrációs lehetőségeket.", "en": "EFU sponsors stand by the martial arts talent search and gala series. Learn about partnership levels, Reality and Fight Night integration opportunities." }
+  },
+  "published": true,
+  "createdAt": "2025-01-15T10:00:00.000Z",
+  "updatedAt": "2025-01-15T10:00:00.000Z",
+  "author": "cms-sync"
+}

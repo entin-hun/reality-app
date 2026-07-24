@@ -1,0 +1,137 @@
+{
+  "id": "rolunk",
+  "slug": "rolunk",
+  "title": {
+    "hu": "Rólunk",
+    "en": "About us"
+  },
+  "blocks": [
+    {
+      "id": "hero-1",
+      "type": "hero",
+      "layout": "full",
+      "content": {
+        "badge": { "hu": "EFU · 2026 szezon", "en": "EFU · 2026 season" },
+        "title": { "hu": "Elite Fight Universe", "en": "Elite Fight Universe" },
+        "location": { "hu": "Budapest", "en": "Budapest" },
+        "date": { "hu": "2026. augusztus 3.", "en": "August 3, 2026" },
+        "subtitle": { "hu": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magában. Az EFU célja, hogy új lehetőséget teremtsen a harcosok számára a bemutatkozásra és fejlődésre, miközben a nézők nemcsak a mérkőzéseket, hanem a sportolók teljes útját is végigkövethetik.", "en": "The Elite Fight Universe (EFU) is a martial arts and entertainment ecosystem that includes combat sports events built on its own competition system, talent show formats, and digital broadcasts." },
+        "statusBadge": { "hu": "🚧 Építés alatt", "en": "🚧 Under construction" },
+        "ctaPrimary": { "text": { "hu": "📖 Ismerd meg a pilléreket", "en": "📖 Discover the pillars" }, "link": { "hu": "#pillars", "en": "#pillars" } },
+        "ctaSecondary1": { "text": { "hu": "📋 EFU Ruleset", "en": "📋 EFU Ruleset" }, "link": { "hu": "#ruleset", "en": "#ruleset" } },
+        "ctaSecondary2": { "text": { "hu": "🏠 Főoldal", "en": "🏠 Home" }, "link": { "hu": "/", "en": "/" } }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 0,
+      "visible": true
+    },
+    {
+      "id": "pillars-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Három pillér", "en": "Three pillars" },
+        "title": { "hu": "A teljes univerzum, három pilléren", "en": "The full universe, on three pillars" },
+        "pillars": [
+          { "icon": "🎯", "label": { "hu": "Tehetségkutatás", "en": "Talent search" }, "title": { "hu": "EFU Reality", "en": "EFU Reality" }, "body": { "hu": "Többhetes verseny- és tehetségkutató formátum. A résztvevők feladatokon, kihívásokon és küzdelmeken keresztül bizonyíthatják rátermettségüket, miközben a nézők betekintést nyernek a személyiségükbe, felkészülésükbe és mindennapjaikba. Az EFU Reality célja új tehetségek felkutatása, karakterek építése és a jövő harcosainak bemutatása.", "en": "A multi-week competition and talent search format. Participants prove their skills through tasks, challenges, and fights, while viewers gain insight into their personalities, preparation, and daily lives." } },
+          { "icon": "🥊", "label": { "hu": "Gálasorozat", "en": "Gala series" }, "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "body": { "hu": "Az EFU Fight Night az EFU hivatalos gálasorozata. Itt kerülnek megrendezésre a szervezet kiemelt mérkőzései, rangsoroló összecsapásai és bajnoki küzdelmei. A Fight Night eseményeken amatőr, félprofi és profi versenyzők egyaránt lehetőséget kapnak a bizonyításra.", "en": "The official gala series of EFU. Featured matches, ranking bouts, and championship fights — for amateur, semi-pro, and professional fighters." } },
+          { "icon": "📺", "label": { "hu": "Digitális platform", "en": "Digital platform" }, "title": { "hu": "EFU TV", "en": "EFU TV" }, "body": { "hu": "Az EFU TV az Elite Fight Universe digitális platformja. Itt érhetők el az élő közvetítések, a reality epizódok, a gálák, az interjúk, a háttéranyagok és az exkluzív tartalmak.", "en": "The digital platform of the Elite Fight Universe. Live broadcasts, reality episodes, galas, interviews, behind-the-scenes content, exclusive materials." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "ruleset-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Hogyan működik?", "en": "How does it work?" },
+        "title": { "hu": "EFU Ruleset", "en": "EFU Ruleset" },
+        "body": { "hu": "Az EFU saját szabályrendszere a folyamatos akciót és a látványos küzdelmeket helyezi előtérbe.", "en": "EFU's own rule system prioritizes continuous action and spectacular fights." },
+        "rules": [
+          {
+            "title": { "hu": "EFU Stand-Up", "en": "EFU Stand-Up" },
+            "subtitle": { "hu": "Állóharc, földharc nélkül", "en": "Stand-up fighting, no ground fighting" },
+            "items": [
+              { "hu": "MMA kesztyű", "en": "MMA gloves" },
+              { "hu": "Kéz- és lábtechnikák", "en": "Hand and foot techniques" },
+              { "hu": "Földharc nélkül", "en": "No ground fighting" }
+            ]
+          },
+          {
+            "title": { "hu": "EFU Hybrid", "en": "EFU Hybrid" },
+            "subtitle": { "hu": "Állóharc + korlátozott földharc", "en": "Stand-up + limited ground fighting" },
+            "items": [
+              { "hu": "MMA kesztyű", "en": "MMA gloves" },
+              { "hu": "Állóharc és földharc kombinációja", "en": "Combination of stand-up and ground fighting" },
+              { "hu": "Korlátozott idejű földharc (20–30 másodperc)", "en": "Time-limited ground fighting (20–30 seconds)" },
+              { "hu": "A bíró felállítja a versenyzőket", "en": "The referee stands the fighters up" },
+              { "hu": "3 × 3 perces menetek", "en": "3 × 3-minute rounds" },
+              { "hu": "1 perces pihenőidő", "en": "1-minute rest period" }
+            ]
+          }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "timeline-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "A márka útja", "en": "The brand's path" },
+        "title": { "hu": "Hogyan épül fel egy EFU karrier?", "en": "How is an EFU career built?" },
+        "body": { "hu": "Az EFU három lépcsős karrierutat kínál: a Reality-ban tűnsz fel, a Fight Night-on bizonyítasz, a profi ranglistán pedig kiteljesedhet a történeted.", "en": "EFU offers a three-step career path: you appear in Reality, prove yourself in Fight Night, and your story can be fulfilled on the pro ranking list." },
+        "cards": [
+          { "icon": "🎯", "title": { "hu": "EFU Reality", "en": "EFU Reality" }, "badge": { "hu": "Tehetségkutatás", "en": "Talent search" }, "body": { "hu": "Többhetes formátum, ahol a versenyzők feladatokon, kihívásokon és küzdelmeken keresztül bizonyítják rátermettségüket.", "en": "A multi-week format where fighters prove their skills through tasks, challenges, and fights." } },
+          { "icon": "🥊", "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "badge": { "hu": "Gálasorozat", "en": "Gala series" }, "body": { "hu": "A Reality legjobbjai az EFU hivatalos gálasorozatán mérettetik meg magukat — amatőr, félprofi és profi kategóriákban.", "en": "The best of Reality compete on EFU's official gala series — in amateur, semi-pro, and pro categories." } },
+          { "icon": "🏆", "title": { "hu": "Pro career", "en": "Pro career" }, "badge": { "hu": "Profi karrier", "en": "Professional career" }, "body": { "hu": "A folyamatosan épülő EFU rangsoroló és bajnoki rendszer nyit utat a nemzetközi profi karrier felé.", "en": "The continuously growing EFU ranking and championship system opens the way to an international pro career." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "mission-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Küldetésünk", "en": "Our mission" },
+        "title": { "hu": "Egy közösség, amely összeköt", "en": "A community that connects" },
+        "body": { "hu": "Az EFU célja egy olyan közép-európai harcművészeti közösség felépítése, amely összeköti a harcosokat, a szurkolókat és a partnereket, miközben új szintre emeli a küzdősportok és a digitális szórakoztatás kapcsolatát.", "en": "EFU's goal is to build a Central European martial arts community that connects fighters, fans, and partners, while raising the relationship between combat sports and digital entertainment to a new level." }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "footer-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "title": { "hu": "© 2026 Elite Fight Universe — Minden jog fenntartva", "en": "© 2026 Elite Fight Universe — All rights reserved" },
+        "badges": [
+          { "hu": "EFU Reality", "en": "EFU Reality" },
+          { "hu": "EFU Fight Night", "en": "EFU Fight Night" },
+          { "hu": "EFU TV", "en": "EFU TV" }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
+      "order": 5,
+      "visible": true
+    }
+  ],
+  "seo": {
+    "title": { "hu": "Rólunk · EFU | Elite Fight Universe", "en": "About · EFU | Elite Fight Universe" },
+    "description": { "hu": "Ismerd meg az Elite Fight Universe-t (EFU): az EFU Reality tehetségkutatót, az EFU Fight Night gálasorozatot és az EFU TV digitális platformot.", "en": "Get to know the Elite Fight Universe (EFU): the EFU Reality talent search, the EFU Fight Night gala series, and the EFU TV digital platform." }
+  },
+  "published": true,
+  "createdAt": "2025-01-15T10:00:00.000Z",
+  "updatedAt": "2025-01-15T10:00:00.000Z",
+  "author": "cms-sync"
+}

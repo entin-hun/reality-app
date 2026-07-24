@@ -1,0 +1,215 @@
+{
+  "id": "reality",
+  "slug": "reality",
+  "title": {
+    "hu": "EFU Reality · A Ház",
+    "en": "EFU Reality · The House"
+  },
+  "blocks": [
+    {
+      "id": "hero-1",
+      "type": "hero",
+      "layout": "full",
+      "content": {
+        "badge": { "hu": "EFU Reality · 2026 szezon", "en": "EFU Reality · 2026 season" },
+        "title": { "hu": "Elite Fight Universe", "en": "Elite Fight Universe" },
+        "location": { "hu": "A Ház vár", "en": "The House awaits" },
+        "date": { "hu": "2026. augusztus 3.", "en": "August 3, 2026" },
+        "subtitle": { "hu": "Az EFU Reality a harcművészeti tehetségkutató formátumunk. Több héten át tartó küzdelem, ahol a résztvevők nemcsak a ketrecben, hanem a mindennapokban is megmérettek — feladatokon, kihívásokon és valódi összecsapásokon keresztül.", "en": "EFU Reality is our martial arts talent search format. A multi-week struggle where participants are tested not only in the cage, but in everyday life — through tasks, challenges, and real fights." },
+        "statusBadge": { "hu": "🚧 Jelentkezés hamarosan", "en": "🚧 Applications soon" },
+        "ctaPrimary": { "text": { "hu": "🏠 Ismerd meg a Házat", "en": "🏠 Discover the House" }, "link": { "hu": "#haz", "en": "#haz" } },
+        "ctaSecondary1": { "text": { "hu": "📋 Szabályok", "en": "📋 Rules" }, "link": { "hu": "#szabalyok", "en": "#szabalyok" } },
+        "ctaSecondary2": { "text": { "hu": "🥊 Jelentkezz", "en": "🥊 Apply" }, "link": { "hu": "/jelentkezz", "en": "/jelentkezz" } }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 0,
+      "visible": true
+    },
+    {
+      "id": "haz-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Hol lakik a szezon", "en": "Where the season lives" },
+        "title": { "hu": "A Ház", "en": "The House" },
+        "body": { "hu": "A 2026-os szezonban a versenyzők beköltöznek az EFU Házba: egy teljesen felszerelt, 24 órás megfigyelés alatt álló edző- és lakókomplexumba. A Ház nem csupán szállás — a műsor második színpada: a közös edzések, a konyhában eldőlő viták, a hajnali futások és a háziversenyek mind részei a formátumnak.", "en": "In the 2026 season, fighters move into the EFU House: a fully equipped, 24-hour monitored training and residential complex. The House is not just accommodation — it is the show's second stage." },
+        "body2": { "hu": "A Ház hat zónára oszlik, amelyek mindegyike saját funkcióval rendelkezik a felkészülésben és a mindennapi életben.", "en": "The House is divided into six zones, each with its own function in preparation and daily life." }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "oldAnchor": "haz",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "zones-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Hat zóna", "en": "Six zones" },
+        "title": { "hu": "A Ház zónái", "en": "The House zones" },
+        "cards": [
+          { "icon": "🛋️", "title": { "hu": "Nappali", "en": "Living room" }, "badge": { "hu": "Közösségi tér", "en": "Community space" }, "body": { "hu": "A Ház központi tere. Itt zajlanak a közös étkezések, a zsűri előtti megbeszélések, a háziversenyek kihirdetése és a nem-hivatalos beszélgetések — a legtöbb dráma itt születik.", "en": "The central space of the House. Joint meals, jury meetings, house competition announcements, and unofficial conversations happen here." } },
+          { "icon": "🍳", "title": { "hu": "Konyha", "en": "Kitchen" }, "badge": { "hu": "Gyógyulás és taktika", "en": "Healing and tactics" }, "body": { "hu": "A Ház szíve. A táplálkozási tanácsadó és a séf által összeállított menü a regenerációt és a szezonra való felkészülést szolgálja. A közös főzések a csapatépítés fontos pillanatai.", "en": "The heart of the House. The menu prepared by the nutritionist and chef serves regeneration and preparation for the season." } },
+          { "icon": "🛏️", "title": { "hu": "Hálószobák", "en": "Bedrooms" }, "badge": { "hu": "Pihenőzóna", "en": "Rest zone" }, "body": { "hu": "Külön női és férfi hálószobák, személyes szekrényekkel és ágytámlába épített kamerákkal. A pihenőidő szigorúan védett — a Ház nem alvásmegvonásra, hanem kiegyensúlyozott felkészülésre épül.", "en": "Separate female and male bedrooms, with personal lockers and bed-mounted cameras. Rest time is strictly protected." } },
+          { "icon": "🏋️", "title": { "hu": "Edzőterem", "en": "Gym" }, "badge": { "hu": "Napi két edzés", "en": "Two daily workouts" }, "body": { "hu": "Teljes MMA-felszereltség: ketrec, álló- és földharc szőnyegek, állókák, erőemelő szigetek, regenerációs sarok. A mentorok a nap 24 órájában használhatják a teret — az edzések kötelezőek.", "en": "Full MMA equipment: cage, stand-up and ground mats, dummies, powerlifting islands, regeneration corner. Workouts are mandatory." } },
+          { "icon": "🌳", "title": { "hu": "Kert", "en": "Garden" }, "badge": { "hu": "Kültéri edzés", "en": "Outdoor training" }, "body": { "hu": "Füves pálya a sprint- és állóképességi edzésekhez, kültéri szauna, jakuzzi és egy nyitott terasz a közös beszélgetésekhez. A kert ad helyet a szabadtéri kihívásoknak is.", "en": "Grass field for sprint and endurance training, outdoor sauna, jacuzzi, and an open terrace for joint conversations." } },
+          { "icon": "🧖", "title": { "hu": "Egyéb helyiségek", "en": "Other rooms" }, "badge": { "hu": "Szauna, gyúró, orvosi", "en": "Sauna, massage, medical" }, "body": { "hu": "Szauna és jakuzzi a regenerációhoz, dedikált gyúró- és fizioterápiás szoba, valamint egy 0–24 órás orvosi helyiség. A Ház teljes infrastruktúrája a biztonságos, professzionális felkészülést szolgálja.", "en": "Sauna and jacuzzi for regeneration, dedicated massage and physiotherapy room, and a 24-hour medical room." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "szabalyok-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "appliesTo": "reality",
+        "eyebrow": { "hu": "Hogyan működik", "en": "How it works" },
+        "title": { "hu": "Szabályok", "en": "Rules" },
+        "body": { "hu": "Az EFU Reality az EFU saját szabályrendszerére épül. A Házban és a ketrecben is ugyanazok az alapelvek érvényesek: tisztelet, biztonság, fair play.", "en": "EFU Reality is built on EFU's own rule system. The same principles apply in the House and in the cage: respect, safety, fair play." },
+        "rules": [
+          {
+            "title": { "hu": "Beköltözés és kiválasztás", "en": "Move-in and selection" },
+            "subtitle": { "hu": "Házon belüli rangsor", "en": "In-house ranking" },
+            "items": [
+              { "hu": "A mentorok a beköltözés után 48 órán belül felállítják a házon belüli rangsort", "en": "Mentors set up the in-house ranking within 48 hours of move-in" },
+              { "hu": "A kezdeti rangsor a teljesítmény-bemutatók, az interjúk és a fizikai tesztek alapján alakul", "en": "The initial ranking is based on performance demos, interviews, and physical tests" },
+              { "hu": "Aki az első héten a legalacsonyabb helyen áll, azonnali kieséssel fenyeget", "en": "The lowest-ranked fighter in the first week faces immediate elimination" }
+            ]
+          },
+          {
+            "title": { "hu": "Heti kihívások", "en": "Weekly challenges" },
+            "subtitle": { "hu": "Edzés és szavazás", "en": "Training and voting" },
+            "items": [
+              { "hu": "Minden hét elején a mentorok nyilvános házi kihívást jelölnek ki", "en": "At the start of each week, mentors designate a public house challenge" },
+              { "hu": "A kihívás teljesítése kötelező — a résztvevők a Ház teljes lakossága előtt mutatják be", "en": "Challenge completion is mandatory — participants perform before the entire House" },
+              { "hu": "A zsűri (mentorok + 1 vendég) pontoz, a házon belüli szavazás kiegészíti a végső sorrendet", "en": "The jury (mentors + 1 guest) scores, in-house voting complements the final ranking" }
+            ]
+          },
+          {
+            "title": { "hu": "Ketreces összecsapások", "en": "Cage fights" },
+            "subtitle": { "hu": "EFU Stand-Up és Hybrid", "en": "EFU Stand-Up and Hybrid" },
+            "items": [
+              { "hu": "Mérkőzés csak az EFU Ruleset (Stand-Up vagy Hybrid) szerint zajlik", "en": "Matches only take place according to EFU Ruleset (Stand-Up or Hybrid)" },
+              { "hu": "Minden összecsapás előtt kötelező orvosi vizsgálat", "en": "Mandatory medical examination before every match" },
+              { "hu": "Bírói döntés vitás esetben a Házon belüli pontozólapokkal is megerősítésre kerül", "en": "Judges' decision in disputed cases is confirmed with in-house scorecards" }
+            ]
+          },
+          {
+            "title": { "hu": "Kiesés és visszatérés", "en": "Elimination and return" },
+            "subtitle": { "hu": "Nincs végleges kiesés a Házban", "en": "No permanent elimination in the House" },
+            "items": [
+              { "hu": "Az utolsó helyen álló versenyző a soron következő mérkőzésen párbajra kényszerül", "en": "The last-ranked fighter is forced into a duel in the next match" },
+              { "hu": "A párbaj győztese a Házban marad, a vesztes számára a mentorok visszatérési lehetőséget ajánlhatnak fel", "en": "The duel winner stays in the House, mentors may offer a return opportunity to the loser" },
+              { "hu": "A döntőbe kizárólag a Házon belüli rangsor és a közönségszavazás együttes eredménye juttat", "en": "Only the combined result of in-house ranking and audience voting leads to the final" }
+            ]
+          },
+          {
+            "title": { "hu": "Magatartás a Házban", "en": "Conduct in the House" },
+            "subtitle": { "hu": "Kamera előtt és mögött", "en": "On and off camera" },
+            "items": [
+              { "hu": "Agresszió, zaklatás vagy a Ház infrastruktúrájának rongálása azonnali kizárással jár", "en": "Aggression, harassment, or damage to House infrastructure results in immediate expulsion" },
+              { "hu": "Alkohol- és szerhasználat tilos — a teljes szezon alatt rendszeres vizsgálat", "en": "Alcohol and substance use is prohibited — regular testing throughout the season" },
+              { "hu": "A magánélet védelme: a hálószobák kameraképe kizárólag a gyártó stáb számára hozzáférhető", "en": "Privacy protection: bedroom camera footage is only accessible to the production team" }
+            ]
+          }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "mentorok-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "A stáb", "en": "The staff" },
+        "title": { "hu": "Mentorok", "en": "Mentors" },
+        "body": { "hu": "Az EFU Reality mentorai a közép-európai harcművészeti élet legelismertebb edzői, egykori bajnokai és sportpszichológusai. A szezon teljes ideje alatt a Házban laknak, és a versenyzőkkel együtt készülnek minden egyes feladatra.", "en": "EFU Reality mentors are the most respected coaches, former champions, and sports psychologists in Central European martial arts." },
+        "cards": [
+          { "icon": "🥋", "title": { "hu": "Kovács István", "en": "Kovács István" }, "badge": { "hu": "Főállóharc-mentor", "en": "Chief stand-up mentor" }, "body": { "hu": "Háromszoros magyar bajnok, 18 év nemzetközi tapasztalattal. Az EFU Stand-Up szabályrendszer egyik kidolgozója. Szakértelme: állóharc, lábtechnika, pontozási taktika.", "en": "Three-time Hungarian champion, 18 years of international experience. Co-developer of the EFU Stand-Up ruleset." } },
+          { "icon": "🤼", "title": { "hu": "Nagy László", "en": "Nagy László" }, "badge": { "hu": "Földharc-mentor", "en": "Ground fighting mentor" }, "body": { "hu": "BJJ feketeöves, egykori IBJJF Európa-bajnok. A Házban a Hybrid szabályrendszer szerinti korlátozott földharc edzéseit vezeti. Szakértelme: földharc, submission defense, pozíciókontroll.", "en": "BJJ black belt, former IBJJF European champion. Leads the limited ground fighting training according to the Hybrid ruleset." } },
+          { "icon": "🧠", "title": { "hu": "Tóth Beatrix", "en": "Tóth Beatrix" }, "badge": { "hu": "Sportpszichológus", "en": "Sports psychologist" }, "body": { "hu": "Sportpszichológus, számos válogatott versenyző mentális felkészítője. A Házban a konfliktuskezelés, a regeneráció és a nyomáskezelés specialistája.", "en": "Sports psychologist, mental preparation coach for many national team fighters. Specialist in conflict management, regeneration, and pressure handling." } },
+          { "icon": "💪", "title": { "hu": "Varga Máté", "en": "Varga Máté" }, "badge": { "hu": "Erőnléti mentor", "en": "Strength mentor" }, "body": { "hu": "Erőnléti edző, ex-rögbis nemzetközi játékos. A szezonra való felkészítés, a regenerációs protokollok és a táplálkozás felelőse.", "en": "Strength coach, ex-rugby international player. Responsible for season preparation, regeneration protocols, and nutrition." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "versenyek-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "A szezon résztvevői", "en": "Season participants" },
+        "title": { "hu": "Versenyzők", "en": "Contestants" },
+        "body": { "hu": "A 2026-os szezon versenyzőinek kiléte a Ház kapujának megnyitásával egyidőben válik nyilvánossá. A bemutatkozásig a résztvevőket sziluettjeik jelzik — a Házban mindenki azonos esélyekkel indul.", "en": "The identities of the 2026 season contestants become public when the House gate opens. Until the introduction, participants are indicated by their silhouettes — everyone starts with equal chances." },
+        "body2": { "hu": "A szezon indulásakor a sziluettek helyére valódi arcok és történetek kerülnek. Iratkozz fel, és értesülj róla elsőként.", "en": "When the season starts, real faces and stories replace the silhouettes. Subscribe to be the first to know." }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 5,
+      "visible": true
+    },
+    {
+      "id": "nyeremeny-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "A szezon tétje", "en": "The season's stake" },
+        "title": { "hu": "Nyeremény", "en": "Prize" },
+        "body": { "hu": "Az EFU Reality pontos nyereménystruktúrája a Ház megnyitójával egyidőben válik nyilvánossá. Iratkozz fel, hogy ne maradj le a bejelentésről.", "en": "The exact prize structure of EFU Reality becomes public when the House opens. Subscribe so you don't miss the announcement." },
+        "body2": { "hu": "A szezon győztese 10 millió forintos fődíjban részesül, és EFU harcosi szerződést kaphat a Fight Night gálasorozatban való szerepléshez.", "en": "The season winner receives a 10 million HUF main prize and may receive an EFU fighter contract for the Fight Night gala series." },
+        "cards": [
+          { "icon": "🏆", "title": { "hu": "Fődíj", "en": "Main prize" }, "badge": { "hu": "10.000.000 Ft", "en": "10,000,000 HUF" }, "body": { "hu": "A szezon győztese 10 millió forintos fődíjban részesül.", "en": "The season winner receives a 10 million HUF main prize." } },
+          { "icon": "📝", "title": { "hu": "EFU harcosi szerződés", "en": "EFU fighter contract" }, "badge": { "hu": "Karrierlehetőség", "en": "Career opportunity" }, "body": { "hu": "A legkiemelkedőbb versenyzők EFU harcosi szerződést kaphatnak, szereplésre az EFU Fight Night eseményeken, és hosszú távú együttműködésre az Elite Fight Universe rendszerében.", "en": "The most outstanding fighters may receive an EFU fighter contract, participation in EFU Fight Night events, and long-term collaboration in the Elite Fight Universe system." } }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 6,
+      "visible": "true"
+    },
+    {
+      "id": "jelentkezz-cta-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "eyebrow": { "hu": "Csatlakozz", "en": "Join" },
+        "title": { "hu": "Te lehetsz a következő EFU harcos", "en": "You could be the next EFU fighter" },
+        "body": { "hu": "Jelentkezz a 2026-os szezonra. A Ház vár.", "en": "Apply for the 2026 season. The House awaits." },
+        "ctaText": { "hu": "Jelentkezz harcosnak", "en": "Apply as a fighter" },
+        "ctaLink": { "hu": "/jelentkezz", "en": "/jelentkezz" }
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "order": 7,
+      "visible": true
+    },
+    {
+      "id": "footer-1",
+      "type": "text",
+      "layout": "full",
+      "content": {
+        "title": { "hu": "© 2026 Elite Fight Universe — Minden jog fenntartva", "en": "© 2026 Elite Fight Universe — All rights reserved" },
+        "badges": [
+          { "hu": "EFU Reality", "en": "EFU Reality" },
+          { "hu": "EFU Fight Night", "en": "EFU Fight Night" },
+          { "hu": "EFU TV", "en": "EFU TV" }
+        ]
+      },
+      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
+      "order": 8,
+      "visible": true
+    }
+  ],
+  "seo": {
+    "title": { "hu": "EFU Reality · A Ház", "en": "EFU Reality · The House" },
+    "description": { "hu": "Az EFU Reality a harcművészeti tehetségkutató formátumunk: a Ház, a Szabályok, a Mentorok, a Versenyzők és a Nyeremény — minden, amit a 2026-os szezonról tudni érdemes.", "en": "EFU Reality is our martial arts talent search format: the House, the Rules, the Mentors, the Contestants, and the Prize — everything worth knowing about the 2026 season." }
+  },
+  "published": true,
+  "createdAt": "2025-01-15T10:00:00.000Z",
+  "updatedAt": "2025-01-15T10:00:00.000Z",
+  "author": "cms-sync"
+}
