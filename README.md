@@ -253,3 +253,4 @@ Private project - All rights reserved
 
 **Verzió**: 1.0.0  
 **Utolsó frissítés**: 2026-07-12
+
