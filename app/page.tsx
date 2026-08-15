@@ -14,7 +14,10 @@ import { HeroSocialRow } from '@/components/HeroSocialRow';
 import { HeroYouTubeEmbed } from '@/components/HeroYouTubeEmbed';
 import { FightNightLogo } from '@/components/logos';
 
-const FIGHT_DATE = new Date('2026-08-03T10:00:00+02:00');
+// Countdown target: Aug 25, 2026 at 8:00 PM CEST (UTC+2)
+const FIGHT_DATE = new Date('2026-08-25T20:00:00+02:00');
+// Set to false to hide countdown, true to show
+const SHOW_COUNTDOWN = false;
 
 export default function HomePage() {
   const [hasPurchased, setHasPurchased] = useState(false);
@@ -138,7 +141,7 @@ export default function HomePage() {
             </p>
 
             {/* Lost-stílusú countdown */}
-            <LostTimerCountdown targetDate={FIGHT_DATE} />
+            {SHOW_COUNTDOWN && <LostTimerCountdown targetDate={FIGHT_DATE} />}
 
             {/* CTAs — simplified for pre-launch */}
             <div className="mt-9 sm:mt-10 flex flex-col items-center gap-3 w-full">
