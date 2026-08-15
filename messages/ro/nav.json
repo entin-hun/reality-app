@@ -1,0 +1,29 @@
+{
+  "brand": "Elite Fight Universe",
+  "menu": {
+    "season": "Abonament",
+    "fight": "Meci",
+    "live": "În direct",
+    "watchLive": "▶ În direct",
+    "reality": "Reality",
+    "fighters": "Luptători",
+    "news": "Știri",
+    "sponsors": "Sponsori",
+    "contact": "Contact"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "loggedIn": "Autentificat",
+    "loggedOut": "Deconectat"
+  },
+  "access": {
+    "active": "✅ Abonament activ",
+    "inactive": "⚠ Fără abonament"
+  },
+  "switcher": {
+    "label": "Limba",
+    "current": "Română",
+    "menuAria": "Selector de limbă"
+  }
+}

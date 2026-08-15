@@ -1,0 +1,19 @@
+{
+  "title": "Contactează-ne",
+  "subtitle": "Ne-ar plăcea să te auzim",
+  "form": {
+    "name": "Nume",
+    "email": "Adresa de e-mail",
+    "subject": "Subiect",
+    "message": "Mesaj",
+    "send": "Trimite mesajul",
+    "sending": "Se trimite...",
+    "success": "Mesaj trimis cu succes! Te vom contacta în curând.",
+    "error": "Ceva nu a funcționat. Încercați din nou."
+  },
+  "info": {
+    "title": "Informații de contact",
+    "email": "E-mail",
+    "social": "Rețele sociale"
+  }
+}

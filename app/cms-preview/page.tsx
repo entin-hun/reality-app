@@ -349,6 +349,16 @@ function BlockRenderer({ block }: { block: Block }) {
     );
   }
 
+  // HTML block — GrapesJS vizuális szerkesztő kimenete (raw HTML renderelés)
+  if (block.type === ('html' as any)) {
+    return (
+      <div
+        className="efu-html-block"
+        dangerouslySetInnerHTML={{ __html: c.html || '' }}
+      />
+    );
+  }
+
   // Unknown block type — show raw JSON
   return (
     <section className={paddingClass} style={bgStyle}>
@@ -369,10 +379,11 @@ function BlockRenderer({ block }: { block: Block }) {
 export default async function CmsPreviewPage({
   searchParams,
 }: {
-  searchParams: { slug?: string };
+  searchParams: Promise<{ slug?: string }>;
 }) {
-  const slug = searchParams.slug || 'home';
-  const page = await readPage(slug);
+  const { slug } = await searchParams;
+  const pageSlug = slug || 'home';
+  const page = await readPage(pageSlug);
 
   return (
     <div className="min-h-screen bg-brand-dark">
@@ -404,7 +415,7 @@ export default async function CmsPreviewPage({
               ← Vissza a főoldalra
             </Link>
             <a
-              href="https://shiny-sunflower-ee1f5e.netlify.app/admin/index.html"
+              href="https://shiny-sunflower-ee1f5e.netlify.app/dashboard/index.html"
               target="_blank"
               rel="noopener noreferrer"
               className="text-brand-gold hover:text-yellow-400"

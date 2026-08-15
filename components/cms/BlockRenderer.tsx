@@ -42,6 +42,7 @@ export function BlockRenderer({ block }: { block: Block }) {
       {block.type === 'cta' && <CTABlock content={block.content} />}
       {block.type === 'divider' && <DividerBlock />}
       {block.type === 'spacer' && <SpacerBlock content={block.content} />}
+      {block.type === ('html' as any) && <HtmlBlock content={block.content} />}
     </section>
   );
 }
@@ -198,4 +199,14 @@ function SpacerBlock({ content }: { content: Record<string, any> }) {
   const height = heightMap[content.height || 'medium'] || heightMap.medium;
 
   return <div className={height} />;
+}
+
+/** HTML Block — renders raw HTML from GrapesJS editor */
+function HtmlBlock({ content }: { content: Record<string, any> }) {
+  return (
+    <div
+      className="efu-html-block"
+      dangerouslySetInnerHTML={{ __html: content.html || '' }}
+    />
+  );
 }

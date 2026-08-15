@@ -1,0 +1,29 @@
+{
+  "brand": "البطل الكوني",
+  "menu": {
+    "season": "اشتراك",
+    "fight": "مباراة",
+    "live": "مباشر",
+    "watchLive": "▶ بث مباشر",
+    "reality": "رياليتي",
+    "fighters": "مقاتلون",
+    "news": "أخبار",
+    "sponsors": "رعاة",
+    "contact": "اتصل بنا"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "loggedIn": "مسجل الدخول",
+    "loggedOut": "غير مسجل"
+  },
+  "access": {
+    "active": "✅ الاشتراك نشط",
+    "inactive": "⚠ بدون اشتراك"
+  },
+  "switcher": {
+    "label": "اللغة",
+    "current": "العربية",
+    "menuAria": "قائمة اختيار اللغة"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Fight Night",
+  "subtitle": "Živé MMA podujatia — elitní bojovníci, nezabudnuteľné večery",
+  "fightCard": "Fight Card",
+  "results": "Výsledky",
+  "schedule": "Program",
+  "tickets": "Vstupenky",
+  "buyTickets": "Kúpiť vstupenky",
+  "noEvents": "Zatiaľ žiadne nadchádzajúce podujatia.",
+  "weightClass": "Váhová kategória",
+  "round": "Kolo",
+  "method": "Spôsob",
+  "time": "Čas",
+  "ko": "KO/TKO",
+  "submission": "Poddanie",
+  "decision": "Rozhodnutie"
+}

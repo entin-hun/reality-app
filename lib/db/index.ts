@@ -30,7 +30,9 @@ export interface ApplicationRecord {
   sportMult: string; // sport history
   motivation: string;
   videoOrSocialUrl: string;
-  contact: string; // email OR phone
+  email: string;
+  phone: string;
+  contact: string; // email | phone (legacy, kept for backward compat)
   gdprConsent: true; // enforced at type level
   gdprConsentAt: string;
   ipHash?: string;

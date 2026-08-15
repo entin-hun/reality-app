@@ -7,8 +7,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { pagesStorage, initializeSeedData } from '@/lib/cms/storage';
+import { requireRole } from '@/lib/auth/dev-role';
 import type { Page } from '@/lib/cms/types';
 
+/**
+ * GET /api/cms/pages — public, no auth needed.
+ * Serves published pages to the frontend.
+ */
 export async function GET() {
   try {
     await initializeSeedData();
@@ -23,7 +28,15 @@ export async function GET() {
   }
 }
 
+/**
+ * POST /api/cms/pages — staff only (Rendszeradminisztrator, Tartalomkeszito).
+ */
 export async function POST(request: NextRequest) {
+  const auth = await requireRole(['Rendszeradminisztrator', 'Tartalomkeszito']);
+  if (!auth.ok) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
     const body = await request.json();
     const page: Page = {

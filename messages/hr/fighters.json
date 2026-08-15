@@ -1,0 +1,14 @@
+{
+  "title": "Borci",
+  "subtitle": "Upoznajte se s borcima EFU-a",
+  "searchPlaceholder": "Pretraži borce...",
+  "noResults": "Nema pronađenih boraca.",
+  "stats": {
+    "fights": "Borbe",
+    "wins": "Pobjede",
+    "losses": "Porazi",
+    "weight": "Težina"
+  },
+  "viewProfile": "Prikaži profil",
+  "backToList": "← Natrag na borce"
+}

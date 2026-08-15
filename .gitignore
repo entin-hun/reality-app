@@ -33,6 +33,11 @@ yarn-error.log*
 *.tsbuildinfo
 default.optimizize.config.cjs
 
+# Cloudflare Pages
+.wrangler/
+.next/outputs/
+.opennext/
+
 # IDE
 .vscode/
 .idea/

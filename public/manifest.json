@@ -1,0 +1,21 @@
+{
+  "name": "Elite Fight Universe",
+  "short_name": "EFU",
+  "description": "Új lehetőség a harcosoknak, új szint a nézőknek — élőben és visszanézhetően.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#DC2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logos/efu-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "entertainment"],
+  "lang": "hu",
+  "dir": "ltr"
+}

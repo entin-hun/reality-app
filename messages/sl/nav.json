@@ -1,0 +1,29 @@
+{
+  "brand": "Elite Fight Universe",
+  "menu": {
+    "season": "Vstopnica",
+    "fight": "Borba",
+    "live": "V živo",
+    "watchLive": "▶ V živo",
+    "reality": "Reality",
+    "fighters": "Borci",
+    "news": "Novice",
+    "sponsors": "Sponzorji",
+    "contact": "Kontakt"
+  },
+  "auth": {
+    "login": "Prijava",
+    "logout": "Odjava",
+    "loggedIn": "Prijavljen",
+    "loggedOut": "Odjavljen"
+  },
+  "access": {
+    "active": "✅ Vstopnica aktivna",
+    "inactive": "⚠ Brez vstopnice"
+  },
+  "switcher": {
+    "label": "Jezik",
+    "current": "Slovenščina",
+    "menuAria": "Izbirnik jezikov"
+  }
+}

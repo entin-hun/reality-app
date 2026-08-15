@@ -115,6 +115,32 @@ export interface Fighter {
   sortOrder: number;
   /** ISO timestamp of last update. */
   updatedAt: string;
+
+  // ApplicationForm fields (admin mode, optional)
+  /** Age in years. */
+  age?: number;
+  /** City of residence. */
+  city?: string;
+  /** Weight category (lightweight, welterweight, middleweight, lightheavy, heavyweight). */
+  testSuly?: string;
+  /** Sports background / history. */
+  sportMult?: string;
+  /** Motivation text. */
+  motivation?: string;
+  /** Video or social media URL. */
+  videoOrSocialUrl?: string;
+  /** Instagram profile URL. */
+  instagramUrl?: string;
+  /** TikTok profile URL. */
+  tiktokUrl?: string;
+  /** YouTube channel/video URL. */
+  youtubeUrl?: string;
+  /** Facebook profile URL. */
+  facebookUrl?: string;
+  /** Email address. */
+  email?: string;
+  /** Phone number. */
+  phone?: string;
 }
 
 /** Fighter summary used by the public listing — strips heavy fields. */

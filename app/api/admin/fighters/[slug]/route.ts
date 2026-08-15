@@ -1,6 +1,6 @@
 /**
- * POST /api/admin/fighters/{slug}     — update an existing fighter
- * DELETE /api/admin/fighters/{slug}   — delete a fighter
+ * POST /api/dashboard/fighters/{slug}     — update an existing fighter
+ * DELETE /api/dashboard/fighters/{slug}   — delete a fighter
  *
  * Both gated to ADMIN_ROLES. The slug in the URL is the target; the
  * form payload carries `originalSlug` so the parser can detect renames

@@ -1,0 +1,17 @@
+{
+  "title": "Fight Night",
+  "subtitle": "Live-MMA-Events — Elite-Kämpfer, unvergessliche Nächte",
+  "fightCard": "Fight Card",
+  "results": "Ergebnisse",
+  "schedule": "Zeitplan",
+  "tickets": "Tickets",
+  "buyTickets": "Tickets kaufen",
+  "noEvents": "Noch keine anstehenden Events.",
+  "weightClass": "Gewichtsklasse",
+  "round": "Runde",
+  "method": "Methode",
+  "time": "Zeit",
+  "ko": "KO/TKO",
+  "submission": "Aufgabe",
+  "decision": "Entscheidung"
+}

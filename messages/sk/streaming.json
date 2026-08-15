@@ -1,0 +1,17 @@
+{
+  "title": "Sledujte naživo",
+  "subtitle": "Nemissite ani moment akcie",
+  "live": "NAŽIVO",
+  "offline": "OFFLINE",
+  "startingSoon": "Čoskoro začíname",
+  "ended": "Podujatie skončilo",
+  "accessRequired": "Permanentka požadovaná na sledovanie",
+  "buyPass": "Kúpiť permanentku",
+  "activePass": "Máte aktívnu permanentku",
+  "quality": "Kvalita",
+  "auto": "Auto",
+  "fullscreen": "Na celú obrazovku",
+  "volume": "Hlasitosť",
+  "noStream": "Momentálne nie je dostupný žiadny prenos.",
+  "goBack": "← Späť"
+}

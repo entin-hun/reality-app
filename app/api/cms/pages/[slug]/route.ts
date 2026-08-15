@@ -8,13 +8,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { pagesStorage } from '@/lib/cms/storage';
+import { requireRole } from '@/lib/auth/dev-role';
 
+/**
+ * GET /api/cms/pages/[slug] — public, no auth needed.
+ * Serves a single published page to the frontend.
+ */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const page = await pagesStorage.readPage(params.slug);
+    const { slug } = await params;
+    const page = await pagesStorage.readPage(slug);
     
     if (!page) {
       return NextResponse.json(
@@ -33,13 +39,22 @@ export async function GET(
   }
 }
 
+/**
+ * PUT /api/cms/pages/[slug] — staff only (Rendszeradminisztrator, Tartalomkeszito).
+ */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
+  const auth = await requireRole(['Rendszeradminisztrator', 'Tartalomkeszito']);
+  if (!auth.ok) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
     const body = await request.json();
-    const existingPage = await pagesStorage.readPage(params.slug);
+    const { slug } = await params;
+    const existingPage = await pagesStorage.readPage(slug);
 
     if (!existingPage) {
       return NextResponse.json(
@@ -51,7 +66,7 @@ export async function PUT(
     const updatedPage = {
       ...existingPage,
       ...body,
-      slug: params.slug, // slug nem változhat
+      slug: slug, // slug nem változhat
       updatedAt: new Date().toISOString(),
     };
 
@@ -66,12 +81,21 @@ export async function PUT(
   }
 }
 
+/**
+ * DELETE /api/cms/pages/[slug] — staff only (Rendszeradminisztrator, Tartalomkeszito).
+ */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
+  const auth = await requireRole(['Rendszeradminisztrator', 'Tartalomkeszito']);
+  if (!auth.ok) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
-    const existingPage = await pagesStorage.readPage(params.slug);
+    const { slug } = await params;
+    const existingPage = await pagesStorage.readPage(slug);
 
     if (!existingPage) {
       return NextResponse.json(
@@ -80,7 +104,7 @@ export async function DELETE(
       );
     }
 
-    await pagesStorage.deletePage(params.slug);
+    await pagesStorage.deletePage(slug);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting page:', error);

@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-const SECRET_KEY = 'epw@qxz_gze-emj0BHR';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const ROLES = [
   { id: 'Rendszeradminisztrator', name: 'Rendszeradminisztrátor', color: 'red', icon: '👑' },
@@ -14,32 +12,43 @@ const ROLES = [
   { id: 'Moderator', name: 'Moderátor', color: 'gray', icon: '🛡️' },
 ];
 
+type AuthStatus =
+  | { status: 'loading' }
+  | { status: 'authenticated'; email: string | null; role: string; mappedRole: string | null }
+  | { status: 'cf_authed_no_role'; email: string | null; mappedRole: string | null }
+  | { status: 'unauthenticated' };
+
 export default function AdminLoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [auth, setAuth] = useState<AuthStatus>({ status: 'loading' });
 
-  // Titkos query paraméter ellenőrzés
-  const objectParam = searchParams.get('object');
-  if (objectParam !== SECRET_KEY) {
-    return (
-      <div className="min-h-screen bg-brand-dark flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-6xl font-black text-brand-red mb-4">404</h1>
-          <p className="text-gray-400 text-lg">Page not found</p>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.authenticated) {
+          setAuth({ status: 'authenticated', email: data.email, role: data.role, mappedRole: data.mappedRole });
+          router.push('/admin');
+        } else if (data.reason === 'no_role') {
+          // If the sysadmin mapped this email in cf-roles.json, auto-set cookie & redirect
+          if (data.mappedRole) {
+            document.cookie = `efu_role=${data.mappedRole}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+            router.push('/admin');
+            return;
+          }
+          setAuth({ status: 'cf_authed_no_role', email: data.email, mappedRole: data.mappedRole });
+        } else {
+          setAuth({ status: 'unauthenticated' });
+        }
+      })
+      .catch(() => setAuth({ status: 'unauthenticated' }));
+  }, [router]);
 
   const handleLogin = () => {
     if (!selectedRole) return;
-    
-    // Cookie beállítása
     document.cookie = `efu_role=${selectedRole}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
-    
-    // Visszairányítás az admin oldalra
     router.push('/admin');
   };
 
@@ -47,20 +56,49 @@ export default function AdminLoginPage() {
     return `document.cookie = "efu_role=${roleId}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax"`;
   };
 
+  if (auth.status === 'loading') {
+    return (
+      <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="animate-spin w-10 h-10 border-4 border-brand-red border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-400">Ellenőrzés...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (auth.status === 'authenticated') {
+    return (
+      <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="animate-spin w-10 h-10 border-4 border-brand-red border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-400">Bejelentkezve, átirányítás...</p>
+          {auth.email && <p className="text-gray-500 text-sm mt-2">{auth.email} — {auth.role}</p>}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-brand-dark flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl sm:text-5xl font-black uppercase text-white mb-3" style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
             Admin Belépés
           </h1>
-          <p className="text-gray-400 text-sm sm:text-base">
-            Válaszd ki a szerepkörödet a belépéshez
-          </p>
+          {auth.status === 'cf_authed_no_role' ? (
+            <p className="text-gray-400 text-sm">
+              Cloudflare hitelesítés sikeres <span className="text-green-400">✓</span>
+              {auth.email && <span className="block text-xs text-gray-500 mt-1">{auth.email}</span>}
+              <br />Válassz szerepkört a belépéshez
+            </p>
+          ) : (
+            <p className="text-gray-400 text-sm sm:text-base">
+              Válaszd ki a szerepkörödet a belépéshez
+            </p>
+          )}
         </div>
 
-        {/* Role Selection */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           {ROLES.map((role) => (
             <button
@@ -93,7 +131,6 @@ export default function AdminLoginPage() {
           ))}
         </div>
 
-        {/* Login Button */}
         <button
           onClick={handleLogin}
           disabled={!selectedRole}
@@ -106,7 +143,6 @@ export default function AdminLoginPage() {
           Belépés
         </button>
 
-        {/* Manual Cookie Instructions */}
         <div className="mt-8 text-center">
           <button
             onClick={() => setShowInstructions(!showInstructions)}
@@ -137,7 +173,6 @@ export default function AdminLoginPage() {
           )}
         </div>
 
-        {/* Back Link */}
         <div className="mt-6 text-center">
           <a href="/" className="text-gray-400 hover:text-white text-sm transition-colors">
             ← Vissza a főoldalra

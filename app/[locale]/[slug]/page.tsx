@@ -11,9 +11,9 @@ import { BlockRenderer } from '@/components/cms/BlockRenderer';
 import type { Page } from '@/lib/cms/types';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -24,7 +24,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const page = await pagesStorage.readPage(params.slug);
+  const { slug } = await params;
+  const page = await pagesStorage.readPage(slug);
   
   if (!page || !page.published) {
     return {
@@ -33,13 +34,14 @@ export async function generateMetadata({ params }: Props) {
   }
 
   return {
-    title: page.seo.title?.hu || page.title.hu || page.slug,
+    title: page.seo.title?.hu || page.title.hu || slug,
     description: page.seo.description?.hu || '',
   };
 }
 
 export default async function CmsPage({ params }: Props) {
-  const page: Page | null = await pagesStorage.readPage(params.slug);
+  const { slug } = await params;
+  const page: Page | null = await pagesStorage.readPage(slug);
 
   if (!page || !page.published) {
     notFound();

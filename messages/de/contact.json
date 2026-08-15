@@ -1,0 +1,19 @@
+{
+  "title": "Kontaktieren Sie uns",
+  "subtitle": "Wir freuen uns auf Ihre Nachricht",
+  "form": {
+    "name": "Name",
+    "email": "E-Mail-Adresse",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht erfolgreich gesendet! Wir melden uns bald bei Ihnen.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "info": {
+    "title": "Kontaktinformationen",
+    "email": "E-Mail",
+    "social": "Soziale Medien"
+  }
+}

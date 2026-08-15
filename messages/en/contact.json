@@ -1,0 +1,19 @@
+{
+  "title": "Contact Us",
+  "subtitle": "We'd love to hear from you",
+  "form": {
+    "name": "Name",
+    "email": "Email address",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent successfully! We'll get back to you soon.",
+    "error": "Something went wrong. Please try again."
+  },
+  "info": {
+    "title": "Contact Information",
+    "email": "Email",
+    "social": "Social Media"
+  }
+}

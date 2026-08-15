@@ -11,18 +11,55 @@
       "type": "hero",
       "layout": "full",
       "content": {
-        "badge": { "hu": "EFU Reality · 2026 szezon", "en": "EFU Reality · 2026 season" },
-        "title": { "hu": "Elite Fight Universe", "en": "Elite Fight Universe" },
-        "location": { "hu": "Budapest", "en": "Budapest" },
-        "date": { "hu": "2026. augusztus 3. · 10:00", "en": "August 3, 2026 · 10:00" },
-        "subtitle": { "hu": "Új lehetőség a harcosoknak, új szint a nézőknek — élőben és visszanézhetően.", "en": "New opportunity for fighters, new level for viewers — live and on-demand." },
-        "statusBadge": { "hu": "🚧 Építés alatt", "en": "🚧 Under construction" },
-        "ctaPrimary": { "text": { "hu": "📖 Ismerd meg a koncepciót", "en": "📖 Learn the concept" }, "link": { "hu": "#mi-az-efu", "en": "#mi-az-efu" } },
-        "ctaSecondary1": { "text": { "hu": "🎬 Mi az EFU?", "en": "🎬 What is EFU?" }, "link": { "hu": "#mi-az-efu", "en": "#mi-az-efu" } },
-        "ctaSecondary2": { "text": { "hu": "ℹ️ Rólunk", "en": "ℹ️ About us" }, "link": { "hu": "/rolunk", "en": "/rolunk" } }
+        "title": {
+          "hu": "Elite Fight Universe",
+          "en": "Elite Fight Universe"
+        },
+        "subtitle": {
+          "hu": "Új lehetőség a harcosoknak, új szint a nézőknek — élőben és visszanézhetően.",
+          "en": "New opportunity for fighters, new level for viewers — live and on-demand."
+        },
+        "ctaText": {
+          "hu": "🥊 Jelentkezz harcosnak",
+          "en": "🥊 Jelentkezz harcosnak"
+        },
+        "ctaLink": {
+          "hu": "/jelentkezz",
+          "en": "/jelentkezz"
+        },
+        "ctaPrimary": {
+          "text": {
+            "hu": "🥊 Jelentkezz harcosnak",
+            "en": "🥊 Jelentkezz harcosnak"
+          },
+          "link": {
+            "hu": "/jelentkezz",
+            "en": "/jelentkezz"
+          }
+        },
+        "backgroundImage": ""
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
       "order": 0,
+      "visible": true
+    },
+    {
+      "id": "56c9f8cd-8131-4d5d-a8cf-84b680f39354",
+      "type": "text",
+      "layout": "narrow",
+      "content": {
+        "content": {
+          "hu": "",
+          "en": ""
+        }
+      },
+      "settings": {
+        "padding": "medium"
+      },
+      "order": 1,
       "visible": true
     },
     {
@@ -30,15 +67,16 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "A koncepció", "en": "The concept" },
-        "title": { "hu": "Mi az EFU?", "en": "What is EFU?" },
-        "body": { "hu": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magában. Az univerzum három pillérre — a Reality-re, a Fight Night-ra és az EFU TV-re — épül.", "en": "The Elite Fight Universe (EFU) is a martial arts and entertainment ecosystem that includes combat sports events built on its own competition system, talent show formats, and digital broadcasts. The universe is built on three pillars — Reality, Fight Night, and EFU TV." },
-        "body2": { "hu": "Célunk egy teljesen új megközelítés a küzdősportok világában: nem csupán versenyeket szervezünk, hanem egy teljes élményt teremtünk a harcosok és a közönség számára egyaránt. A hagyományos MMA gáláktól eltérően az EFU egy folyamatosan fejlődő történetet mesél el, ahol a harcosok nem csak egy-egy mérkőzésre készülnek, hanem egy teljes szezonon át építik a karrierjüket.", "en": "Our goal is a completely new approach to the world of combat sports: not just organizing competitions, but creating a complete experience for both fighters and the audience. Unlike traditional MMA galas, EFU tells a continuously evolving story where fighters don't just prepare for a single match, but build their careers throughout an entire season." },
-        "ctaText": { "hu": "Tudj meg többet az EFU-ról", "en": "Learn more about EFU" },
-        "ctaLink": { "hu": "/rolunk", "en": "/rolunk" }
+        "content": {
+          "hu": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magában. Az univerzum három pillérre — a Reality-re, a Fight Night-ra és az EFU TV-re — épül.",
+          "en": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magában. Az univerzum három pillérre — a Reality-re, a Fight Night-ra és az EFU TV-re — épül."
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
-      "order": 1,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
+      "order": 2,
       "visible": true
     },
     {
@@ -46,16 +84,16 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "Három pillér", "en": "Three pillars" },
-        "title": { "hu": "EFU Pillérek", "en": "EFU Pillars" },
-        "pillars": [
-          { "icon": "🎯", "label": { "hu": "Tehetségkutatás", "en": "Talent search" }, "title": { "hu": "EFU Reality", "en": "EFU Reality" }, "body": { "hu": "Többhetes verseny- és tehetségkutató formátum. A résztvevők feladatokon, kihívásokon és küzdelmeken keresztül bizonyíthatják rátermettségüket, miközben a nézők betekintést nyernek a személyiségükbe, felkészülésükbe és mindennapjaikba.", "en": "A multi-week competition and talent search format. Participants prove their skills through tasks, challenges, and fights, while viewers gain insight into their personalities, preparation, and daily lives." } },
-          { "icon": "🥊", "label": { "hu": "Gálasorozat", "en": "Gala series" }, "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "body": { "hu": "Az EFU hivatalos gálasorozata. Kiemelt mérkőzések, rangsoroló összecsapások és bajnoki küzdelmek — amatőr, félprofi és profi versenyzőknek.", "en": "The official gala series of EFU. Featured matches, ranking bouts, and championship fights — for amateur, semi-pro, and professional fighters." } },
-          { "icon": "📺", "label": { "hu": "Digitális platform", "en": "Digital platform" }, "title": { "hu": "EFU TV", "en": "EFU TV" }, "body": { "hu": "Az Elite Fight Universe digitális platformja. Élő közvetítések, reality epizódok, gálák, interjúk, háttéranyagok, exkluzív tartalmak.", "en": "The digital platform of the Elite Fight Universe. Live broadcasts, reality episodes, galas, interviews, behind-the-scenes content, exclusive materials." } }
-        ]
+        "content": {
+          "hu": "",
+          "en": ""
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
-      "order": 2,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
+      "order": 3,
       "visible": true
     },
     {
@@ -63,18 +101,32 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "Hogyan működik?", "en": "How does it work?" },
-        "title": { "hu": "EFU Ruleset", "en": "EFU Ruleset" },
-        "body": { "hu": "Az EFU saját szabályrendszere a folyamatos akciót és a látványos küzdelmeket helyezi előtérbe. Két formátum — az EFU Stand-Up (csak állóharc) és az EFU Hybrid (korlátozott földharc) — mindkettő MMA kesztyűben, 3×3 perces menetekkel.", "en": "EFU's own rule system prioritizes continuous action and spectacular fights. Two formats — EFU Stand-Up (standing only) and EFU Hybrid (limited ground fighting) — both with MMA gloves, 3×3 minute rounds." },
-        "ctaText": { "hu": "Részletes szabályok", "en": "Detailed rules" },
-        "ctaLink": { "hu": "/rolunk#ruleset", "en": "/rolunk#ruleset" },
-        "rules": [
-          { "title": { "hu": "EFU Stand-Up", "en": "EFU Stand-Up" }, "subtitle": { "hu": "Állóharc, földharc nélkül", "en": "Standing combat, no ground fighting" }, "items": [ { "hu": "MMA kesztyű", "en": "MMA gloves" }, { "hu": "Kéz- és lábtechnikák", "en": "Hand and foot techniques" }, { "hu": "Földharc nélkül", "en": "No ground fighting" } ] },
-          { "title": { "hu": "EFU Hybrid", "en": "EFU Hybrid" }, "subtitle": { "hu": "Korlátozott földharc", "en": "Limited ground fighting" }, "items": [ { "hu": "MMA kesztyű", "en": "MMA gloves" }, { "hu": "Álló és földharc", "en": "Standing and ground fighting" }, { "hu": "3×3 perces menetek", "en": "3×3 minute rounds" } ] }
-        ]
+        "content": {
+          "hu": "Az EFU saját szabályrendszere a folyamatos akciót és a látványos küzdelmeket helyezi előtérbe. Két formátum — az EFU Stand-Up (csak állóharc) és az EFU Hybrid (korlátozott földharc) — mindkettő MMA kesztyűben, 3×3 perces menetekkel.",
+          "en": "Az EFU saját szabályrendszere a folyamatos akciót és a látványos küzdelmeket helyezi előtérbe. Két formátum — az EFU Stand-Up (csak állóharc) és az EFU Hybrid (korlátozott földharc) — mindkettő MMA kesztyűben, 3×3 perces menetekkel."
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
-      "order": 3,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "5ea9ae0c-da67-46fa-8c82-933d66cab301",
+      "type": "text",
+      "layout": "narrow",
+      "content": {
+        "content": {
+          "hu": "",
+          "en": ""
+        }
+      },
+      "settings": {
+        "padding": "medium"
+      },
+      "order": 5,
       "visible": true
     },
     {
@@ -82,13 +134,16 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "Hamarosan", "en": "Coming soon" },
-        "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" },
-        "body": { "hu": "Az EFU Fight Night-ok a szervezet prémium küzdősport eseményei, ahol a legjobb harcosok mérkőznek meg egymással. A harcok formátuma az EFU saját szabályrendszerén alapul, amely a folyamatos akciót és a látványos küzdelmeket garantálja.", "en": "EFU Fight Nights are the organization's premium combat sports events, where the best fighters compete against each other. The fight format is based on EFU's own rule system, which guarantees continuous action and spectacular fights." },
-        "body2": { "hu": "A harcosok névsora és a meccsbeosztás jelenleg előkészítés alatt áll. Hamarosan bemutatjuk azokat a harcosokat, akik az EFU történetének első szezonjában ringbe szállnak a dicsőségért.", "en": "The fighter roster and match schedule are currently under preparation. We will soon introduce the fighters who will step into the ring for glory in the first season of EFU's history." }
+        "content": {
+          "hu": "Az EFU Fight Night-ok a szervezet prémium küzdősport eseményei, ahol a legjobb harcosok mérkőznek meg egymással. A harcok formátuma az EFU saját szabályrendszerén alapul, amely a folyamatos akciót és a látványos küzdelmeket garantálja.",
+          "en": "Az EFU Fight Night-ok a szervezet prémium küzdősport eseményei, ahol a legjobb harcosok mérkőznek meg egymással. A harcok formátuma az EFU saját szabályrendszerén alapul, amely a folyamatos akciót és a látványos küzdelmeket garantálja."
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
-      "order": 4,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
+      "order": 6,
       "visible": true
     },
     {
@@ -96,16 +151,16 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "Mi várható?", "en": "What to expect?" },
-        "title": { "hu": "Építkezés alatt", "en": "Under construction" },
-        "cards": [
-          { "icon": "🎬", "title": { "hu": "EFU Reality", "en": "EFU Reality" }, "body": { "hu": "Egy reality show, ahol a harcosok a ringen kívül is megmutatják, kik ők. Edzések, felkészülés, személyes történetek — mindez a kamera előtt.", "en": "A reality show where fighters show who they are outside the ring. Training, preparation, personal stories — all in front of the camera." }, "badge": { "hu": "Hamarosan bemutatkoznak a szereplők.", "en": "Cast coming soon." } },
-          { "icon": "🥊", "title": { "hu": "EFU Fight Night", "en": "EFU Fight Night" }, "body": { "hu": "A prémium küzdősport események, ahol a legjobb harcosok mérkőznek meg. Saját szabályrendszer, folyamatos akció, látványos küzdelmek.", "en": "Premium combat sports events where the best fighters compete. Own rule system, continuous action, spectacular fights." }, "badge": { "hu": "A harcosok névsora előkészítés alatt.", "en": "Fighter roster under preparation." } },
-          { "icon": "📺", "title": { "hu": "EFU TV", "en": "EFU TV" }, "body": { "hu": "A digitális közvetítési platform, ahol élőben és visszanézve is követheted az összes eseményt. Egy bérlettel, egész évben.", "en": "The digital broadcasting platform where you can follow all events live and on-demand. With one pass, all year round." }, "badge": { "hu": "A platform fejlesztés alatt áll.", "en": "Platform under development." } }
-        ]
+        "content": {
+          "hu": "",
+          "en": ""
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "large" },
-      "order": 5,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "large"
+      },
+      "order": 7,
       "visible": true
     },
     {
@@ -113,15 +168,16 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "eyebrow": { "hu": "Küldetésünk", "en": "Our mission" },
-        "title": { "hu": "Egy közösség, amely összeköt", "en": "A community that connects" },
-        "body": { "hu": "Az EFU célja egy olyan közép-európai harcművészeti közösség felépítése, amely összeköti a harcosokat, a szurkolókat és a partnereket, miközben új szintre emeli a küzdősportok és a digitális szórakoztatás kapcsolatát.", "en": "EFU's goal is to build a Central European martial arts community that connects fighters, fans, and partners, while elevating the relationship between combat sports and digital entertainment to a new level." },
-        "body2": { "hu": "Jelenleg az alapokon dolgozunk: a szabályrendszer véglegesítése, a harcosok kiválasztása és a platform fejlesztése zajlik. Tarts velünk az úton, és légy részese az EFU történetének már az első szezontól kezdve.", "en": "We are currently working on the foundations: finalizing the rule system, selecting fighters, and developing the platform. Join us on this journey and be part of EFU's story from the very first season." },
-        "ctaText": { "hu": "Teljes küldetésünk", "en": "Our full mission" },
-        "ctaLink": { "hu": "/rolunk#mission", "en": "/rolunk#mission" }
+        "content": {
+          "hu": "Az EFU célja egy olyan közép-európai harcművészeti közösség felépítése, amely összeköti a harcosokat, a szurkolókat és a partnereket, miközben új szintre emeli a küzdősportok és a digitális szórakoztatás kapcsolatát.",
+          "en": "Az EFU célja egy olyan közép-európai harcművészeti közösség felépítése, amely összeköti a harcosokat, a szurkolókat és a partnereket, miközben új szintre emeli a küzdősportok és a digitális szórakoztatás kapcsolatát."
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
-      "order": 6,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "small"
+      },
+      "order": 8,
       "visible": true
     },
     {
@@ -129,23 +185,30 @@
       "type": "text",
       "layout": "full",
       "content": {
-        "title": { "hu": "© 2026 Elite Fight Universe. Minden jog fenntartva.", "en": "© 2026 Elite Fight Universe. All rights reserved." },
-        "badges": [
-          { "hu": "📺 EFU TV", "en": "📺 EFU TV" },
-          { "hu": "Stream: Cloudflare", "en": "Stream: Cloudflare" },
-          { "hu": "Fizetés: Stripe", "en": "Payments: Stripe" }
-        ]
+        "content": {
+          "hu": "",
+          "en": ""
+        }
       },
-      "settings": { "backgroundColor": "#0A0A0A", "padding": "small" },
-      "order": 7,
+      "settings": {
+        "backgroundColor": "#0A0A0A",
+        "padding": "small"
+      },
+      "order": 9,
       "visible": true
     }
   ],
   "seo": {
-    "title": { "hu": "EFU - Elite Fight Universe", "en": "EFU - Elite Fight Universe" },
-    "description": { "hu": "A jövő harcművészeti univerzuma", "en": "The future martial arts universe" }
+    "title": {
+      "hu": "EFU - Elite Fight Universe",
+      "en": "EFU - Elite Fight Universe"
+    },
+    "description": {
+      "hu": "A jövő harcművészeti univerzuma",
+      "en": "The future martial arts universe"
+    }
   },
   "published": true,
   "createdAt": "2026-07-12T18:03:43.750Z",
-  "updatedAt": "2026-07-23T21:10:00.000Z"
+  "updatedAt": "2026-07-27T04:59:55.543Z"
 }

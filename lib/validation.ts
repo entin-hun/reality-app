@@ -11,7 +11,12 @@ export interface ApplicationFormInput {
   sportMult: string;
   motivation: string;
   videoOrSocialUrl: string;
-  contact: string;
+  instagramUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+  facebookUrl?: string;
+  email: string;
+  phone: string;
   gdprConsent: boolean;
   hp_company?: string; // honeypot
 }
@@ -49,8 +54,13 @@ export const TEXT_LIMITS = {
   city: { min: 2, max: 80 },
   sportMult: { max: 500 },
   motivation: { min: 20, max: 1500 },
-  contact: { min: 5, max: 120 },
+  email: { min: 5, max: 120 },
+  phone: { min: 7, max: 20 },
   videoOrSocialUrl: { max: 500 },
+  instagramUrl: { max: 500 },
+  tiktokUrl: { max: 500 },
+  youtubeUrl: { max: 500 },
+  facebookUrl: { max: 500 },
 };
 
 export function isVideoOrSocialUrl(url: string): boolean {
@@ -134,11 +144,36 @@ export function validate(input: ApplicationFormInput): ValidationError[] {
     });
   }
 
-  const c = isContact(input.contact ?? '');
-  if (!c.ok) {
-    errors.push({ field: 'contact', code: 'invalid_contact', message: 'contact.invalid' });
-  } else if (input.contact.length > TEXT_LIMITS.contact.max) {
-    errors.push({ field: 'contact', code: 'too_long', message: 'contact.too_long' });
+  // Optional social media links - validate only if provided
+  if (input.instagramUrl && input.instagramUrl.length > TEXT_LIMITS.instagramUrl.max) {
+    errors.push({ field: 'instagramUrl', code: 'too_long', message: 'instagramUrl.too_long' });
+  }
+  if (input.tiktokUrl && input.tiktokUrl.length > TEXT_LIMITS.tiktokUrl.max) {
+    errors.push({ field: 'tiktokUrl', code: 'too_long', message: 'tiktokUrl.too_long' });
+  }
+  if (input.youtubeUrl && input.youtubeUrl.length > TEXT_LIMITS.youtubeUrl.max) {
+    errors.push({ field: 'youtubeUrl', code: 'too_long', message: 'youtubeUrl.too_long' });
+  }
+  if (input.facebookUrl && input.facebookUrl.length > TEXT_LIMITS.facebookUrl.max) {
+    errors.push({ field: 'facebookUrl', code: 'too_long', message: 'facebookUrl.too_long' });
+  }
+
+  // Email — required, must be valid email format
+  if (!input.email || input.email.trim().length === 0) {
+    errors.push({ field: 'email', code: 'required', message: 'email.required' });
+  } else if (!EMAIL_RE.test(input.email.trim())) {
+    errors.push({ field: 'email', code: 'invalid_contact', message: 'email.invalid' });
+  } else if (input.email.length > TEXT_LIMITS.email.max) {
+    errors.push({ field: 'email', code: 'too_long', message: 'email.too_long' });
+  }
+
+  // Phone — required, must be valid phone format
+  if (!input.phone || input.phone.trim().length === 0) {
+    errors.push({ field: 'phone', code: 'required', message: 'phone.required' });
+  } else if (!PHONE_RE.test(input.phone.trim())) {
+    errors.push({ field: 'phone', code: 'invalid_contact', message: 'phone.invalid' });
+  } else if (input.phone.length > TEXT_LIMITS.phone.max) {
+    errors.push({ field: 'phone', code: 'too_long', message: 'phone.too_long' });
   }
 
   if (input.gdprConsent !== true) {

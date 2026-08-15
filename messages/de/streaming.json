@@ -1,0 +1,17 @@
+{
+  "title": "Live ansehen",
+  "subtitle": "Verpassen Sie keinen Moment des Geschehens",
+  "live": "LIVE",
+  "offline": "OFFLINE",
+  "startingSoon": "Startet bald",
+  "ended": "Veranstaltung beendet",
+  "accessRequired": "Pass zum Ansehen erforderlich",
+  "buyPass": "Pass kaufen",
+  "activePass": "Sie haben einen aktiven Pass",
+  "quality": "Qualität",
+  "auto": "Auto",
+  "fullscreen": "Vollbild",
+  "volume": "Lautstärke",
+  "noStream": "Derzeit kein Stream verfügbar.",
+  "goBack": "← Zurück"
+}

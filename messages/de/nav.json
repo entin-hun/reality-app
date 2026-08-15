@@ -1,0 +1,29 @@
+{
+  "brand": "Elite Fight Universe",
+  "menu": {
+    "season": "Pass",
+    "fight": "Kampf",
+    "live": "Live",
+    "watchLive": "▶ Live ansehen",
+    "reality": "Reality",
+    "fighters": "Kämpfer",
+    "news": "Neuigkeiten",
+    "sponsors": "Sponsoren",
+    "contact": "Kontakt"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "loggedIn": "Angemeldet",
+    "loggedOut": "Abgemeldet"
+  },
+  "access": {
+    "active": "✅ Pass aktiv",
+    "inactive": "⚠ Kein Pass"
+  },
+  "switcher": {
+    "label": "Sprache",
+    "current": "Deutsch",
+    "menuAria": "Sprachauswahl"
+  }
+}

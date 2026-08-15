@@ -1,0 +1,17 @@
+{
+  "title": "Gledaj uživo",
+  "subtitle": "Ne propustite nijedan trenutak akcije",
+  "live": "UŽIVO",
+  "offline": "OFFLINE",
+  "startingSoon": "Počinje uskoro",
+  "ended": "Događaj završen",
+  "accessRequired": "Potrebna ulaznica za gledanje",
+  "buyPass": "Kupi ulaznicu",
+  "activePass": "Imate aktivnu ulaznicu",
+  "quality": "Kvalitet",
+  "auto": "Auto",
+  "fullscreen": "Puni zaslon",
+  "volume": "Glasnoća",
+  "noStream": "Trenutno nije dostupan nijedan prenos.",
+  "goBack": "← Nazad"
+}

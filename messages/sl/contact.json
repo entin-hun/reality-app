@@ -1,0 +1,19 @@
+{
+  "title": "Pišite nam",
+  "subtitle": "Z veseljem bi slišali vaše mnenje",
+  "form": {
+    "name": "Ime",
+    "email": "E-naslov",
+    "subject": "Zadeva",
+    "message": "Sporočilo",
+    "send": "Pošlji sporočilo",
+    "sending": "Pošiljanje...",
+    "success": "Sporočilo uspešno poslano! Kmalu se bomo oglasili.",
+    "error": "Nekaj je šlo narobe. Poskusite znova."
+  },
+  "info": {
+    "title": "Kontakt informacije",
+    "email": "E-pošta",
+    "social": "Družabna omrežja"
+  }
+}

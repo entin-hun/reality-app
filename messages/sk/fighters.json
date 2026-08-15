@@ -1,0 +1,14 @@
+{
+  "title": "Bojovníci",
+  "subtitle": "Spoznajte bojovníkov EFU",
+  "searchPlaceholder": "Hľadať bojovníkov...",
+  "noResults": "Žiadni bojovníci nenájdení.",
+  "stats": {
+    "fights": "Zápasy",
+    "wins": "Výhry",
+    "losses": "Prehry",
+    "weight": "Váha"
+  },
+  "viewProfile": "Zobraziť profil",
+  "backToList": "← Späť na bojovníkov"
+}

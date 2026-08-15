@@ -9,9 +9,11 @@ type PayMethod = 'card' | 'apple' | 'google';
 export default function CheckoutPage() {
   const [step, setStep] = useState<'choose' | 'card' | 'processing' | 'done'>('choose');
   const [payMethod, setPayMethod] = useState<PayMethod>('card');
+  const [legalAccepted, setLegalAccepted] = useState(false);
   const router = useRouter();
 
   const handleNativePay = async (method: 'apple' | 'google') => {
+    if (!legalAccepted) return;
     setPayMethod(method);
     setStep('processing');
     await new Promise((r) => setTimeout(r, 2000));
@@ -22,6 +24,7 @@ export default function CheckoutPage() {
 
   const handleCardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!legalAccepted) return;
     setStep('processing');
     await new Promise((r) => setTimeout(r, 2200));
     localStorage.setItem('cw_access', 'granted');
@@ -58,9 +61,15 @@ export default function CheckoutPage() {
           <div className="card-dark rounded-2xl p-6">
             <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">Fizetési mód</p>
 
+            <label className="mb-4 flex items-start gap-3 rounded-lg border border-brand-dark-border bg-black/20 p-3 text-sm leading-relaxed text-gray-300">
+              <input checked={legalAccepted} onChange={(e) => setLegalAccepted(e.target.checked)} type="checkbox" className="mt-1" />
+              <span>Elolvastam és elfogadom az <Link className="text-brand-red underline" href="/legal/terms" target="_blank">ÁSZF-et</Link>, valamint tudomásul veszem az <Link className="text-brand-red underline" href="/legal/privacy" target="_blank">adatkezelési tájékoztatót</Link>.</span>
+            </label>
+
             {/* Apple Pay */}
             <button
               onClick={() => handleNativePay('apple')}
+              disabled={!legalAccepted}
               className="w-full bg-white text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 text-base mb-3 hover:bg-gray-100 transition-colors active:scale-95"
             >
               <span className="text-lg"></span> Apple Pay
@@ -69,6 +78,7 @@ export default function CheckoutPage() {
             {/* Google Pay */}
             <button
               onClick={() => handleNativePay('google')}
+              disabled={!legalAccepted}
               className="w-full bg-white text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 text-base mb-5 hover:bg-gray-100 transition-colors active:scale-95"
             >
               <span className="font-bold text-blue-600">G</span>
@@ -137,7 +147,7 @@ export default function CheckoutPage() {
                   className="w-full bg-brand-dark-muted border border-brand-dark-border rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-gray-500"
                 />
               </div>
-              <button type="submit" className="btn-primary w-full py-4 text-base mt-1">
+              <button type="submit" disabled={!legalAccepted} className="btn-primary w-full py-4 text-base mt-1 disabled:cursor-not-allowed disabled:opacity-50">
                 Fizetés: 2 500 HUF
               </button>
             </form>

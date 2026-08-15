@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/lib/i18n';
@@ -75,10 +76,14 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 gradient-red rounded flex items-center justify-center">
-            <span className="text-white font-black text-sm" style={{ fontFamily: 'Impact' }}>
-              EFU
-            </span>
+          <div className="relative w-8 h-8">
+            <Image
+              src="/logos/efu-logo.webp"
+              alt="EFU"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <span
             className="text-white font-black text-xl uppercase tracking-wider hidden sm:block"
@@ -126,12 +131,12 @@ export function Navbar() {
               </button>
             </div>
           ) : (
-            <button
-              onClick={handleLogin}
-              className="text-sm text-gray-300 hover:text-white border border-brand-dark-border hover:border-gray-500 rounded-lg px-4 py-2 transition-all"
+            <Link
+              href="/jelentkezz"
+              className="btn-primary text-sm px-4 py-2"
             >
-              Bejelentkezés
-            </button>
+              Jelentkezz
+            </Link>
           )}
         </div>
 
@@ -178,9 +183,13 @@ export function Navbar() {
               Kijelentkezés
             </button>
           ) : (
-            <button onClick={handleLogin} className="text-sm text-gray-300 text-left">
-              Bejelentkezés
-            </button>
+            <Link
+              href="/jelentkezz"
+              onClick={() => setMenuOpen(false)}
+              className="btn-primary text-sm px-4 py-2 text-center"
+            >
+              Jelentkezz
+            </Link>
           )}
         </div>
       )}

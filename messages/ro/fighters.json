@@ -1,0 +1,14 @@
+{
+  "title": "Luptători",
+  "subtitle": "Cunoașteți luptătorii EFU",
+  "searchPlaceholder": "Caută luptători...",
+  "noResults": "Nu s-au găsit luptători.",
+  "stats": {
+    "fights": "Meciuri",
+    "wins": "Victorii",
+    "losses": "Înfrângeri",
+    "weight": "Greutate"
+  },
+  "viewProfile": "Vezi profilul",
+  "backToList": "← Înapoi la luptători"
+}

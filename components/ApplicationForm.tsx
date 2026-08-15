@@ -50,7 +50,12 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
       sportMult: String(fd.get('sportMult') ?? ''),
       motivation: String(fd.get('motivation') ?? ''),
       videoOrSocialUrl: String(fd.get('videoOrSocialUrl') ?? ''),
-      contact: String(fd.get('contact') ?? ''),
+      instagramUrl: String(fd.get('instagramUrl') ?? ''),
+      tiktokUrl: String(fd.get('tiktokUrl') ?? ''),
+      youtubeUrl: String(fd.get('youtubeUrl') ?? ''),
+      facebookUrl: String(fd.get('facebookUrl') ?? ''),
+      email: String(fd.get('email') ?? ''),
+      phone: String(fd.get('phone') ?? ''),
       gdprConsent: gdprAccepted,
       hp_company: String(fd.get('hp_company') ?? ''),
       turnstileToken: turnstileRef.current?.getToken() ?? null,
@@ -265,28 +270,109 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
         />
       </Field>
 
-      <Field
-        label={t('field.contact.label')}
-        error={feAny('contact')}
-        required
-        hint={t('field.contact.hint')}
-      >
-        <input
-          id="contact"
-          name="contact"
-          type="text"
-          minLength={5}
-          maxLength={120}
-          placeholder={t('field.contact.placeholder')}
+      {/* Additional social media links for reality show personality assessment */}
+      <div className="border-t border-brand-dark-border pt-5 mt-2">
+        <p className="text-sm text-gray-400 mb-4 font-semibold">{t('field.socialLinks.sectionLabel')}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <Field label={t('field.instagramUrl.label')} error={feAny('instagramUrl')} hint={t('field.instagramUrl.hint')}>
+            <input
+              id="instagramUrl"
+              name="instagramUrl"
+              type="url"
+              maxLength={500}
+              placeholder="https://instagram.com/username"
+              className="form-input"
+            />
+          </Field>
+
+          <Field label={t('field.tiktokUrl.label')} error={feAny('tiktokUrl')} hint={t('field.tiktokUrl.hint')}>
+            <input
+              id="tiktokUrl"
+              name="tiktokUrl"
+              type="url"
+              maxLength={500}
+              placeholder="https://tiktok.com/@username"
+              className="form-input"
+            />
+          </Field>
+
+          <Field label={t('field.youtubeUrl.label')} error={feAny('youtubeUrl')} hint={t('field.youtubeUrl.hint')}>
+            <input
+              id="youtubeUrl"
+              name="youtubeUrl"
+              type="url"
+              maxLength={500}
+              placeholder="https://youtube.com/@channel"
+              className="form-input"
+            />
+          </Field>
+
+          <Field label={t('field.facebookUrl.label')} error={feAny('facebookUrl')} hint={t('field.facebookUrl.hint')}>
+            <input
+              id="facebookUrl"
+              name="facebookUrl"
+              type="url"
+              maxLength={500}
+              placeholder="https://facebook.com/username"
+              className="form-input"
+            />
+          </Field>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <Field
+          label={t('field.email.label')}
+          error={feAny('email')}
           required
-          className="form-input"
-          onBlur={(e) => {
-            const c = isContact(e.target.value);
-            if (!c.ok) e.target.setCustomValidity(t('error.contact.invalid'));
-            else e.target.setCustomValidity('');
-          }}
-        />
-      </Field>
+          hint={t('field.email.hint')}
+        >
+          <input
+            id="email"
+            name="email"
+            type="email"
+            minLength={5}
+            maxLength={120}
+            placeholder={t('field.email.placeholder')}
+            required
+            autoComplete="email"
+            className="form-input"
+            onBlur={(e) => {
+              if (e.target.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value)) {
+                e.target.setCustomValidity(t('error.email.invalid'));
+              } else {
+                e.target.setCustomValidity('');
+              }
+            }}
+          />
+        </Field>
+
+        <Field
+          label={t('field.phone.label')}
+          error={feAny('phone')}
+          required
+          hint={t('field.phone.hint')}
+        >
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            minLength={7}
+            maxLength={20}
+            placeholder={t('field.phone.placeholder')}
+            required
+            autoComplete="tel"
+            className="form-input"
+            onBlur={(e) => {
+              if (e.target.value && !/^\+?[0-9 ()-]{7,20}$/.test(e.target.value)) {
+                e.target.setCustomValidity(t('error.phone.invalid'));
+              } else {
+                e.target.setCustomValidity('');
+              }
+            }}
+          />
+        </Field>
+      </div>
 
       {/* GDPR consent — gate the submit button. */}
       <div className="border border-brand-dark-border rounded-xl px-4 py-3 bg-brand-dark/40">

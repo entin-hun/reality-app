@@ -1,0 +1,14 @@
+{
+  "title": "Borci",
+  "subtitle": "Spoznajte bojnike EFU",
+  "searchPlaceholder": "Išči borce...",
+  "noResults": "Ni najdenih borcev.",
+  "stats": {
+    "fights": "Borbe",
+    "wins": "Zmage",
+    "losses": "Porazi",
+    "weight": "Teža"
+  },
+  "viewProfile": "Prikaži profil",
+  "backToList": "← Nazaj na borce"
+}

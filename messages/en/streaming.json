@@ -1,0 +1,17 @@
+{
+  "title": "Watch Live",
+  "subtitle": "Don't miss a moment of the action",
+  "live": "LIVE",
+  "offline": "OFFLINE",
+  "startingSoon": "Starting soon",
+  "ended": "Event ended",
+  "accessRequired": "Pass required to watch",
+  "buyPass": "Buy Pass",
+  "activePass": "You have an active pass",
+  "quality": "Quality",
+  "auto": "Auto",
+  "fullscreen": "Fullscreen",
+  "volume": "Volume",
+  "noStream": "No stream available at the moment.",
+  "goBack": "← Back"
+}

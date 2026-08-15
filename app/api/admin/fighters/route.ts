@@ -1,5 +1,5 @@
 /**
- * POST /api/admin/fighters
+ * POST /api/dashboard/fighters
  *
  * Create a new fighter record. Multipart form post from the admin UI.
  * Re-runs server-side validation; rejects on slug collisions, missing

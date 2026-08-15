@@ -1,0 +1,18 @@
+{
+  "title": "Legal",
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated"
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated"
+  },
+  "cookies": {
+    "title": "Cookie Policy",
+    "lastUpdated": "Last updated"
+  },
+  "imprint": {
+    "title": "Imprint"
+  }
+}

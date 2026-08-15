@@ -1,0 +1,14 @@
+{
+  "title": "Fighters",
+  "subtitle": "Meet the warriors of EFU",
+  "searchPlaceholder": "Search fighters...",
+  "noResults": "No fighters found.",
+  "stats": {
+    "fights": "Fights",
+    "wins": "Wins",
+    "losses": "Losses",
+    "weight": "Weight"
+  },
+  "viewProfile": "View profile",
+  "backToList": "← Back to fighters"
+}

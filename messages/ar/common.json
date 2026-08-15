@@ -1,0 +1,19 @@
+{
+  "appName": "EFU",
+  "appFullName": "البطل الكوني",
+  "tagline": "MMA Reality",
+  "loading": "...جار التحميل",
+  "error": "حدث خطأ",
+  "tryAgain": "حاول مرة أخرى",
+  "back": "رجوع",
+  "close": "إغلاق",
+  "yes": "نعم",
+  "no": "لا",
+  "buy": "اشتر",
+  "currency": {
+    "huf": "فورنت مجري",
+    "eur": "يورو"
+  },
+  "language": "اللغة",
+  "selectLanguage": "اختر لغة"
+}

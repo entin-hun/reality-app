@@ -1,8 +1,8 @@
 /**
  * Admin fighter authorization helper.
  *
- * Centralizes the role check so the public /api/admin/fighters/* routes
- * and the /admin/fighters/* pages all ask the same question. Mirrors the
+ * Centralizes the role check so the public /api/dashboard/fighters/* routes
+ * and the /dashboard/fighters/* pages all ask the same question. Mirrors the
  * pattern of admin/applications/page.tsx which gates on
  * `Role` ∈ {Rendszeradminisztrator, Producer, Reality szerkeszto}.
  *

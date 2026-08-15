@@ -218,6 +218,20 @@ export interface RawFighterForm {
   sortOrder?: string;
   /** When editing, the original slug — used to detect rename collisions. */
   originalSlug?: string;
+
+  // ApplicationForm fields (admin mode, optional)
+  age?: string;
+  city?: string;
+  testSuly?: string;
+  sportMult?: string;
+  motivation?: string;
+  videoOrSocialUrl?: string;
+  instagramUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+  facebookUrl?: string;
+  email?: string;
+  phone?: string;
 }
 
 export function parseFighterForm(
@@ -261,6 +275,20 @@ export function parseFighterForm(
   const published = form.published === 'on' || form.published === 'true';
   const sortOrder = intOrZero(form.sortOrder);
 
+  // Parse ApplicationForm fields (all optional)
+  const age = optInt(form.age);
+  const city = (form.city ?? '').trim() || undefined;
+  const testSuly = (form.testSuly ?? '').trim() || undefined;
+  const sportMult = (form.sportMult ?? '').trim() || undefined;
+  const motivation = (form.motivation ?? '').trim() || undefined;
+  const videoOrSocialUrl = (form.videoOrSocialUrl ?? '').trim() || undefined;
+  const instagramUrl = (form.instagramUrl ?? '').trim() || undefined;
+  const tiktokUrl = (form.tiktokUrl ?? '').trim() || undefined;
+  const youtubeUrl = (form.youtubeUrl ?? '').trim() || undefined;
+  const facebookUrl = (form.facebookUrl ?? '').trim() || undefined;
+  const email = (form.email ?? '').trim() || undefined;
+  const phone = (form.phone ?? '').trim() || undefined;
+
   const fighter: Fighter = {
     slug: computedSlug || 'harcos',
     name: parseLocalized(form.name ?? ''),
@@ -291,6 +319,19 @@ export function parseFighterForm(
     published,
     sortOrder,
     updatedAt: new Date().toISOString(),
+    // ApplicationForm fields
+    age,
+    city,
+    testSuly,
+    sportMult,
+    motivation,
+    videoOrSocialUrl,
+    instagramUrl,
+    tiktokUrl,
+    youtubeUrl,
+    facebookUrl,
+    email,
+    phone,
   };
 
   return { fighter, errors, ok: Object.keys(errors).length === 0 };

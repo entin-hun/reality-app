@@ -1,0 +1,14 @@
+{
+  "title": "Kämpfer",
+  "subtitle": "Lernen Sie die Krieger von EFU kennen",
+  "searchPlaceholder": "Kämpfer suchen...",
+  "noResults": "Keine Kämpfer gefunden.",
+  "stats": {
+    "fights": "Kämpfe",
+    "wins": "Siege",
+    "losses": "Niederlagen",
+    "weight": "Gewicht"
+  },
+  "viewProfile": "Profil anzeigen",
+  "backToList": "← Zurück zu Kämpfern"
+}

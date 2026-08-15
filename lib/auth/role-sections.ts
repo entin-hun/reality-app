@@ -68,7 +68,7 @@ export interface AdminSectionDef {
  * Master list of all admin sections, in render order.
  *
  * Adding a new admin page = adding an entry here AND a route under
- * `/app/admin/<href>/page.tsx` that re-checks `requiredRoles`. The sidebar
+ * `/app/dashboard/<href>/page.tsx` that re-checks `requiredRoles`. The sidebar
  * reads `requiredRoles` to decide visibility; the page repeats the check
  * because the sidebar can be tampered with (DOM-only) but a forged request
  * hits the route handler.
@@ -77,7 +77,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── Workspace (everyone with admin access) ───────────────────────
   {
     key: 'dashboard',
-    href: '/admin',
+    href: '/dashboard',
     i18nKey: 'dashboard',
     icon: 'home',
     group: 'workspace',
@@ -92,7 +92,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'applications',
-    href: '/admin/applications',
+    href: '/dashboard/applications',
     i18nKey: 'applications',
     icon: 'inbox',
     group: 'workspace',
@@ -100,7 +100,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'analytics',
-    href: '/admin/analytics',
+    href: '/dashboard/analytics',
     i18nKey: 'analytics',
     icon: 'chart',
     group: 'workspace',
@@ -110,7 +110,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── Reality / Producer ──────────────────────────────────────────
   {
     key: 'events',
-    href: '/admin/events',
+    href: '/dashboard/events',
     i18nKey: 'events',
     icon: 'calendar',
     group: 'reality',
@@ -118,7 +118,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'fight-cards',
-    href: '/admin/fight-cards',
+    href: '/dashboard/fight-cards',
     i18nKey: 'fightCards',
     icon: 'swords',
     group: 'reality',
@@ -126,7 +126,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'results',
-    href: '/admin/results',
+    href: '/dashboard/results',
     i18nKey: 'results',
     icon: 'trophy',
     group: 'reality',
@@ -134,7 +134,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'votes',
-    href: '/admin/votes',
+    href: '/dashboard/votes',
     i18nKey: 'votes',
     icon: 'vote',
     group: 'reality',
@@ -142,7 +142,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'reality-triggers',
-    href: '/admin/reality-triggers',
+    href: '/dashboard/reality-triggers',
     i18nKey: 'realityTriggers',
     icon: 'zap',
     group: 'reality',
@@ -150,7 +150,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'audio-library',
-    href: '/admin/audio-library',
+    href: '/dashboard/audio-library',
     i18nKey: 'audioLibrary',
     icon: 'music',
     group: 'reality',
@@ -160,7 +160,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── Content (Tartalomkeszito) ────────────────────────────────────
   {
     key: 'pages',
-    href: '/admin/cms/pages',
+    href: '/dashboard/cms/pages',
     i18nKey: 'pages',
     icon: 'file',
     group: 'content',
@@ -168,7 +168,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'news',
-    href: '/admin/news',
+    href: '/dashboard/news',
     i18nKey: 'news',
     icon: 'news',
     group: 'content',
@@ -176,7 +176,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'videos',
-    href: '/admin/videos',
+    href: '/dashboard/videos',
     i18nKey: 'videos',
     icon: 'video',
     group: 'content',
@@ -184,7 +184,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'photos',
-    href: '/admin/photos',
+    href: '/dashboard/photos',
     i18nKey: 'photos',
     icon: 'image',
     group: 'content',
@@ -192,7 +192,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'fighter-profiles',
-    href: '/admin/fighter-profiles',
+    href: '/dashboard/fighter-profiles',
     i18nKey: 'fighterProfiles',
     icon: 'user',
     group: 'content',
@@ -202,7 +202,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── Marketing ────────────────────────────────────────────────────
   {
     key: 'sponsors',
-    href: '/admin/sponsors',
+    href: '/dashboard/sponsors',
     i18nKey: 'sponsors',
     icon: 'handshake',
     group: 'marketing',
@@ -210,7 +210,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'social-links',
-    href: '/admin/social-links',
+    href: '/dashboard/social-links',
     i18nKey: 'socialLinks',
     icon: 'link',
     group: 'marketing',
@@ -220,7 +220,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── Moderation ───────────────────────────────────────────────────
   {
     key: 'chat-moderation',
-    href: '/admin/chat-moderation',
+    href: '/dashboard/chat-moderation',
     i18nKey: 'chatModeration',
     icon: 'shield',
     group: 'moderation',
@@ -230,7 +230,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   // ── System (Rendszeradminisztrator only) ─────────────────────────
   {
     key: 'users',
-    href: '/admin/users',
+    href: '/dashboard/users',
     i18nKey: 'users',
     icon: 'users',
     group: 'system',
@@ -238,7 +238,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'roles',
-    href: '/admin/roles',
+    href: '/dashboard/roles',
     i18nKey: 'roles',
     icon: 'key',
     group: 'system',
@@ -246,7 +246,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'audit-logs',
-    href: '/admin/audit-logs',
+    href: '/dashboard/audit-logs',
     i18nKey: 'auditLogs',
     icon: 'scroll',
     group: 'system',
@@ -254,7 +254,7 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
   {
     key: 'system-settings',
-    href: '/admin/system-settings',
+    href: '/dashboard/system-settings',
     i18nKey: 'systemSettings',
     icon: 'settings',
     group: 'system',

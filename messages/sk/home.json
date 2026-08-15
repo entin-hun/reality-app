@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "EFU | Elite Fight Universe – MMA Reality",
+    "description": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magába. Az EFU célja egy közép-európai harcművészeti közösség felépítése.",
+    "ogTitle": "EFU | Elite Fight Universe – MMA Reality",
+    "ogDescription": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma. Élő közvetítések, EFU Reality és EFU Fight Night események — mindez egy bérlettel."
+  },
+  "hero": {
+    "season": "EFU REALITY · 2026 SZEZON",
+    "titleLine1": "ELITE FIGHT",
+    "titleLine2": "UNIVERSE",
+    "subtitle": "EFU REALITY · 2026 SZEZON",
+    "venue": "Budapest Aréna · 2026. július 17. · 15:00 CET",
+    "intro": "Az EFU célja, hogy új lehetőséget teremtsen a harcosok számára a bemutatkozásra és fejlődésre, miközben a nézők nemcsak a mérkőzéseket, hanem a sportolók teljes útját is végigkövethetik.",
+    "prizeBadge": "🏆 EFU Reality – Fődíj 10 000 000 Ft",
+    "ctaWatch": "▶ Nézem élőben",
+    "ctaSeason": "Szezonbérlet kérése — 2 500 HUF",
+    "ctaTeaser": "Ingyenes teaser megtekintése"
+  },
+  "about": {
+    "eyebrow": "Rólunk",
+    "title": "Mi az EFU?",
+    "intro": "Az Elite Fight Universe (EFU) egy harcművészeti és szórakoztatóipari ökoszisztéma, amely saját versenyrendszerre épülő küzdősport eseményeket, tehetségkutató formátumokat és digitális közvetítéseket foglal magában."
+  },
+  "pillars": {
+    "realityTitle": "EFU Reality",
+    "realityTag": "Tehetségkutatás",
+    "realityDesc": "Többhetes verseny- és tehetségkutató formátum. A résztvevők feladatokon, kihívásokon és küzdelmeken keresztül bizonyíthatják rátermettségüket, miközben a nézők betekintést nyernek a személyiségükbe, felkészülésükbe és mindennapjaikba.",
+    "fightNightTitle": "EFU Fight Night",
+    "fightNightTag": "Gálasorozat",
+    "fightNightDesc": "Az EFU hivatalos gálasorozata. Kiemelt mérkőzések, rangsoroló összecsapások és bajnoki küzdelmek — amatőr, félprofi és profi versenyzőknek.",
+    "tvTitle": "EFU TV",
+    "tvTag": "Digitális platform",
+    "tvDesc": "Az Elite Fight Universe digitális platformja. Élő közvetítések, reality epizódok, gálák, interjúk, háttéranyagok, exkluzív tartalmak."
+  },
+  "ruleset": {
+    "eyebrow": "Hogyan működik?",
+    "title": "EFU Ruleset",
+    "intro": "Az EFU saját szabályrendszere a folyamatos akciót és a látványos küzdelmeket helyezi előtérbe.",
+    "standUpTitle": "EFU Stand-Up",
+    "standUpTagline": "Állóharc, földharc nélkül",
+    "standUpPoints": [
+      "MMA kesztyű",
+      "Kéz- és lábtechnikák",
+      "Földharc nélkül"
+    ],
+    "hybridTitle": "EFU Hybrid",
+    "hybridTagline": "Állóharc + korlátozott földharc",
+    "hybridPoints": [
+      "MMA kesztyű",
+      "Állóharc és földharc kombinációja",
+      "Korlátozott idejű földharc (20–30 másodperc)",
+      "A bíró felállítja a versenyzőket",
+      "3 × 3 perces menetek",
+      "1 perces pihenőidő"
+    ]
+  },
+  "fightNight": {
+    "eyebrow": "Főkártya",
+    "title": "EFU Fight Night"
+  },
+  "pricing": {
+    "eyebrow": "Egyszeri fizetés",
+    "title": "Szezonbérlet",
+    "subtitle": "Teljes hozzáférés minden 2026-os meccshez. Nézd élőben vagy visszanézve. Egyszer fizetsz, egész évben nézed."
+  },
+  "mission": {
+    "eyebrow": "Küldetésünk",
+    "title": "Egy közösség, amely összeköt",
+    "body": "Az EFU célja egy olyan közép-európai harcművészeti közösség felépítése, amely összeköti a harcosokat, a szurkolókat és a partnereket, miközben új szintre emeli a küzdősportok és a digitális szórakoztatás kapcsolatát."
+  },
+  "footer": {
+    "copyright": "© 2026 Elite Fight Universe. Minden jog fenntartva.",
+    "tvBadge": "📺 EFU TV",
+    "streamProvider": "Stream: Cloudflare",
+    "paymentProvider": "Fizetés: Stripe"
+  }
+}

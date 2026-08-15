@@ -10,6 +10,13 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cloudflarestream.com' },
     ],
   },
+  transpilePackages: [
+    '@blocknote/core',
+    '@blocknote/react',
+    '@blocknote/ariakit',
+    '@ariakit/react',
+    '@ariakit/react-core',
+  ],
 };
 
 module.exports = withNextIntl(nextConfig);

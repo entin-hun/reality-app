@@ -1,0 +1,19 @@
+{
+  "title": "Kontaktirajte nas",
+  "subtitle": "Rado bismo čuli vaše mišljenje",
+  "form": {
+    "name": "Ime",
+    "email": "E-mail adresa",
+    "subject": "Predmet",
+    "message": "Poruka",
+    "send": "Pošalji poruku",
+    "sending": "Slanje...",
+    "success": "Poruka uspešno poslata! Javićemo vam se uskoro.",
+    "error": "Nešto je pošlo naopako. Pokušajte ponovo."
+  },
+  "info": {
+    "title": "Kontakt informacije",
+    "email": "E-mail",
+    "social": "Društvene mreže"
+  }
+}

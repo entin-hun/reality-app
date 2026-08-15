@@ -1,0 +1,29 @@
+{
+  "brand": "Elite Fight Universe",
+  "menu": {
+    "season": "Permanentka",
+    "fight": "Zápas",
+    "live": "Naživo",
+    "watchLive": "▶ Naživo",
+    "reality": "Reality",
+    "fighters": "Bojovníci",
+    "news": "Správy",
+    "sponsors": "Sponzori",
+    "contact": "Kontakt"
+  },
+  "auth": {
+    "login": "Prihlásiť sa",
+    "logout": "Odhlásiť sa",
+    "loggedIn": "Prihlásený",
+    "loggedOut": "Odhlásený"
+  },
+  "access": {
+    "active": "✅ Permanentka aktívna",
+    "inactive": "⚠ Bez permanentky"
+  },
+  "switcher": {
+    "label": "Jazyk",
+    "current": "Slovenčina",
+    "menuAria": "Výber jazyka"
+  }
+}

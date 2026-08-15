@@ -1,0 +1,3 @@
+'use client';
+import Link from 'next/link';
+export function LegalFooter() { return <footer className="border-t border-brand-dark-border px-4 py-8 text-center text-sm text-gray-500"><p>© 2026 Elite Fight Universe. Minden jog fenntartva.</p><nav className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2"><Link href="/legal/terms" className="hover:text-white">ÁSZF</Link><Link href="/legal/privacy" className="hover:text-white">Adatkezelés</Link><Link href="/legal/cookies" className="hover:text-white">Cookie-k</Link><Link href="/legal/imprint" className="hover:text-white">Impresszum</Link><button onClick={() => window.dispatchEvent(new Event('efu:cookie-settings'))} className="hover:text-white">Cookie-beállítások</button></nav></footer>; }

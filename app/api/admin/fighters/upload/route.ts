@@ -1,5 +1,5 @@
 /**
- * POST /api/admin/fighters/upload
+ * POST /api/dashboard/fighters/upload
  *
  * Multipart photo upload. Accepts a single `file` field, writes the
  * binary to `public/uploads/fighters/<slug>-<timestamp>.<ext>` and

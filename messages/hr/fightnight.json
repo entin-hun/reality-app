@@ -1,0 +1,17 @@
+{
+  "title": "Fight Night",
+  "subtitle": "MMA događaji uživo — elitni borci, nezaboravne noći",
+  "fightCard": "Fight Card",
+  "results": "Rezultati",
+  "schedule": "Raspored",
+  "tickets": "Ulaznice",
+  "buyTickets": "Kupi ulaznice",
+  "noEvents": "Još nema nadolazećih događaja.",
+  "weightClass": "Težinska kategorija",
+  "round": "Kolo",
+  "method": "Način",
+  "time": "Vrijeme",
+  "ko": "KO/TKO",
+  "submission": "Predaja",
+  "decision": "Odluka"
+}

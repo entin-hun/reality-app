@@ -7,7 +7,7 @@ import { PricingCard } from '@/components/PricingCard';
 import { FightCard } from '@/components/FightCard';
 import { EfuPillars } from '@/components/EfuPillars';
 import { EfuRuleset } from '@/components/EfuRuleset';
-import { EfuLogo } from '@/components/EfuLogo';
+import { EliteFightUniverseLogo } from '@/components/logos';
 import { LiveBadge } from '@/components/LiveBadge';
 import { MitNyerhetsz } from '@/components/MitNyerhetsz';
 import { HeroSocialRow } from '@/components/HeroSocialRow';
@@ -116,12 +116,12 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Animated EFU logo — LCP candidate (inline SVG, no image fetch) */}
+            {/* EFU logo — LCP candidate (webp) */}
             <h1
               id="hero-heading"
               className="mb-3 flex justify-center"
             >
-              <EfuLogo size="lg" />
+              <EliteFightUniverseLogo width={480} height={240} priority />
             </h1>
 
             {/* Sub-line: venue + date/time */}
@@ -142,39 +142,25 @@ export default function HomePage() {
 
             {/* CTAs — simplified for pre-launch */}
             <div className="mt-9 sm:mt-10 flex flex-col items-center gap-3 w-full">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/40 text-brand-gold text-[11px] sm:text-xs font-bold uppercase tracking-widest">
-                🚧 Építés alatt
-              </span>
-
-              {/* Primary CTA — Learn more */}
+              {/* Primary CTA — Jelentkezz */}
               <Link
-                href="#mi-az-efu"
+                href="/jelentkezz"
                 className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 inline-flex items-center gap-2 w-full sm:w-auto justify-center"
-                data-cta="learn-more"
+                data-cta="apply"
               >
-                <span aria-hidden="true">📖</span>
-                Ismerd meg a koncepciót
+                <span aria-hidden="true">🥊</span>
+                Jelentkezz harcosnak
               </Link>
 
-              {/* Secondary CTA grid — 2 actions, mobile-first */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full sm:max-w-2xl">
-                <Link
-                  href="#mi-az-efu"
-                  className="border border-brand-dark-border hover:border-brand-red text-gray-200 hover:text-white font-semibold py-3.5 px-4 sm:px-5 rounded-lg transition-all duration-200 text-sm sm:text-base inline-flex items-center justify-center gap-2"
-                  data-cta="efu-reality"
-                >
-                  <span aria-hidden="true">🎬</span>
-                  Mi az EFU?
-                </Link>
-                <Link
-                  href="/rolunk"
-                  className="border border-brand-dark-border hover:border-gray-400 text-gray-200 hover:text-white font-semibold py-3.5 px-4 sm:px-5 rounded-lg transition-all duration-200 text-sm sm:text-base inline-flex items-center justify-center gap-2"
-                  data-cta="about"
-                >
-                  <span aria-hidden="true">ℹ️</span>
-                  Rólunk
-                </Link>
-              </div>
+              {/* Secondary CTA — Rólunk */}
+              <Link
+                href="/rolunk"
+                className="border border-brand-dark-border hover:border-gray-400 text-gray-200 hover:text-white font-semibold py-3.5 px-4 sm:px-5 rounded-lg transition-all duration-200 text-sm sm:text-base inline-flex items-center justify-center gap-2 w-full sm:w-auto"
+                data-cta="about"
+              >
+                <span aria-hidden="true">ℹ️</span>
+                Rólunk
+              </Link>
             </div>
 
             {/* YouTube embed — temporarily hidden */}

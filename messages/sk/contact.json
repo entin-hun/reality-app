@@ -1,0 +1,19 @@
+{
+  "title": "Kontaktujte nás",
+  "subtitle": "Radi by sme sa s vami spojili",
+  "form": {
+    "name": "Meno",
+    "email": "E-mailová adresa",
+    "subject": "Predmet",
+    "message": "Správa",
+    "send": "Odoslať správu",
+    "sending": "Odosielanie...",
+    "success": "Správa bola úspešne odoslaná! Čoskoro sa ozveme.",
+    "error": "Niečo sa pokazilo. Skúste to prosím znova."
+  },
+  "info": {
+    "title": "Kontaktné informácie",
+    "email": "E-mail",
+    "social": "Sociálne siete"
+  }
+}

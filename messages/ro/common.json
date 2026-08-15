@@ -1,0 +1,19 @@
+{
+  "appName": "EFU",
+  "appFullName": "Elite Fight Universe",
+  "tagline": "MMA Reality",
+  "loading": "Se încarcă...",
+  "error": "A apărut o eroare",
+  "tryAgain": "Încercați din nou",
+  "back": "Înapoi",
+  "close": "Închide",
+  "yes": "Da",
+  "no": "Nu",
+  "buy": "Cumpără",
+  "currency": {
+    "huf": "HUF",
+    "eur": "EUR"
+  },
+  "language": "Limba",
+  "selectLanguage": "Selectați limba"
+}

@@ -1,0 +1,19 @@
+{
+  "appName": "EFU",
+  "appFullName": "Elite Fight Universe",
+  "tagline": "MMA Reality",
+  "loading": "Učitavanje...",
+  "error": "Dogodila se greška",
+  "tryAgain": "Pokušajte ponovno",
+  "back": "Natrag",
+  "close": "Zatvori",
+  "yes": "Da",
+  "no": "Ne",
+  "buy": "Kupi",
+  "currency": {
+    "huf": "HUF",
+    "eur": "EUR"
+  },
+  "language": "Jezik",
+  "selectLanguage": "Odaberite jezik"
+}

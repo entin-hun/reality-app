@@ -33,14 +33,29 @@
     "body": "Az Elite Fight Universe (EFU) Reality a következő EFU-harcos generáció felépítéséről szól.\nProfi felkészítés, média-megjelenés, EFU Fight Night fellépés és egy 10 000 000 HUF fődíj vár.\nTöltsd ki az űrlapot — jelentkezz most!"
   },
   "perk": {
-    "training": { "title": "Profi felkészítés", "sub": "EFU edzői stáb" },
-    "media": { "title": "Média-megjelenés", "sub": "EFU TV + Fight Night" },
-    "prize": { "title": "10 000 000 HUF", "sub": "Fődíj + szerződés" }
+    "training": {
+      "title": "Profi felkészítés",
+      "sub": "EFU edzői stáb"
+    },
+    "media": {
+      "title": "Média-megjelenés",
+      "sub": "EFU TV + Fight Night"
+    },
+    "prize": {
+      "title": "10 000 000 HUF",
+      "sub": "Fődíj + szerződés"
+    }
   },
   "field": {
-    "name": { "label": "Név" },
-    "age": { "label": "Életkor" },
-    "city": { "label": "Város" },
+    "name": {
+      "label": "Név"
+    },
+    "age": {
+      "label": "Életkor"
+    },
+    "city": {
+      "label": "Város"
+    },
     "testSuly": {
       "label": "Testsúly kategória",
       "placeholder": "Válassz kategóriát…"
@@ -61,6 +76,35 @@
       "label": "Elérhetőség",
       "hint": "E-mail cím vagy telefonszám — visszajelzünk",
       "placeholder": "te@pelda.hu vagy +36 …"
+    },
+    "email": {
+      "label": "E-mail cím",
+      "hint": "Érvényes e-mail cím — ide küldjük a visszajelzést",
+      "placeholder": "te@pelda.hu"
+    },
+    "phone": {
+      "label": "Telefonszám",
+      "hint": "Mobil vagy vezetékes — sürgős esetben hívunk",
+      "placeholder": "+36 30 123 4567"
+    },
+    "socialLinks": {
+      "sectionLabel": "📱 Közösségi média profilok (opcionális)"
+    },
+    "instagramUrl": {
+      "label": "📸 Instagram",
+      "hint": "Instagram profil link"
+    },
+    "tiktokUrl": {
+      "label": "🎵 TikTok",
+      "hint": "TikTok profil link"
+    },
+    "youtubeUrl": {
+      "label": "▶️ YouTube",
+      "hint": "YouTube csatorna link"
+    },
+    "facebookUrl": {
+      "label": "👍 Facebook",
+      "hint": "Facebook profil link"
     }
   },
   "gdpr": {
@@ -96,7 +140,13 @@
     "contact.invalid": "Adj meg egy érvényes e-mail címet vagy telefonszámot.",
     "contact.too_long": "Az elérhetőség legfeljebb 120 karakter lehet.",
     "gdprConsent.required": "Az adatkezelési hozzájárulás kötelező a beküldéshez.",
-    "turnstile_failed": "A bot-ellenőrzés nem sikerült — töltsd újra az oldalt."
+    "turnstile_failed": "A bot-ellenőrzés nem sikerült — töltsd újra az oldalt.",
+    "email.required": "Az e-mail cím kötelező.",
+    "email.invalid": "Érvénytelen e-mail cím.",
+    "email.too_long": "Az e-mail cím legfeljebb 120 karakter lehet.",
+    "phone.required": "A telefonszám kötelező.",
+    "phone.invalid": "Érvénytelen telefonszám.",
+    "phone.too_long": "A telefonszám legfeljebb 20 karakter lehet."
   },
   "form": {
     "disclaimer": "Adataidat az EFU kizárólag a jelentkezés feldolgozásához használja. A GDPR-hozzájárulás bármikor visszavonható."

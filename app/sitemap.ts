@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { readAllFighters } from '@/lib/fighters';
+import { pagesStorage } from '@/lib/cms/storage';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://elitefightuniverse.com';
@@ -58,5 +59,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching fighters for sitemap:', error);
   }
 
-  return [...staticRoutes, ...fighterRoutes];
+  // CMS oldalak (publikált, látható oldalak)
+  let cmsRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const pages = await pagesStorage.readPublishedPages();
+    cmsRoutes = pages
+      .filter((page) => page.published)
+      .map((page) => ({
+        url: `${baseUrl}/hu/${page.slug}`,
+        lastModified: new Date(page.updatedAt || page.createdAt),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }));
+  } catch (error) {
+    console.error('Error fetching CMS pages for sitemap:', error);
+  }
+
+  return [...staticRoutes, ...fighterRoutes, ...cmsRoutes];
 }
