@@ -131,9 +131,6 @@ export default function HomePage() {
             <p className="text-base sm:text-lg text-gray-300 font-medium mb-1">
               Budapest
             </p>
-            <p className="text-gray-500 mb-5 text-xs sm:text-sm uppercase tracking-widest">
-              2026. augusztus 3. · 10:00
-            </p>
 
             {/* Hero eyebrow — narrative hook */}
             <p className="text-gray-300 max-w-3xl mb-7 text-sm sm:text-base leading-relaxed italic px-1">
@@ -153,16 +150,6 @@ export default function HomePage() {
               >
                 <span aria-hidden="true">🥊</span>
                 Jelentkezz harcosnak
-              </Link>
-
-              {/* Secondary CTA — Rólunk */}
-              <Link
-                href="/rolunk"
-                className="border border-brand-dark-border hover:border-gray-400 text-gray-200 hover:text-white font-semibold py-3.5 px-4 sm:px-5 rounded-lg transition-all duration-200 text-sm sm:text-base inline-flex items-center justify-center gap-2 w-full sm:w-auto"
-                data-cta="about"
-              >
-                <span aria-hidden="true">ℹ️</span>
-                Rólunk
               </Link>
             </div>
 
