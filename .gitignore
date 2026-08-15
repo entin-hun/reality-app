@@ -48,3 +48,4 @@ default.optimizize.config.cjs
 
 # Logs
 *.log
+.open-next/
