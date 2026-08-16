@@ -11,6 +11,15 @@
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
 	},
+	"kv_namespaces": [
+		{
+			// Application form submissions — replaces the read-only JSON file
+			// store on Workers. Recreate with:
+			//   npx wrangler kv namespace create APPLICATIONS_KV
+			"binding": "APPLICATIONS_KV",
+			"id": "40f1278371404248ac254dede94220ea"
+		}
+	],
 	"services": [
 		{
 			// Self-reference service binding, the service name must match the worker name

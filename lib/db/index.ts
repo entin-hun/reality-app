@@ -1,8 +1,11 @@
 /**
- * Persistence layer — pluggable, currently backed by a JSON file.
+ * Persistence layer — pluggable, environment-aware.
  *
- * Today: writes to .data/applications.json (gitignored) — visible
- *   in dev and admin triage, durable across server restarts.
+ * On Cloudflare Workers/Pages (OpenNext): KV-backed store when the
+ *   APPLICATIONS_KV namespace is bound — the filesystem there is read-only,
+ *   so the JSON file store cannot persist writes (persistence_failed).
+ * Locally / on Node servers: JSON file store at .data/applications.json
+ *   (gitignored) — visible in dev and admin triage, durable across restarts.
  * Tomorrow (when L1-DB lands at t_0b2dbb52): swap the `ApplicationStore`
  *   implementation to Prisma. The controller code keeps calling
  *   `store.create(...)` / `store.list()` / `store.update(...)`.
@@ -13,6 +16,7 @@
 
 import { promises as fs } from 'fs';
 import path from 'path';
+import { kvStore, isKvAvailable } from './kv';
 
 export type ApplicationStatus = 'new' | 'contacted' | 'approved' | 'rejected';
 
@@ -134,5 +138,8 @@ class JsonFileStore implements ApplicationStore {
   }
 }
 
-// Module-level singleton — swap this line when Prisma lands.
-export const store: ApplicationStore = new JsonFileStore();
+// Module-level singleton — KV on Cloudflare, JSON file elsewhere.
+// Swap the implementation when Prisma / D1 lands.
+export const store: ApplicationStore = isKvAvailable()
+  ? kvStore
+  : new JsonFileStore();
