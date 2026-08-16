@@ -21,6 +21,8 @@ import type {
   CreateApplicationInput,
 } from './index';
 
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+
 /** Shape of env bindings injected by OpenNext on Cloudflare. */
 interface CloudflareEnv {
   APPLICATIONS_KV?: {
@@ -29,20 +31,24 @@ interface CloudflareEnv {
   };
 }
 
-declare global {
-  // eslint-disable-next-line no-var
-  var __env__: CloudflareEnv | undefined;
-}
-
 const KV_KEY = 'applications';
 const MAX_LIST = 10_000; // safety cap; D1 migration territory beyond this
 
 function getKv(): CloudflareEnv['APPLICATIONS_KV'] | null {
-  // OpenNext exposes worker bindings on the global __env__ object.
-  const kv = globalThis.__env__?.APPLICATIONS_KV;
-  return kv && typeof kv.get === 'function' && typeof kv.put === 'function'
-    ? kv
-    : null;
+  try {
+    const { env } = getCloudflareContext();
+    if ((env as any).APPLICATIONS_KV) return (env as any).APPLICATIONS_KV;
+  } catch {}
+  
+  if (typeof process !== 'undefined' && process.env && (process.env as any).APPLICATIONS_KV) {
+    return (process.env as any).APPLICATIONS_KV;
+  }
+  
+  if (typeof globalThis !== 'undefined' && (globalThis as any).__env__?.APPLICATIONS_KV) {
+    return (globalThis as any).__env__.APPLICATIONS_KV;
+  }
+
+  return null;
 }
 
 /** True when a KV namespace binding is available (i.e. we're on CF Workers). */

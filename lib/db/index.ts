@@ -138,8 +138,25 @@ class JsonFileStore implements ApplicationStore {
   }
 }
 
+class HybridStore implements ApplicationStore {
+  private get activeStore(): ApplicationStore {
+    return isKvAvailable() ? kvStore : new JsonFileStore();
+  }
+
+  create(input: CreateApplicationInput) {
+    return this.activeStore.create(input);
+  }
+  list(filter?: { status?: ApplicationStatus }) {
+    return this.activeStore.list(filter);
+  }
+  get(id: string) {
+    return this.activeStore.get(id);
+  }
+  updateStatus(id: string, status: ApplicationStatus, notes?: string) {
+    return this.activeStore.updateStatus(id, status, notes);
+  }
+}
+
 // Module-level singleton — KV on Cloudflare, JSON file elsewhere.
 // Swap the implementation when Prisma / D1 lands.
-export const store: ApplicationStore = isKvAvailable()
-  ? kvStore
-  : new JsonFileStore();
+export const store: ApplicationStore = new HybridStore();

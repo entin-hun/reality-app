@@ -42,6 +42,24 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
     const form = e.currentTarget;
     const fd = new FormData(form);
 
+    const scrollToFirstError = (fieldErrors: Partial<Record<keyof ApplicationFormInput, string>>) => {
+      const firstField = Object.keys(fieldErrors)[0];
+      if (firstField) {
+        setTimeout(() => {
+          const el = document.querySelector(`[name="${firstField}"]`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (el instanceof HTMLElement) el.focus({ preventScroll: true });
+          } else {
+            // Fallback to top of form
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 50);
+      } else {
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
     const payload: ApplicationFormInput & { turnstileToken?: string | null } = {
       name: String(fd.get('name') ?? ''),
       age: String(fd.get('age') ?? ''),
@@ -69,6 +87,7 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
         fieldErrors[err.field] = t(`error.${err.message}`);
       }
       setSubmitState({ status: 'error', message: t('error.summary'), fieldErrors });
+      scrollToFirstError(fieldErrors);
       return;
     }
 
@@ -85,6 +104,7 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
         id?: string;
         errors?: ValidationError[];
         message?: string;
+        detail?: string;
       };
 
       if (!resp.ok || !data.ok) {
@@ -92,11 +112,19 @@ export function ApplicationForm({ locale, messages, turnstileSiteKey }: Props) {
         for (const err of data.errors ?? []) {
           fieldErrors[err.field] = t(`error.${err.message}`);
         }
+        
+        let errorMessage = data.message ?? t('error.summary');
+        // Külön hibakezelés, ha a szerver részleteket is ad (pl. persistence_failed)
+        if (data.detail) {
+          errorMessage += ` (${data.detail})`;
+        }
+        
         setSubmitState({
           status: 'error',
-          message: data.message ?? t('error.summary'),
+          message: errorMessage,
           fieldErrors,
         });
+        scrollToFirstError(fieldErrors);
         turnstileRef.current?.reset();
         return;
       }
