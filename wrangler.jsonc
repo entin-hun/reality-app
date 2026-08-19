@@ -18,8 +18,33 @@
 			//   npx wrangler kv namespace create APPLICATIONS_KV
 			"binding": "APPLICATIONS_KV",
 			"id": "40f1278371404248ac254dede94220ea"
+		},
+		{
+			// Auth state — email→role map for admin login, magic-link tokens,
+			// and per-IP rate-limit buckets. Recreate with:
+			//   npx wrangler kv namespace create AUTH_KV
+			"binding": "AUTH_KV",
+			"id": "c6982c5631e94cce8ca1b95da32d8fbb"
 		}
 	],
+	// Secret bindings (encrypted at rest, populated via `wrangler secret put`):
+	//   - RESEND_API_KEY: Resend transactional email API key.
+	//     Set on the deployed worker with:
+	//       npx wrangler secret put RESEND_API_KEY
+	//     For local dev, copy `.dev.vars.example` to `.dev.vars` and fill it in.
+	//   The current code reads it as process.env.RESEND_API_KEY at module load.
+	//   Emails from this account use the verified `efutv.eu` sender domain; do
+	//   NOT change FROM_EMAIL to a different domain without re-verifying in
+	//   Resend first, or sends will 403.
+	//
+	//   - CLOUDFLARE_STREAM_ACCOUNT_ID + CLOUDFLARE_STREAM_API_TOKEN: read at
+	//     runtime by lib/cf-stream to call
+	//     https://api.cloudflare.com/client/v4/accounts/{id}/stream/live_inputs.
+	//     Set with:
+	//       npx wrangler secret put CLOUDFLARE_STREAM_ACCOUNT_ID
+	//       npx wrangler secret put CLOUDFLARE_STREAM_API_TOKEN
+	//   - CLOUDFLARE_STREAM_CUSTOMER_CODE: optional during testing — only used
+	//     to construct the public /watch playback iframe URL.
 	"services": [
 		{
 			// Self-reference service binding, the service name must match the worker name

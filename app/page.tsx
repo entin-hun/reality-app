@@ -28,6 +28,7 @@ export default function HomePage() {
   const fightCardRef = useRef<HTMLDivElement>(null);
   const mitNyerhetszRef = useRef<HTMLDivElement>(null);
   const pricingRef = useRef<HTMLDivElement>(null);
+  const miVarhatoRef = useRef<HTMLDivElement>(null);
   const kuldetesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function HomePage() {
 
   // Intersection Observer a scroll reveal animációkhoz
   useEffect(() => {
-    const refs = [miAzEfuRef, rulesetRef, fightCardRef, mitNyerhetszRef, pricingRef, kuldetesRef];
+    const refs = [miAzEfuRef, rulesetRef, fightCardRef, mitNyerhetszRef, pricingRef, miVarhatoRef, kuldetesRef];
     const observers: IntersectionObserver[] = [];
 
     refs.forEach((ref) => {
@@ -313,7 +314,7 @@ export default function HomePage() {
         </section> */}
 
         {/* Mi várható? — Coming soon section */}
-        <section id="mi-varhato" className="reveal py-16 px-4 max-w-5xl mx-auto w-full scroll-mt-16">
+        <section id="mi-varhato" ref={miVarhatoRef} className="reveal py-16 px-4 max-w-5xl mx-auto w-full scroll-mt-16">
           <div className="text-center mb-10">
             <p className="text-brand-gold text-sm uppercase tracking-widest font-semibold mb-2">
               Mi várható?
@@ -400,18 +401,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="border-t border-brand-dark-border py-8 px-4 text-center text-gray-600 text-sm">
-          <p>© 2026 Elite Fight Universe. Minden jog fenntartva.</p>
-          <p className="mt-1 flex items-center justify-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-brand-red/10 border border-brand-red/30 text-brand-red text-xs font-bold uppercase tracking-wider">
-              📺 EFU TV
-            </span>
-            <span>Stream: Cloudflare</span>
-            <span aria-hidden="true">·</span>
-            <span>Fizetés: Stripe</span>
-          </p>
-        </footer>
       </main>
     </>
   );

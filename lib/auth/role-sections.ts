@@ -36,6 +36,8 @@ export type AdminSectionKey =
   | 'votes'
   | 'reality-triggers'
   | 'audio-library'
+  // Live stream
+  | 'streams'
   // Content
   | 'pages'
   | 'news'
@@ -155,6 +157,14 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
     icon: 'music',
     group: 'reality',
     requiredRoles: ['Rendszeradminisztrator', 'Reality szerkeszto'],
+  },
+  {
+    key: 'streams',
+    href: '/dashboard/streams',
+    i18nKey: 'streams',
+    icon: 'video',
+    group: 'reality',
+    requiredRoles: ['Rendszeradminisztrator', 'Producer'],
   },
 
   // ── Content (Tartalomkeszito) ────────────────────────────────────
@@ -301,7 +311,6 @@ export function groupSections(
 /** Stable role id -> i18n key for the role badge in the topbar. */
 export const ROLE_I18N_KEYS: Record<Role, string> = {
   guest: 'roles.guest',
-  user: 'roles.user',
   Rendszeradminisztrator: 'roles.Rendszeradminisztrator',
   Producer: 'roles.Producer',
   'Reality szerkeszto': 'roles.RealitySzerkeszto',

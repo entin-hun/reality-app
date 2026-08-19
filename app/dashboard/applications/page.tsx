@@ -294,15 +294,23 @@ function Forbidden() {
           Nincs hozzáférésed
         </h1>
         <p className="text-gray-400 text-sm">
-          Az EFU Reality adminisztrációs felületéhez bejelentkezés szükséges. A
-          fejlesztői környezetben a hozzáférést az <code>efu_role</code> süti
-          határozza meg (L1-AUTH-RBAC).
+          Az EFU Reality adminisztrációs felületéhez bejelentkezés szükséges.
+          Az email címed legyen rajta a jogosultak listáján — ezt egy{' '}
+          <a
+            href="/dashboard/users"
+            className="text-brand-red hover:underline"
+          >
+            Rendszeradminisztrátor
+          </a>{' '}
+          kezeli.
         </p>
-        <p className="text-gray-600 text-xs mt-6">
-          Bejelentkezés szimulálása fejlesztéshez: böngésző konzolban{' '}
-          <code className="text-brand-gold">
-            document.cookie = "efu_role=Rendszeradminisztrator"
-          </code>
+        <p className="mt-6">
+          <a
+            href="/admin-login"
+            className="inline-block bg-brand-red hover:bg-red-700 text-white font-bold uppercase tracking-wider px-5 py-2.5 rounded-lg transition-colors"
+          >
+            Belépés
+          </a>
         </p>
       </div>
     </main>

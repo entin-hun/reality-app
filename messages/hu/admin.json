@@ -37,6 +37,7 @@
     "votes": "Szavazások",
     "realityTriggers": "Reality triggerek",
     "audioLibrary": "Audiókönyvtár",
+    "streams": "Élő közvetítés",
     "pages": "Oldalak",
     "news": "Hírek",
     "videos": "Videók",
@@ -83,6 +84,6 @@
     "title": "Hozzáférés megtagadva",
     "code": "403",
     "body": "Ehhez a felülethez nincs hozzáférésed. Az EFU adminban való navigáláshoz a szerepköröd alapján jogosított felületeket láthatod az oldalsávon.",
-    "hint": "Fejlesztői környezetben a szerepkört az efu_role süti határozza meg. Példa: document.cookie = \"efu_role=Rendszeradminisztrator\""
+    "hint": "Lépj be az /admin-login oldalon az email címeddel — a rendszer küld egy 15 perces belépési linket."
   }
 }

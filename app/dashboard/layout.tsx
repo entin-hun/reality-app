@@ -32,6 +32,11 @@ import {
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  title: 'EFU Admin',
+  robots: { index: false, follow: false },
+};
+
 export default async function AdminLayout({
   children,
 }: {
@@ -126,6 +131,14 @@ function Forbidden({
         <p className="text-gray-400 text-sm">{body}</p>
         <p className="text-gray-600 text-xs mt-6">
           <code className="text-brand-gold break-all">{hint}</code>
+        </p>
+        <p className="mt-6">
+          <a
+            href="/admin-login"
+            className="inline-block bg-brand-red hover:bg-red-700 text-white font-bold uppercase tracking-wider px-5 py-2.5 rounded-lg transition-colors"
+          >
+            Belépés email címmel
+          </a>
         </p>
         <p className="mt-6">
           <a href="/" className="text-brand-red text-sm underline hover:text-red-400">

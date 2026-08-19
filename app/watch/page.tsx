@@ -33,6 +33,17 @@ function VideoPlayerSkeleton() {
   );
 }
 
+// Live stream config surfaced by /api/streams/current. When present, the
+// watch page swaps the mock iframe + HLS player for the real CF Stream
+// playback URLs (uid selected by the Producer / Admin via /dashboard/streams).
+interface LiveStream {
+  uid: string;
+  customerCode: string;
+  iframeUrl: string;
+  hlsManifestUrl: string;
+  label: string;
+}
+
 function WatchContent() {
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -40,6 +51,8 @@ function WatchContent() {
   const [isPreview, setIsPreview] = useState(false);
   const [playerMode, setPlayerMode] = useState<PlayerMode>('cloudflare-player');
   const [viewerCount] = useState(Math.floor(Math.random() * 3000) + 1200);
+  const [liveStream, setLiveStream] = useState<LiveStream | null>(null);
+  const [liveStreamChecked, setLiveStreamChecked] = useState(false);
   const videoRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -78,6 +91,28 @@ function WatchContent() {
       setTokenLoading(false);
     };
     fetchToken();
+
+    // Pull the live stream config (uid chosen by Producer/Admin). When
+    // present, prefer it over the CF mock examples so /watch reflects
+    // whatever is actually on air. Falls back to mocks when absent.
+    const fetchCurrentStream = async () => {
+      try {
+        const res = await fetch('/api/streams/current', { cache: 'no-store' });
+        if (!res.ok) {
+          setLiveStreamChecked(true);
+          return;
+        }
+        const data = await res.json();
+        if (data?.ok && data.current && data.current.iframeUrl) {
+          setLiveStream(data.current as LiveStream);
+        }
+      } catch {
+        // Network blip — keep mocks. UI shows a graceful empty state below.
+      } finally {
+        setLiveStreamChecked(true);
+      }
+    };
+    void fetchCurrentStream();
   }, [router, searchParams]);
 
   // Disable right-click on video
@@ -150,10 +185,18 @@ function WatchContent() {
                 className="text-xl sm:text-2xl font-black text-white uppercase"
                 style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}
               >
-                {isPreview ? 'TEASER: ' : ''}EFU · 2026 Szezon 1. Esemény
+                {liveStream
+                  ? liveStream.label || `EFU · ${liveStream.uid.slice(0, 6)}`
+                  : isPreview
+                    ? 'TEASER'
+                    : 'EFU · 2026 Szezon 1. Esemény'}
               </h1>
             </div>
-            <p className="text-gray-500 text-sm">Budapest Aréna · 2026. július 17.</p>
+            <p className="text-gray-500 text-sm">
+              {liveStream
+                ? `Élő adás · UID ${liveStream.uid}`
+                : 'Budapest Aréna · 2026. július 17.'}
+            </p>
           </div>
           <div className="flex items-center gap-2 text-gray-500 text-sm">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -166,7 +209,7 @@ function WatchContent() {
 
         <div className="mb-4 card-dark rounded-xl p-3 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
           <p className="text-xs text-gray-500 uppercase tracking-widest">
-            Mock lejátszó mód (Cloudflare példák alapján)
+            {liveStream ? 'Élő adás' : 'Mock lejátszó mód (Cloudflare példák alapján)'}
           </p>
           <div className="flex gap-2">
             <button
@@ -198,12 +241,32 @@ function WatchContent() {
           className="video-wrapper w-full aspect-video bg-black rounded-xl overflow-hidden relative select-none"
           style={{ touchAction: 'none' }}
         >
-          {playerMode === 'cloudflare-player' ? (
+          {liveStreamChecked && !liveStream ? (
+            // No live broadcast configured yet — show a placeholder so the
+            // page communicates the gap clearly instead of faking playback.
+            <div className="w-full h-full flex items-center justify-center bg-brand-dark-card">
+              <div className="text-center px-6">
+                <div className="text-5xl mb-3" aria-hidden>📡</div>
+                <p className="text-white font-bold text-lg mb-1" style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
+                  JELENLEG NINCS ÉLŐ KÖZVETÍTÉS
+                </p>
+                <p className="text-gray-500 text-sm">
+                  A következő eseményünk hamarosan indul — a /watch automatikusan
+                  elindul, amint a Producer elindítja az adást.
+                </p>
+                <p className="text-gray-600 text-xs mt-3">
+                  Stream beállítás: <code className="text-gray-500">/dashboard/streams</code>
+                </p>
+              </div>
+            </div>
+          ) : playerMode === 'cloudflare-player' ? (
             <iframe
               src={
-                isPreview
-                  ? MOCK_CF_IFRAME_URL
-                  : `https://customer-stream.cloudflarestream.com/embed/${STREAM_ID}?token=${token}&autoplay=true&muted=false&preload=true`
+                liveStream
+                  ? `${liveStream.iframeUrl}?token=${token}&autoplay=true&muted=false&preload=true`
+                  : isPreview
+                    ? MOCK_CF_IFRAME_URL
+                    : `https://customer-stream.cloudflarestream.com/embed/${STREAM_ID}?token=${token}&autoplay=true&muted=false&preload=true`
               }
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowFullScreen
@@ -212,7 +275,10 @@ function WatchContent() {
               style={{ position: 'relative', zIndex: 1 }}
             />
           ) : (
-            <CloudflareMockPlayer manifestUrl={MOCK_CF_HLS_MANIFEST} poster={MOCK_CF_POSTER} />
+            <CloudflareMockPlayer
+              manifestUrl={liveStream?.hlsManifestUrl ?? MOCK_CF_HLS_MANIFEST}
+              poster={liveStream ? undefined : MOCK_CF_POSTER}
+            />
           )}
 
           {/* Watermark overlay */}
@@ -251,9 +317,15 @@ function WatchContent() {
               <span className="px-2 py-1 bg-brand-dark-muted rounded text-xs text-gray-400">
                 ⚡ CDN: Frankfurt PoP
               </span>
-              <span className="px-2 py-1 bg-brand-dark-muted rounded text-xs text-gray-400">
-                🎬 Mock forrás: Cloudflare examples
-              </span>
+              {liveStream ? (
+                <span className="px-2 py-1 bg-emerald-600/30 text-emerald-300 rounded text-xs">
+                  🟢 Élő forrás: {liveStream.uid.slice(0, 8)}
+                </span>
+              ) : (
+                <span className="px-2 py-1 bg-brand-dark-muted rounded text-xs text-gray-400">
+                  🎬 Mock forrás: Cloudflare examples
+                </span>
+              )}
             </div>
           </div>
 

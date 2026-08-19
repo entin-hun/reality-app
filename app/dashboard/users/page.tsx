@@ -1,171 +1,132 @@
-import { requireRole } from '@/lib/auth/dev-role';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+/**
+ * /dashboard/users — admin-only CRUD for the email → role map.
+ *
+ * - Lists everyone grouped by role.
+ * - Add: email + role → POST /api/admin/users.
+ * - Change role: PUT /api/admin/users/[email].
+ * - Remove: DELETE /api/admin/users/[email].
+ *
+ * Last-admin protection lives server-side in the route handlers.
+ */
+
+import { requireAdmin } from '@/lib/auth/dev-role';
+import { readRoleMap, STAFF_ROLE_IDS, type RoleId } from '@/lib/db/kv-roles';
+import { UsersAdmin } from '@/components/dashboard/UsersAdmin';
 
 export const dynamic = 'force-dynamic';
 
-/**
- * Felhasználókezelő oldal - Rendszeradminisztrátor számára
- * Itt lehet szerkesztőket hozzáadni különböző szerepkörökkel
- */
-export default async function AdminUsersPage() {
-  const guard = await requireRole(['Rendszeradminisztrator']);
+interface PageProps {
+  searchParams: Promise<{ error?: string; ok?: string }>;
+}
+
+const ROLE_LABELS: Record<RoleId, string> = {
+  Rendszeradminisztrator: 'Rendszeradminisztrátor',
+  Producer: 'Producer',
+  'Reality szerkeszto': 'Reality szerkesztő',
+  Tartalomkeszito: 'Tartalomkészítő',
+  Marketing: 'Marketing',
+  Moderator: 'Moderátor',
+};
+
+const ROLE_COLORS: Record<RoleId, string> = {
+  Rendszeradminisztrator: 'bg-red-500',
+  Producer: 'bg-purple-500',
+  'Reality szerkeszto': 'bg-blue-500',
+  Tartalomkeszito: 'bg-emerald-500',
+  Marketing: 'bg-yellow-500',
+  Moderator: 'bg-gray-500',
+};
+
+const ERROR_TEXT: Record<string, string> = {
+  invalid_email: 'Érvénytelen email cím.',
+  invalid_role: 'Érvénytelen szerepkör.',
+  last_admin_protected:
+    'Az utolsó Rendszeradminisztrátort nem lehet eltávolítani vagy leváltani.',
+  persistence_failed: 'A mentés nem sikerült. Próbáld újra.',
+};
+
+const OK_TEXT: Record<string, string> = {
+  added: 'Új felhasználó hozzáadva.',
+  role_changed: 'Szerepkör módosítva.',
+  removed: 'Felhasználó eltávolítva.',
+};
+
+export default async function AdminUsersPage({ searchParams }: PageProps) {
+  const guard = await requireAdmin();
   if (!guard.ok) {
-    redirect('/admin');
-  }
-
-  const roles = [
-    {
-      id: 'Rendszeradminisztrator',
-      name: 'Rendszeradminisztrátor',
-      description: 'Teljes hozzáférés mindenhez',
-      color: 'bg-red-500',
-      permissions: ['Minden jogosultság'],
-    },
-    {
-      id: 'Producer',
-      name: 'Producer',
-      description: 'Harcosok és tartalmak szerkesztése',
-      color: 'bg-purple-500',
-      permissions: ['Harcosok kezelése', 'Tartalmak szerkesztése', 'CMS oldalak'],
-    },
-    {
-      id: 'Reality szerkeszto',
-      name: 'Reality szerkesztő',
-      description: 'Reality tartalmak kezelése',
-      color: 'bg-blue-500',
-      permissions: ['Reality tartalmak', 'Harcosok kezelése'],
-    },
-    {
-      id: 'Tartalomkeszito',
-      name: 'Tartalomkészítő',
-      description: 'CMS oldalak és média kezelése',
-      color: 'bg-green-500',
-      permissions: ['CMS oldalak', 'Média feltöltés'],
-    },
-    {
-      id: 'Marketing',
-      name: 'Marketing',
-      description: 'Marketing tartalmak és analytics',
-      color: 'bg-yellow-500',
-      permissions: ['Analytics', 'Marketing tartalmak'],
-    },
-    {
-      id: 'Moderator',
-      name: 'Moderátor',
-      description: 'Jelentkezések és kommentek kezelése',
-      color: 'bg-gray-500',
-      permissions: ['Jelentkezések kezelése'],
-    },
-  ];
-
-  return (
-    <main className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8">
+    return (
+      <main className="min-h-screen p-6">
+        <div className="max-w-md mx-auto text-center">
           <p className="text-brand-red text-sm uppercase tracking-widest font-semibold mb-2">
-            Admin
+            403 · Tiltott
           </p>
           <h1
-            className="text-4xl sm:text-5xl font-black uppercase text-white mb-4"
+            className="text-3xl font-black text-white mb-2"
             style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}
           >
-            Felhasználók kezelése
+            Nincs hozzáférésed
           </h1>
           <p className="text-gray-400 text-sm">
-            Szerkesztők hozzáadása és szerepkörök kezelése
+            A felhasználókezelés csak Rendszeradminisztrátorok számára érhető el.
           </p>
-        </header>
-
-        {/* Utasítások */}
-        <div className="card-dark rounded-2xl p-6 mb-8">
-          <h2 className="text-xl font-bold text-white mb-3">
-            📋 Hogyan adj hozzá szerkesztőt?
-          </h2>
-          <ol className="space-y-2 text-gray-300 text-sm">
-            <li>
-              <span className="text-brand-gold font-bold">1.</span> A szerkesztő nyissa meg a webhelyet
-            </li>
-            <li>
-              <span className="text-brand-gold font-bold">2.</span> Nyomja meg az <kbd className="px-2 py-1 bg-brand-dark-muted rounded text-xs">F12</kbd> gombot a böngészőben
-            </li>
-            <li>
-              <span className="text-brand-gold font-bold">3.</span> Válassza a <strong>Console</strong> fület
-            </li>
-            <li>
-              <span className="text-brand-gold font-bold">4.</span> Illessze be a kívánt parancsot az alábbi listából
-            </li>
-            <li>
-              <span className="text-brand-gold font-bold">5.</span> Nyomja meg az <kbd className="px-2 py-1 bg-brand-dark-muted rounded text-xs">Enter</kbd> gombot
-            </li>
-            <li>
-              <span className="text-brand-gold font-bold">6.</span> Frissítse az oldalt (<kbd className="px-2 py-1 bg-brand-dark-muted rounded text-xs">Ctrl+R</kbd>)
-            </li>
-          </ol>
         </div>
+      </main>
+    );
+  }
 
-        {/* Szerepkörök */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {roles.map((role) => (
-            <div key={role.id} className="card-dark rounded-2xl p-6">
-              <div className="flex items-start gap-4 mb-4">
-                <div className={`${role.color} w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg`}>
-                  {role.name.charAt(0)}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white mb-1">
-                    {role.name}
-                  </h3>
-                  <p className="text-gray-400 text-sm">{role.description}</p>
-                </div>
-              </div>
+  const sp = await searchParams;
+  const map = await readRoleMap();
+  const flashError = sp.error && ERROR_TEXT[sp.error];
+  const flashOk = sp.ok && OK_TEXT[sp.ok];
 
-              {/* Jogosultságok */}
-              <div className="mb-4">
-                <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Jogosultságok
-                </p>
-                <ul className="space-y-1">
-                  {role.permissions.map((perm, i) => (
-                    <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
-                      <span className="text-green-400">✓</span>
-                      {perm}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+  // Flatten into a single list for the client component.
+  const users: Array<{ email: string; role: RoleId }> = [];
+  for (const role of STAFF_ROLE_IDS) {
+    for (const email of map[role] ?? []) {
+      users.push({ email, role });
+    }
+  }
+  users.sort((a, b) => a.email.localeCompare(b.email));
 
-              {/* Parancs */}
-              <div>
-                <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Aktiváló parancs
-                </p>
-                <div className="bg-brand-dark-muted rounded-lg p-3 font-mono text-xs text-brand-gold break-all">
-                  document.cookie = "efu_role={role.id}; path=/; max-age=31536000"
-                </div>
-                <button
-                  onClick={() => {
-                    // Ez csak vizuális visszajelzés, a tényleges másolás a böngészőben történik
-                  }}
-                  className="mt-2 text-xs text-brand-red hover:text-red-400 transition-colors"
-                >
-                  📋 Parancs másolása
-                </button>
-              </div>
-            </div>
-          ))}
+  return (
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl">
+      <header>
+        <p className="text-brand-red text-[10px] uppercase tracking-widest font-bold mb-1">
+          Rendszeradminisztrátor
+        </p>
+        <h1
+          className="text-2xl sm:text-3xl font-black text-white"
+          style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}
+        >
+          Felhasználók és szerepkörök
+        </h1>
+        <p className="text-gray-500 text-xs mt-1">
+          Itt kezelheted, hogy ki léphet be az admin felületre és milyen
+          jogosultságokkal. A bejelentkezés email-alapú magic-link rendszerrel
+          működik.
+        </p>
+      </header>
+
+      {flashError && (
+        <div className="rounded-lg border border-brand-red/40 bg-brand-red/10 px-4 py-3 text-sm text-brand-red">
+          {flashError}
         </div>
-
-        {/* Vissza gomb */}
-        <div className="mt-8 text-center">
-          <Link
-            href="/admin"
-            className="inline-block border border-brand-dark-border hover:border-gray-500 text-gray-300 hover:text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-          >
-            ← Vissza az Admin főoldalra
-          </Link>
+      )}
+      {flashOk && (
+        <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+          {flashOk}
         </div>
-      </div>
-    </main>
+      )}
+
+      <UsersAdmin
+        users={users}
+        roles={STAFF_ROLE_IDS.map((id) => ({
+          id,
+          label: ROLE_LABELS[id],
+          color: ROLE_COLORS[id],
+        }))}
+        currentUserEmail={guard.email}
+      />
+    </div>
   );
 }

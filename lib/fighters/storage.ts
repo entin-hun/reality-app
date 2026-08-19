@@ -1,24 +1,27 @@
 /**
- * EFU fighter storage — file-backed JSON store.
+ * EFU fighter storage — env-aware, KV-first on Workers / fs-first on Node.
  *
- * Persists fighters in `data/fighters.json`. The functions exposed here
- * are the contract for the rest of the app: server components, admin
- * pages, and JSON-LD all import only from `@/lib/fighters`. When L1-DB
- * ships, the bodies of `read*` / `write*` are replaced with database
- * queries; call sites stay unchanged.
+ * Persists fighters in `APPLICATIONS_KV` (with `data/fighters.json` as the
+ * local-development fallback). The functions exposed here are the contract
+ * for the rest of the app: server components, admin pages, and JSON-LD all
+ * import only from `@/lib/fighters`. When L1-DB ships, the bodies of
+ * `read*` / `write*` are replaced with database queries; call sites stay
+ * unchanged.
  *
  * Concurrency: a module-level promise chain serialises writes so admin
- * requests can't clobber each other. Reads are not serialised (the file
+ * requests can't clobber each other. Reads are not serialised (the dataset
  * is small and the cache layer in production will be the DB).
  */
 
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import type { Locale } from '@/lib/i18n';
 import type { Fighter, FighterSummary, EfuPathEntry } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'fighters.json');
+const KV_KEY = 'fighters:all';
 
 /** In-process mutex: serialise concurrent writes. */
 let writeLock: Promise<void> = Promise.resolve();
@@ -28,6 +31,77 @@ const SEED_FIGHTERS: Fighter[] = [
   buildSeedFighter('kozak-peter', 'Kozák Péter', '🇭🇺 HU', 1, 18, 2, 0, 12, 4),
   buildSeedFighter('varga-bence', 'Varga Bence', '🇭🇺 HU', 2, 12, 1, 0, 7, 2),
 ];
+
+// ---------------------------------------------------------------------------
+// Env-aware handle: APPLICATIONS_KV on Cloudflare Workers, fs on Node.
+// ---------------------------------------------------------------------------
+
+interface KvLike {
+  get(key: string): Promise<string | null>;
+  put(key: string, value: string): Promise<void>;
+}
+
+function getKv(): KvLike | null {
+  try {
+    const { env } = getCloudflareContext();
+    if ((env as any)?.APPLICATIONS_KV) return (env as any).APPLICATIONS_KV;
+  } catch {}
+  if (typeof process !== 'undefined' && (process.env as any)?.APPLICATIONS_KV) {
+    return (process.env as any).APPLICATIONS_KV;
+  }
+  if (typeof globalThis !== 'undefined' && (globalThis as any).__env__?.APPLICATIONS_KV) {
+    return (globalThis as any).__env__.APPLICATIONS_KV;
+  }
+  return null;
+}
+
+/** True when the bound runtime is Workers (KV present). */
+export function isKvAvailable(): boolean {
+  return getKv() !== null;
+}
+
+// ---------------------------------------------------------------------------
+// KV layer (single-key array — fits the dataset; sharding / D1 comes later).
+// ---------------------------------------------------------------------------
+
+async function readAllFromKv(): Promise<Fighter[] | null> {
+  const kv = getKv();
+  if (!kv) return null;
+  const raw = await kv.get(KV_KEY);
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Fighter[]) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeAllToKv(list: Fighter[]): Promise<void> {
+  const kv = getKv();
+  if (!kv) throw new Error('KV unavailable — writeAllToKv called outside Workers');
+  await kv.put(KV_KEY, JSON.stringify(list));
+}
+
+async function migrateFsToKv(): Promise<Fighter[]> {
+  // One-shot migration: if KV is empty but the dev JSON file exists, copy
+  // its contents into KV and return them. Idempotent.
+  const kv = getKv();
+  if (!kv) return SEED_FIGHTERS;
+  const existing = await readAllFromKv();
+  if (existing && existing.length > 0) return existing;
+  let fromFs: Fighter[] = [];
+  try {
+    const raw = await fs.readFile(DATA_FILE, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length > 0) fromFs = parsed as Fighter[];
+  } catch {
+    // fs unavailable or file missing — fall back to SEED
+  }
+  const seed = fromFs.length > 0 ? fromFs : SEED_FIGHTERS;
+  await writeAllToKv(seed);
+  return seed;
+}
 
 function buildSeedFighter(
   slug: string,
@@ -94,10 +168,17 @@ async function ensureFile(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Reads
+// Reads — KV on Workers, fs on Node, with SEED_FIGHTERS fallback everywhere.
 // ---------------------------------------------------------------------------
 
 export async function readAllFighters(): Promise<Fighter[]> {
+  if (getKv()) {
+    const existing = await readAllFromKv();
+    if (existing && existing.length > 0) return sortFighters(existing);
+    const migrated = await migrateFsToKv();
+    return sortFighters(migrated);
+  }
+  // Local dev: fs-backed with SEED fallback.
   await ensureFile();
   const raw = await fs.readFile(DATA_FILE, 'utf-8');
   const parsed = JSON.parse(raw) as Fighter[];
@@ -120,17 +201,24 @@ export async function readFighterSlugs(): Promise<string[]> {
 }
 
 // ---------------------------------------------------------------------------
-// Writes
+// Writes — KV on Workers, fs on Node. TanStack query + admin forms both call
+// upsertFighter; production writes therefore land in KV and are visible to
+// the sitemap and public pages on the next request.
 // ---------------------------------------------------------------------------
 
 export async function writeAllFighters(list: Fighter[]): Promise<void> {
+  const sorted = sortFighters(list);
   const prev = writeLock;
   let release: () => void = () => {};
   writeLock = new Promise<void>((res) => (release = res));
   try {
     await prev;
-    await ensureFile();
-    await fs.writeFile(DATA_FILE, JSON.stringify(sortFighters(list), null, 2), 'utf-8');
+    if (getKv()) {
+      await writeAllToKv(sorted);
+    } else {
+      await ensureFile();
+      await fs.writeFile(DATA_FILE, JSON.stringify(sorted, null, 2), 'utf-8');
+    }
   } finally {
     release();
   }

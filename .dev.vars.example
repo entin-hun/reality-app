@@ -1,0 +1,39 @@
+# Local development secrets — copy this file to .dev.vars and fill in real
+# values. wrangler picks it up automatically when you run `wrangler dev`.
+#
+# .dev.vars is .gitignored — never commit it.
+#
+# On production, set these via:
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put EMAIL_FROM
+#   npx wrangler secret put ADMIN_EMAIL
+
+# Resend transactional email API key. Sign up at https://resend.com and
+# verify your sender domain before generating the key.
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxx
+
+# Optional: override the default "EFU <noreply@efutv.eu>" sender.
+# Must be a domain you've verified in the Resend dashboard.
+# EMAIL_FROM="EFU <noreply@efutv.eu>"
+
+# Optional: override admin notification recipient.
+# Default (see lib/email/index.ts) is the company Gmail:
+# ADMIN_EMAIL=elitefightclubkft@gmail.com
+
+# Cloudflare Stream — used by /dashboard/streams (admin/producer) and
+# /watch (public). The account id + API token alone let admins create
+# and delete live inputs (the RTMPS URL + stream key are surfaced once
+# per input for OBS / Restream to ingest into). The customer code is the
+# 16-char subdomain shown in Cloudflare dashboard under
+# Stream → "Customer subdomain" (the value that fills `customer-XXXX.
+# cloudflarestream.com`); it is ONLY needed when the /watch page
+# renders the live playback iframe, so set it before going on air.
+#
+# On production, set the first two via:
+#   echo -n "..." | npx wrangler secret put CLOUDFLARE_STREAM_ACCOUNT_ID
+#   echo -n "..." | npx wrangler secret put CLOUDFLARE_STREAM_API_TOKEN
+# Customer code can be left unset during testing — admin UI works
+# without it.
+CLOUDFLARE_STREAM_ACCOUNT_ID=
+CLOUDFLARE_STREAM_API_TOKEN=
+# CLOUDFLARE_STREAM_CUSTOMER_CODE=

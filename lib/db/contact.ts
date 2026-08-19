@@ -1,8 +1,11 @@
 /**
- * Contact-message persistence layer — pluggable, currently backed by JSON.
+ * Contact-message persistence layer — pluggable, env-aware.
  *
- * Today: writes to .data/contact-messages.json (gitignored) — visible in
- *   dev and admin triage, durable across server restarts.
+ * On Cloudflare Workers/Pages (OpenNext): KV-backed store when the
+ *   APPLICATIONS_KV namespace is bound — the filesystem there is read-only,
+ *   so the JSON file store cannot persist writes (persistence_failed).
+ * Locally / on Node servers: JSON file store at .data/contact-messages.json
+ *   (gitignored) — visible in dev and admin triage, durable across restarts.
  * Tomorrow (when L1-DB lands at t_0b2dbb52): swap the `ContactStore`
  *   implementation to Prisma. The controller code keeps calling
  *   `store.create(...)` / `store.list()` / `store.get(...)`.
@@ -17,6 +20,7 @@
 
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export type ContactStatus = 'new' | 'in_progress' | 'resolved' | 'spam';
 
@@ -55,17 +59,50 @@ export interface ContactStore {
 
 const DATA_DIR = path.join(process.cwd(), '.data');
 const DATA_FILE = path.join(DATA_DIR, 'contact-messages.json');
+const KV_KEY = 'contact:all';
+const MAX_LIST = 10_000;
 
-async function ensureFile(): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
+// ---------------------------------------------------------------------------
+// Env-aware handle (mirrors lib/db/kv.ts)
+// ---------------------------------------------------------------------------
+
+interface KvLike {
+  get(key: string): Promise<string | null>;
+  put(key: string, value: string): Promise<void>;
+}
+
+function getKv(): KvLike | null {
   try {
-    await fs.access(DATA_FILE);
-  } catch {
-    await fs.writeFile(DATA_FILE, '[]', 'utf8');
+    const { env } = getCloudflareContext();
+    if ((env as any)?.APPLICATIONS_KV) return (env as any).APPLICATIONS_KV;
+  } catch {}
+  if (typeof process !== 'undefined' && (process.env as any)?.APPLICATIONS_KV) {
+    return (process.env as any).APPLICATIONS_KV;
   }
+  if (typeof globalThis !== 'undefined' && (globalThis as any).__env__?.APPLICATIONS_KV) {
+    return (globalThis as any).__env__.APPLICATIONS_KV;
+  }
+  return null;
+}
+
+export function isKvAvailable(): boolean {
+  return getKv() !== null;
 }
 
 async function readAll(): Promise<ContactRecord[]> {
+  // KV on Workers.
+  const kv = getKv();
+  if (kv) {
+    const raw = await kv.get(KV_KEY);
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? (parsed as ContactRecord[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  // fs on Node.
   await ensureFile();
   const raw = await fs.readFile(DATA_FILE, 'utf8');
   try {
@@ -77,8 +114,22 @@ async function readAll(): Promise<ContactRecord[]> {
 }
 
 async function writeAll(records: ContactRecord[]): Promise<void> {
+  const kv = getKv();
+  if (kv) {
+    await kv.put(KV_KEY, JSON.stringify(records.slice(-MAX_LIST)));
+    return;
+  }
   await ensureFile();
   await fs.writeFile(DATA_FILE, JSON.stringify(records, null, 2), 'utf8');
+}
+
+async function ensureFile(): Promise<void> {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  try {
+    await fs.access(DATA_FILE);
+  } catch {
+    await fs.writeFile(DATA_FILE, '[]', 'utf8');
+  }
 }
 
 function genId(): string {

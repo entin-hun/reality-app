@@ -37,6 +37,7 @@
     "votes": "Votes",
     "realityTriggers": "Reality triggers",
     "audioLibrary": "Audio library",
+    "streams": "Live broadcast",
     "pages": "Pages",
     "news": "News",
     "videos": "Videos",
@@ -83,6 +84,6 @@
     "title": "Access denied",
     "code": "403",
     "body": "You do not have access to this view. In the EFU admin, the sidebar only shows surfaces your role can reach.",
-    "hint": "In development the role is set by the efu_role cookie. Example: document.cookie = \"efu_role=Rendszeradminisztrator\""
+    "hint": "Sign in at /admin-login with your email — the system emails a 15-minute sign-in link."
   }
 }

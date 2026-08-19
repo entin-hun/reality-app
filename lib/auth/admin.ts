@@ -19,7 +19,7 @@ export type AdminFighterGuardResult =
 
 export async function requireFighterAdmin(): Promise<AdminFighterGuardResult> {
   const role = await currentRole();
-  if (role === 'guest' || role === 'user') {
+  if (role === 'guest') {
     return { ok: false, reason: 'unauthenticated' };
   }
   if (!ADMIN_ROLES.has(role)) {

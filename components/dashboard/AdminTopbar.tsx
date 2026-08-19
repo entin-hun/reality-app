@@ -55,11 +55,16 @@ export function AdminTopbar({
     });
   }
 
-  function clearRole() {
-    // Dev convenience: clear the role cookie so the user lands as `guest`.
-    document.cookie = `efu_role=; path=/; max-age=0; samesite=lax`;
+  async function clearRole() {
+    // Server-side logout clears the HttpOnly session cookie. We also clear
+    // the legacy `efu_role` cookie in case anyone still has one set.
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore — the refresh below will still show guest state
+    }
     startTransition(() => {
-      router.refresh();
+      router.replace('/admin-login');
     });
   }
 

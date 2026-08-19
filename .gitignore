@@ -30,6 +30,11 @@ yarn-error.log*
 # Vercel
 .vercel
 
+# Cloudflare Workers local secrets (set via `wrangler secret put` on deploy).
+# Keep this file out of the repo — it contains real API keys. The committed
+# `.dev.vars.example` is the safe template.
+.dev.vars
+
 # TypeScript
 *.tsbuildinfo
 default.optimizize.config.cjs
