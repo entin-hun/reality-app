@@ -19,6 +19,7 @@ import {
   type AdminSectionDef,
 } from '@/lib/auth/role-sections';
 import type { Locale } from '@/lib/i18n';
+import { LiveNowIndicator } from '@/components/LiveNowIndicator';
 
 interface IconProps {
   className?: string;
@@ -273,6 +274,21 @@ export function AdminSidebar({
             <p className="text-brand-red font-bold text-sm leading-tight truncate">{roleLabel}</p>
           </div>
         )}
+      </div>
+
+      {/* Pulsing live broadcast CTA — only renders when /api/streams/current reports an active stream. Sits above the regular nav groups so Producers see "we're on air" at a glance and can hop straight to /watch. */}
+      <div
+        className={`px-2 pt-3 pb-1 border-b border-brand-dark-border ${collapsed ? 'flex justify-center' : ''}`}
+        data-testid="admin-sidebar-live-cta"
+      >
+        <LiveNowIndicator
+          variant="pill"
+          className={
+            collapsed
+              ? '!w-10 !h-10 !p-0 justify-center'
+              : 'w-full justify-between'
+          }
+        />
       </div>
 
       {/* Nav scroll area */}
