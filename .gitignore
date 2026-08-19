@@ -54,3 +54,5 @@ default.optimizize.config.cjs
 # Logs
 *.log
 .open-next/
+elitfightclub.hu.har
+*.har
