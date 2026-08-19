@@ -50,7 +50,7 @@ function WatchContent() {
   const [tokenLoading, setTokenLoading] = useState(true);
   const [isPreview, setIsPreview] = useState(false);
   const [playerMode, setPlayerMode] = useState<PlayerMode>('cloudflare-player');
-  const [viewerCount] = useState(Math.floor(Math.random() * 3000) + 1200);
+  const [viewerCount] = useState<number | null>(null);
   const [liveStream, setLiveStream] = useState<LiveStream | null>(null);
   const [liveStreamChecked, setLiveStreamChecked] = useState(false);
   const videoRef = useRef<HTMLDivElement>(null);
@@ -198,11 +198,16 @@ function WatchContent() {
                 : 'Budapest Aréna · 2026. július 17.'}
             </p>
           </div>
-          <div className="flex items-center gap-2 text-gray-500 text-sm">
+          <div
+            className="flex items-center gap-2 text-gray-500 text-sm"
+            title="A CF Stream API nem adja vissza a valós idejű nézőszámot a jelenlegi API token jogosultságokkal. A beépített CF Stream lejátszó mutatja a nézőszámot automatikusan."
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
             </svg>
-            <span className="font-medium text-white">{viewerCount.toLocaleString()}</span>
+            <span className="font-medium text-white">
+              {viewerCount === null ? '—' : viewerCount.toLocaleString()}
+            </span>
             <span>néző élőben</span>
           </div>
         </div>

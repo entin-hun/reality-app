@@ -306,6 +306,10 @@ export async function refreshInputs(): Promise<LiveInput[]> {
       createdBy: prev?.createdBy ?? '',
       // createdAt from CF if we have no prior entry; otherwise keep prior
       createdAt: prev?.createdAt ?? cf.createdAt,
+      // The CF LIST endpoint intentionally omits the stream key for
+      // security. We persisted it on creation in `createInput`, so
+      // keep the locally-saved copy across refreshes.
+      rtmpsStreamKey: prev?.rtmpsStreamKey ?? '',
     };
   });
 

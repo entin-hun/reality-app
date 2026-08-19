@@ -68,6 +68,17 @@ interface NewlyCreated {
   rtmpsStreamKey: string;
 }
 
+/**
+ * CF Stream does not expose a real-time viewer count via the REST API
+ * for API tokens that lack the `Account Analytics: Read` permission. We
+ * surface an honest `—` placeholder in the admin UI instead of faking
+ * a number; the built-in CF Stream iframe player shows the live count
+ * to end-users automatically when `hideLiveViewerCount` is false (the
+ * default we leave it at).
+ */
+const VIEWER_COUNT_NOTE =
+  'A CF Stream API nem adja vissza a valós idejű nézőszámot a jelenlegi API token jogosultságokkal. A /watch oldalon a CF Stream beépített lejátszója automatikusan mutatja a nézőszámot.';
+
 const STATUS_COLOR: Record<LiveStatus, string> = {
   ready: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
   live: 'bg-brand-red/20 text-brand-red border-brand-red/40',
@@ -101,6 +112,10 @@ export function StreamsAdmin() {
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [newlyCreated, setNewlyCreated] = useState<NewlyCreated | null>(null);
+
+  // Per-row stream-key reveal toggle. Once shown, stays visible across
+  // refreshes (cheap; the list re-renders anyway).
+  const [revealedKeys, setRevealedKeys] = useState<Record<string, boolean>>({});
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -294,7 +309,7 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
           </h2>
           {current ? (
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <div className="text-white font-semibold text-lg">
                   {current.label || current.uid}
                 </div>
@@ -304,6 +319,16 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
                 <div className="text-xs text-gray-500 mt-1">
                   Iframe:{' '}
                   <code className="text-gray-300 break-all">{current.iframeUrl || '—'}</code>
+                </div>
+                <div
+                  className="text-xs text-gray-500 mt-2 inline-flex items-center gap-1.5"
+                  title={VIEWER_COUNT_NOTE}
+                >
+                  <span className="text-gray-400">Nézőszám:</span>
+                  <span className="text-white font-semibold" aria-label="viewer count placeholder">
+                    —
+                  </span>
+                  <span className="text-gray-600">(CF Stream API nem adja vissza)</span>
                 </div>
               </div>
               <button
@@ -365,9 +390,39 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
                       <div className="text-xs text-gray-500 truncate">
                         RTMPS: <code className="text-gray-300">{i.rtmpsUrl || '—'}</code>
                       </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setRevealedKeys((prev) => ({ ...prev, [i.uid]: !prev[i.uid] }))
+                          }
+                          className="text-xs text-brand-gold hover:underline"
+                        >
+                          {revealedKeys[i.uid] ? '🔓 Kulcs elrejtése' : '🔑 Stream key mutatása'}
+                        </button>
+                        {revealedKeys[i.uid] && (
+                          <div className="mt-1">
+                            {i.rtmpsStreamKey ? (
+                              <CopyableField value={i.rtmpsStreamKey} sensitive />
+                            ) : (
+                              <span className="text-gray-600 italic">
+                                (nincs elmentve — töröld és hozd létre újra)
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                      {!isCurrent && (
+                      {isCurrent ? (
+                        <button
+                          onClick={handleClearCurrent}
+                          disabled={isBusy}
+                          className="px-3 py-2 text-xs font-semibold rounded bg-brand-gold text-black hover:opacity-90 disabled:opacity-50"
+                        >
+                          Rejtsd el /watch-ről
+                        </button>
+                      ) : (
                         <button
                           onClick={() => handleSetCurrent(i.uid)}
                           disabled={isBusy}
@@ -419,6 +474,46 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
               jelenítheted meg a nézőknek.
             </li>
           </ol>
+          <details className="mt-4 text-xs text-gray-400">
+            <summary className="cursor-pointer text-gray-300 hover:text-white">
+              OBS hiba: „No config URL available for the current service"
+            </summary>
+            <div className="mt-2 space-y-2 leading-relaxed">
+              <p>
+                Ez akkor jelenik meg, ha az OBS-ben a Service legördülő nem a megfelelő
+                értékre van állítva. A CF Stream RTMPS-t <strong>nem</strong> szabad
+                „Twitch" / „YouTube" / „Facebook" szerviznek választani — ezek
+                mindegyike saját RTMP-szervert vár.
+              </p>
+              <p>
+                <strong>Helyes beállítás (OBS 30+):</strong>
+              </p>
+              <ol className="list-decimal list-inside space-y-1 ml-2">
+                <li>
+                  Settings → Stream → Service: <em>Custom…</em> (a három pontos, nem
+                  sima „Custom" — ez a Custom RTMP).
+                </li>
+                <li>
+                  Server: pontosan <code className="text-gray-200">rtmps://live.cloudflare.com:443/live/</code>
+                  (perjel a végén kötelező).
+                </li>
+                <li>
+                  Stream Key: a fenti listából kimásolt teljes kulcs (egyben, szóköz nélkül).
+                </li>
+                <li>
+                  Ha Restream-en keresztül mész: az OBS a Restream RTMP URL-jére
+                  küld, a Restream CF Stream destination-jében kell ugyanezt az
+                  ingest URL-t + stream key-t megadni.
+                </li>
+              </ol>
+              <p>
+                Ha OBS az „Apply" / „OK" után is <em>„Starting the output failed”</em>-t ír:
+                nyisd meg a <em>Help → Log Files → Upload last log</em>-ot, és a
+                kapott URL-t tedd be egy hibajegybe — a logból kiderül, hogy a CF
+                elutasította-e a kulcsot, vagy az encoder indult-e el egyáltalán.
+              </p>
+            </div>
+          </details>
         </section>
 
         {/* Create modal */}
@@ -448,9 +543,11 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
                       <p className="text-brand-red text-sm mb-3">{createError}</p>
                     )}
                     <p className="text-gray-500 text-xs mb-4">
-                      Létrehozás után megmutatjuk az RTMPS ingest URL-t és a stream key-t —
-                      utóbbit <strong>másold ki most</strong>, mert később nem tudjuk újra
-                      megmutatni (CF biztonsági okokból nem adja vissza).
+                      Létrehozás után megmutatjuk az RTMPS ingest URL-t és a stream key-t.
+                      A stream key-t <strong>elmentjük helyben</strong> is, és az input
+                      listában a „🔑 Stream key mutatása" gombbal bármikor újra
+                      előhívható — de ajánlott most kimásolni és biztonságos helyre
+                      (jelszókezelő, 1Password stb.) eltenni.
                     </p>
                     <div className="flex gap-2 justify-end">
                       <button
