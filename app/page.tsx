@@ -9,6 +9,7 @@ import { EfuPillars } from '@/components/EfuPillars';
 import { EfuRuleset } from '@/components/EfuRuleset';
 import { EliteFightUniverseLogo } from '@/components/logos';
 import { LiveBadge } from '@/components/LiveBadge';
+import { LiveNowIndicator } from '@/components/LiveNowIndicator';
 import { MitNyerhetsz } from '@/components/MitNyerhetsz';
 import { HeroSocialRow } from '@/components/HeroSocialRow';
 import { HeroYouTubeEmbed } from '@/components/HeroYouTubeEmbed';
@@ -114,7 +115,7 @@ export default function HomePage() {
           <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto w-full">
             {/* Event badge row */}
             <div className="flex items-center gap-3 mb-6 flex-wrap justify-center">
-              <LiveBadge live={false} />
+              <LiveNowIndicator variant="badge" showWhenOffline />
               <span className="text-brand-gold text-xs sm:text-sm font-semibold uppercase tracking-widest">
                 EFU Reality · 2026 szezon
               </span>
@@ -137,6 +138,14 @@ export default function HomePage() {
             <p className="text-gray-300 max-w-3xl mb-7 text-sm sm:text-base leading-relaxed italic px-1">
               Új lehetőség a harcosoknak, új szint a nézőknek — élőben és visszanézhetően.
             </p>
+
+            {/* Big 'Nézd élőben most' CTA — only renders when a stream is live.
+                Replaces one of the planned CTAs without removing the apply
+                path below. Sits above the apply button so it's the first
+                thing visitors see when something's on air. */}
+            <div className="mt-4">
+              <LiveNowIndicator variant="inline" />
+            </div>
 
             {/* Lost-stílusú countdown */}
             {SHOW_COUNTDOWN && <LostTimerCountdown targetDate={FIGHT_DATE} />}

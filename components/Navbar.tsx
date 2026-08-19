@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/lib/i18n';
+import { LiveNowIndicator } from '@/components/LiveNowIndicator';
 
 /**
  * Rólunk link label per locale. Kept inline (rather than loading an
@@ -110,14 +111,11 @@ export function Navbar() {
           <Link href="/reality" className="text-gray-400 hover:text-white text-sm font-medium transition-colors">
             Reality
           </Link>
-          {hasPurchased && (
-            <Link
-              href="/watch"
-              className="text-brand-gold hover:text-yellow-300 text-sm font-bold transition-colors flex items-center gap-1"
-            >
-              ▶ Élő adás
-            </Link>
-          )}
+          {/* Live indicator — always visible (even pre-purchase) so visitors
+              can find /watch during the promotional window. Renders a
+              pulsing red pill when something is on air; otherwise a
+              neutral "Média" link. */}
+          <LiveNowIndicator variant="pill" />
           {isLoggedIn ? (
             <div className="flex items-center gap-3">
               <span className="text-xs text-gray-500 border border-brand-dark-border rounded px-2 py-1">
@@ -173,11 +171,8 @@ export function Navbar() {
           <Link href="/reality" className="text-gray-300 font-medium" onClick={() => setMenuOpen(false)}>
             Reality
           </Link>
-          {hasPurchased && (
-            <Link href="/watch" className="text-brand-gold font-bold" onClick={() => setMenuOpen(false)}>
-              ▶ Élő adás
-            </Link>
-          )}
+          {/* Mobile: always-visible live indicator */}
+          <LiveNowIndicator variant="pill" />
           {isLoggedIn ? (
             <button onClick={handleLogout} className="text-sm text-gray-400 text-left">
               Kijelentkezés

@@ -53,6 +53,8 @@ function WatchContent() {
   const [viewerCount] = useState<number | null>(null);
   const [liveStream, setLiveStream] = useState<LiveStream | null>(null);
   const [liveStreamChecked, setLiveStreamChecked] = useState(false);
+  const [hasAccess, setHasAccess] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const videoRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -63,6 +65,8 @@ function WatchContent() {
 
     const access = localStorage.getItem('cw_access') === 'granted';
     const loggedIn = localStorage.getItem('cw_logged_in') === 'true';
+    setHasAccess(access);
+    setIsLoggedIn(loggedIn);
 
     if (preview) {
       setAuthorized(true);
@@ -72,25 +76,22 @@ function WatchContent() {
       return;
     }
 
-    if (!loggedIn) {
-      router.replace('/');
-      return;
-    }
-
-    if (!access) {
-      setAuthorized(false);
-      setTokenLoading(false);
-      return;
-    }
-
-    // Simulate fetching signed token from /api/get-stream-token
+    // Live streams on /watch are intentionally publicly accessible —
+    // we want as many viewers as possible to land here during the
+    // promotional pre-launch window. The CF Stream input is configured
+    // with `requireSignedURLs: false`, so anyone can play the iframe URL.
+    //
+    // Access-gated features (replays, multi-cam, fighters' locker room,
+    // etc.) check `cw_access` separately when implemented. For now we
+    // simply render the live stream to everyone and show a soft CTA to
+    // logged-out / non-purchased users to upgrade to a season pass.
     const fetchToken = async () => {
       await new Promise((r) => setTimeout(r, 900));
       setToken(MOCK_STREAM_TOKEN);
       setAuthorized(true);
       setTokenLoading(false);
     };
-    fetchToken();
+    void fetchToken();
 
     // Pull the live stream config (uid chosen by Producer/Admin). When
     // present, prefer it over the CF mock examples so /watch reflects
@@ -135,22 +136,15 @@ function WatchContent() {
   }
 
   if (!authorized) {
+    // We no longer hard-block unauthenticated users from /watch — live
+    // content is publicly accessible. The skeleton loader handles the
+    // initial render until the token resolves; this branch should not
+    // be reached in practice with the new flow but stays as a safety
+    // net (e.g. when fetchToken throws).
     return (
-      <main className="min-h-screen pt-16 flex items-center justify-center px-4">
-        <div className="card-dark rounded-2xl p-8 sm:p-12 text-center max-w-md w-full">
-          <div className="text-5xl mb-4">🔒</div>
-          <h2
-            className="text-3xl font-black text-white mb-3"
-            style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}
-          >
-            HOZZÁFÉRÉS MEGTAGADVA
-          </h2>
-          <p className="text-gray-400 mb-6">
-            Az esemény megtekintéséhez aktív szezonbérlet szükséges.
-          </p>
-          <Link href="/#pricing" className="btn-primary inline-block">
-            Szezonbérlet kérése — 2 500 HUF
-          </Link>
+      <main className="min-h-screen pt-16 px-4 max-w-5xl mx-auto">
+        <div className="pt-10">
+          <VideoPlayerSkeleton />
         </div>
       </main>
     );
@@ -361,7 +355,59 @@ function WatchContent() {
             </Link>
           </div>
         )}
-      </div>
+        {/* Soft season-pass CTA — shown only to users who don't have an
+            active pass. Live content stays publicly accessible during
+            the pre-launch promotional window; this CTA is the only
+            nudge. After launch we can re-add hard VOD gating here. */}
+        {!hasAccess && liveStreamChecked && (
+          <div className="mt-6 card-dark rounded-xl p-6 border-brand-gold/30 bg-gradient-to-br from-brand-gold/5 to-transparent">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <p className="text-brand-gold font-bold text-lg mb-1">
+                  🎟 Kérj szezonbérletet a visszanézéshez
+                </p>
+                <p className="text-gray-400 text-sm">
+                  Az élő adást ingyen nézed — a visszanézés, a multi-kamera és a
+                  harcosok kulisszái mögé csak bérlettel férsz hozzá. Egyszer
+                  fizetsz, egész 2026-ban nézed.
+                </p>
+              </div>
+              <Link
+                href="/#pricing"
+                className="btn-gold text-sm sm:text-base px-6 py-3 whitespace-nowrap text-center"
+              >
+                Bérlet kérése — 2 500 HUF
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Bonus: invite friends — public promotion for everyone */}
+        {liveStreamChecked && liveStream && (
+          <div className="mt-4 card-dark rounded-xl p-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <p className="text-white font-bold text-sm mb-1">
+                  📣 Hívd meg a barátaidat
+                </p>
+                <p className="text-gray-500 text-xs">
+                  Az élő közvetítés linkje nyilvános — oszd meg, hogy többen
+                  nézzék a 2026-os szezont.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window === 'undefined') return;
+                  void navigator.clipboard.writeText(window.location.origin + '/watch');
+                }}
+                className="px-4 py-2 text-xs font-semibold rounded bg-brand-dark-muted text-gray-200 hover:bg-brand-dark border border-white/10"
+              >
+                🔗 /watch link másolása
+              </button>
+            </div>
+          </div>
+        )}      </div>
     </main>
   );
 }
