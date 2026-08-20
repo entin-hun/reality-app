@@ -416,3 +416,336 @@ export async function getCurrentStream(): Promise<PublicCurrentStream | null> {
     label: matched?.label ?? '',
   };
 }
+
+// ─── VOD archive (auto-recorded streams) ───────────────────────────
+//
+// CF Stream is configured with `recording: { mode: 'automatic' }`, so
+// every live stream also produces a VOD. The admin streams page
+// exposes the archive so the operator can:
+//   1. Preview each recording with audio to decide what to keep.
+//   2. Delete the ones they don't want (storage costs money).
+//   3. Curate an ordered playlist that loops on /watch when no live
+//      stream is on air.
+//
+// VOD state is a mix of two sources:
+//   * CF Stream API  → source of truth for `uid, duration, status,
+//                      thumbnail, created`. Updated by `refreshVideos`.
+//   * AUTH_KV        → source of truth for operator-controlled fields:
+//                      `label` (editable human name), `keep` flag,
+//                      `playlistOrder` index (null = not in playlist).
+
+export type VideoStatus = 'ready' | 'downloading' | 'queued' | 'error' | 'unknown';
+
+export interface LiveVideo {
+  /** CF-assigned video UID — same namespace as live_inputs but
+   *  recordings are children of their input, and they survive after
+   *  the parent input is deleted. */
+  uid: string;
+  /** Duration in seconds (0 when CF is still processing). */
+  duration: number;
+  /** Ready means HLS + thumbnail are generated and the iframe can
+   *  serve traffic. "downloading" / "queued" mean CF is still
+   *  processing the recording. */
+  status: VideoStatus;
+  /** ISO timestamp when the recording was created in CF. */
+  created: string;
+  /** ISO timestamp of the last CF modification (status changes etc). */
+  modified: string;
+  /** Optional CF-generated thumbnail URL (always available when ready). */
+  thumbnail: string;
+  /** Width × height — useful for aspect ratio in the admin grid. */
+  width?: number;
+  height?: number;
+  /** UID of the parent live_input that produced this recording, when
+   *  CF surfaces it. Lets us group archive entries by stream session. */
+  inputUid?: string;
+  // ─── Operator-controlled (KV-only) ──────────────────────────────
+  /** Editable human label. Falls back to a derived label from the
+   *  created date when missing. */
+  label: string;
+  /** Set to false to mark a video as "ok to delete" — purely
+   *  organizational since nothing auto-deletes; the operator still
+   *  needs to press the delete button. Default true (keep). */
+  keep: boolean;
+  /** Position in the looping playlist (0-based). null = not in
+   *  playlist. The playlist is the ordered list of videos where this
+   *  field is not null, sorted ascending. */
+  playlistOrder: number | null;
+}
+
+interface CfVideo {
+  uid: string;
+  creator?: string;
+  thumbnail?: string;
+  thumbnailTimestampPct?: number;
+  readyToStream?: boolean;
+  readyToStreamAt?: string;
+  duration?: number;
+  input?: { uid?: string };
+  liveInput?: string;
+  status?: { state?: string };
+  created?: string;
+  modified?: string;
+  size?: number;
+  preview?: string;
+  allowedOrigins?: string[];
+  requireSignedURLs?: boolean;
+  uploaded?: string;
+  meta?: { name?: string; [k: string]: unknown };
+  width?: number;
+  height?: number;
+}
+
+function fromCfVideo(cf: CfVideo, labelOverride?: string): LiveVideo {
+  let status: VideoStatus = 'unknown';
+  if (cf.status?.state === 'ready' || cf.readyToStream === true) status = 'ready';
+  else if (cf.status?.state === 'downloading' || cf.status?.state === 'processing') status = 'downloading';
+  else if (cf.status?.state === 'queued' || cf.status?.state === 'pending') status = 'queued';
+  else if (cf.status?.state === 'error') status = 'error';
+
+  // Fallback thumbnail: CF serves one at /thumbnails/thumbnail.jpg.
+  // We need the customer code to build it, which is set per-env.
+  const env = getEnv();
+  const fallbackThumb = env.CUSTOMER_CODE
+    ? `https://customer-${env.CUSTOMER_CODE}.cloudflarestream.com/${cf.uid}/thumbnails/thumbnail.jpg?time=1s&height=240`
+    : '';
+
+  return {
+    uid: cf.uid,
+    duration: typeof cf.duration === 'number' ? cf.duration : 0,
+    status,
+    created: cf.created ?? '',
+    modified: cf.modified ?? '',
+    thumbnail: cf.thumbnail || fallbackThumb,
+    width: cf.width,
+    height: cf.height,
+    inputUid: cf.input?.uid ?? cf.liveInput,
+    label: labelOverride && labelOverride.trim().length > 0
+      ? labelOverride
+      : (cf.meta?.name ?? `VOD ${cf.created?.slice(0, 10) ?? cf.uid.slice(0, 8)}`),
+    keep: true,
+    playlistOrder: null,
+  };
+}
+
+/** GET /accounts/{id}/stream — list VODs. CF returns up to ~1000 per
+ *  page; we page through until exhausted. */
+async function cfListVideos(env: StreamEnv): Promise<CfVideo[]> {
+  const all: CfVideo[] = [];
+  let cursor: string | undefined;
+  // Cap at 50 pages (50,000 videos) — far above our actual use.
+  for (let page = 0; page < 50; page++) {
+    const qs = new URLSearchParams();
+    qs.set('per_page', '1000');
+    if (cursor) qs.set('cursor', cursor);
+    const list = await cfFetch<CfVideo[]>(env, `?${qs.toString()}`);
+    if (!Array.isArray(list) || list.length === 0) break;
+    all.push(...list);
+    // CF returns a `result_info` envelope elsewhere; the list endpoint
+    // uses a cursor via the `cursor` query param. We stop when we get
+    // less than a full page (no more results).
+    if (list.length < 1000) break;
+  }
+  return all;
+}
+
+/** DELETE /accounts/{id}/stream/{uid} — delete a single VOD. */
+async function cfDeleteVideo(env: StreamEnv, uid: string): Promise<void> {
+  await cfFetch<unknown>(env, uid, { method: 'DELETE' });
+}
+
+// ─── KV storage for archive + playlist ────────────────────────────
+
+interface VideoMeta {
+  /** Editable label override; missing key means "use CF-generated". */
+  label?: string;
+  /** Operator toggle; missing key defaults to true (keep). */
+  keep?: boolean;
+  /** Stable playlist position (0-based). Missing/null = not in playlist. */
+  playlistOrder?: number | null;
+}
+
+/** Per-video metadata KV keys: `streams:videos:<uid>` → JSON VideoMeta. */
+const KV_VIDEO_PREFIX = 'streams:videos:';
+/** Ordered playlist KV key: `streams:playlist` → JSON string[] (UIDs). */
+const KV_PLAYLIST = 'streams:playlist';
+
+async function kvGetVideo(uid: string): Promise<VideoMeta | null> {
+  const raw = await kvGet(KV_VIDEO_PREFIX + uid);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as VideoMeta;
+  } catch {
+    return null;
+  }
+}
+
+async function kvPutVideo(uid: string, meta: VideoMeta): Promise<void> {
+  await kvPut(KV_VIDEO_PREFIX + uid, JSON.stringify(meta));
+}
+
+async function kvDelVideo(uid: string): Promise<void> {
+  await kvDel(KV_VIDEO_PREFIX + uid);
+}
+
+/**
+ * Pull the canonical VOD list from CF and merge with KV-stored operator
+ * fields. Returns the merged list, also persisted to KV.
+ */
+export async function refreshVideos(): Promise<LiveVideo[]> {
+  const env = getEnv();
+  const cfList = await cfListVideos(env);
+
+  // Load all KV meta in parallel. KV doesn't support list-by-prefix
+  // outside paid plan, so we lean on the CF list as the authoritative
+  // set of UIDs and only read meta for those.
+  const merged: LiveVideo[] = [];
+  for (const cf of cfList) {
+    const meta = await kvGetVideo(cf.uid);
+    merged.push(fromCfVideo(cf, meta?.label));
+    // Apply keep + playlistOrder from KV.
+    if (meta) {
+      merged[merged.length - 1].keep = meta.keep ?? true;
+      merged[merged.length - 1].playlistOrder =
+        typeof meta.playlistOrder === 'number' ? meta.playlistOrder : null;
+    }
+  }
+  return merged;
+}
+
+/** Persist operator-editable fields for a single video. */
+export async function setVideoMeta(uid: string, patch: VideoMeta): Promise<void> {
+  const existing = (await kvGetVideo(uid)) ?? {};
+  await kvPutVideo(uid, { ...existing, ...patch });
+}
+
+/** Delete a VOD from CF and remove its KV record. */
+export async function deleteVideo(uid: string): Promise<void> {
+  const env = getEnv();
+  if (!uid) throw new Error('uid is required');
+  await cfDeleteVideo(env, uid);
+  await kvDelVideo(uid);
+  // Also remove from playlist if present.
+  await removeFromPlaylist(uid);
+}
+
+/**
+ * Read the ordered playlist from KV. Returns UIDs in display order.
+ * Each UID is paired with a `LiveVideo` (the admin UI wants metadata
+ * for the order list).
+ */
+export async function getPlaylist(): Promise<LiveVideo[]> {
+  const raw = await kvGet(KV_PLAYLIST);
+  let uids: string[] = [];
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) uids = parsed.filter((u): u is string => typeof u === 'string');
+    } catch {
+      // Corrupted — start fresh.
+      uids = [];
+    }
+  }
+  if (uids.length === 0) return [];
+
+  // Resolve UIDs to LiveVideo (best effort — missing ones are filtered).
+  // We use KV metadata only; calling refreshVideos here would slow every
+  // /watch poll. The admin UI does its own refresh before showing.
+  const out: LiveVideo[] = [];
+  for (const uid of uids) {
+    const meta = await kvGetVideo(uid);
+    if (!meta) continue;
+    out.push({
+      uid,
+      label: meta.label ?? '',
+      duration: 0,
+      status: 'unknown',
+      created: '',
+      modified: '',
+      thumbnail: '',
+      keep: meta.keep ?? true,
+      playlistOrder: 0, // assigned by index below
+    });
+  }
+  out.forEach((v, i) => {
+    v.playlistOrder = i;
+  });
+  return out;
+}
+
+/** Replace the entire playlist (admin reorder / bulk edit). */
+export async function setPlaylist(uids: string[]): Promise<void> {
+  // De-dupe and sanitize.
+  const seen = new Set<string>();
+  const clean: string[] = [];
+  for (const u of uids) {
+    if (typeof u !== 'string') continue;
+    if (!/^[a-zA-Z0-9_-]{8,40}$/.test(u)) continue;
+    if (seen.has(u)) continue;
+    seen.add(u);
+    clean.push(u);
+  }
+  await kvPut(KV_PLAYLIST, JSON.stringify(clean));
+}
+
+/** Append a UID to the playlist (admin "add to playlist" button). */
+export async function addToPlaylist(uid: string): Promise<void> {
+  if (!/^[a-zA-Z0-9_-]{8,40}$/.test(uid)) throw new Error('invalid uid');
+  const raw = await kvGet(KV_PLAYLIST);
+  let list: string[] = [];
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) list = parsed.filter((u): u is string => typeof u === 'string');
+    } catch {
+      list = [];
+    }
+  }
+  if (list.includes(uid)) return; // already in
+  list.push(uid);
+  await kvPut(KV_PLAYLIST, JSON.stringify(list));
+  await setVideoMeta(uid, { playlistOrder: list.length - 1 });
+}
+
+/** Remove a UID from the playlist (admin "remove from playlist"). */
+export async function removeFromPlaylist(uid: string): Promise<void> {
+  const raw = await kvGet(KV_PLAYLIST);
+  if (!raw) return;
+  let list: string[] = [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) list = parsed.filter((u): u is string => typeof u === 'string');
+  } catch {
+    return;
+  }
+  const next = list.filter((u) => u !== uid);
+  if (next.length === list.length) return;
+  if (next.length === 0) {
+    await kvDel(KV_PLAYLIST);
+  } else {
+    await kvPut(KV_PLAYLIST, JSON.stringify(next));
+  }
+  await setVideoMeta(uid, { playlistOrder: null });
+}
+
+/**
+ * Public shape consumed by /watch when no live stream is on air.
+ * Returns null if the playlist is empty.
+ */
+export async function getPlaylistForWatch(): Promise<PublicPlaylistItem[] | null> {
+  const env = getEnv();
+  if (!env.CUSTOMER_CODE) return null;
+  const items = await getPlaylist();
+  if (items.length === 0) return null;
+  return items.map((v) => ({
+    uid: v.uid,
+    label: v.label || v.uid,
+    iframeUrl: `https://customer-${env.CUSTOMER_CODE}.cloudflarestream.com/${v.uid}/iframe`,
+  }));
+}
+
+export interface PublicPlaylistItem {
+  uid: string;
+  label: string;
+  iframeUrl: string;
+}

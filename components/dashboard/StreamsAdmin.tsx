@@ -23,6 +23,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import { StreamsArchive } from '@/components/dashboard/StreamsArchive';
 
 type LiveStatus = 'ready' | 'live' | 'offline' | 'unknown';
 
@@ -445,6 +446,14 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
             </ul>
           )}
         </section>
+
+        {/* VOD archive + playlist editor */}
+        {current?.customerCode && (
+          <StreamsArchive customerCode={current.customerCode} />
+        )}
+        {!current?.customerCode && (
+          <StreamsArchive customerCode="" />
+        )}
 
         {/* Setup notes */}
         <section className="card-dark rounded-xl p-5 mt-6">
