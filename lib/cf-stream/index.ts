@@ -623,16 +623,19 @@ export async function setVideoMeta(uid: string, patch: VideoMeta): Promise<void>
 export async function deleteVideo(uid: string): Promise<void> {
   const env = getEnv();
   if (!uid) throw new Error('uid is required');
+  // Remove from the playlist list FIRST so that even if the CF delete
+  // races with KV reads elsewhere we don't keep serving a dead UID.
+  await removeFromPlaylist(uid);
   await cfDeleteVideo(env, uid);
   await kvDelVideo(uid);
-  // Also remove from playlist if present.
-  await removeFromPlaylist(uid);
 }
 
 /**
  * Read the ordered playlist from KV. Returns UIDs in display order.
  * Each UID is paired with a `LiveVideo` (the admin UI wants metadata
- * for the order list).
+ * for the order list). UIDs without per-video KV metadata are still
+ * returned — the playlist list itself is the only source of truth for
+ * what's on /watch.
  */
 export async function getPlaylist(): Promise<LiveVideo[]> {
   const raw = await kvGet(KV_PLAYLIST);
@@ -640,36 +643,33 @@ export async function getPlaylist(): Promise<LiveVideo[]> {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) uids = parsed.filter((u): u is string => typeof u === 'string');
+      if (Array.isArray(parsed)) {
+        uids = parsed.filter((u): u is string => typeof u === 'string');
+      }
     } catch {
       // Corrupted — start fresh.
       uids = [];
     }
   }
-  if (uids.length === 0) return [];
-
-  // Resolve UIDs to LiveVideo (best effort — missing ones are filtered).
-  // We use KV metadata only; calling refreshVideos here would slow every
-  // /watch poll. The admin UI does its own refresh before showing.
+  // Stable playlist order — `streams:playlist` is the only source of
+  // truth for the order index. Per-video KV metadata (label, keep) is
+  // optional enrichment; UIDs without meta still belong on /watch.
   const out: LiveVideo[] = [];
+  let i = 0;
   for (const uid of uids) {
     const meta = await kvGetVideo(uid);
-    if (!meta) continue;
     out.push({
       uid,
-      label: meta.label ?? '',
+      label: meta?.label ?? '',
       duration: 0,
       status: 'unknown',
       created: '',
       modified: '',
       thumbnail: '',
-      keep: meta.keep ?? true,
-      playlistOrder: 0, // assigned by index below
+      keep: meta?.keep ?? true,
+      playlistOrder: i++,
     });
   }
-  out.forEach((v, i) => {
-    v.playlistOrder = i;
-  });
   return out;
 }
 
@@ -696,7 +696,9 @@ export async function addToPlaylist(uid: string): Promise<void> {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) list = parsed.filter((u): u is string => typeof u === 'string');
+      if (Array.isArray(parsed)) {
+        list = parsed.filter((u): u is string => typeof u === 'string');
+      }
     } catch {
       list = [];
     }
@@ -704,7 +706,6 @@ export async function addToPlaylist(uid: string): Promise<void> {
   if (list.includes(uid)) return; // already in
   list.push(uid);
   await kvPut(KV_PLAYLIST, JSON.stringify(list));
-  await setVideoMeta(uid, { playlistOrder: list.length - 1 });
 }
 
 /** Remove a UID from the playlist (admin "remove from playlist"). */
@@ -714,7 +715,9 @@ export async function removeFromPlaylist(uid: string): Promise<void> {
   let list: string[] = [];
   try {
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) list = parsed.filter((u): u is string => typeof u === 'string');
+    if (Array.isArray(parsed)) {
+      list = parsed.filter((u): u is string => typeof u === 'string');
+    }
   } catch {
     return;
   }
@@ -725,7 +728,6 @@ export async function removeFromPlaylist(uid: string): Promise<void> {
   } else {
     await kvPut(KV_PLAYLIST, JSON.stringify(next));
   }
-  await setVideoMeta(uid, { playlistOrder: null });
 }
 
 /**

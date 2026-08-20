@@ -48,6 +48,7 @@ interface VideosListResponse {
   ok: boolean;
   configured: boolean;
   missing?: string[];
+  customerCode?: string;
   videos: Video[];
   error?: string;
 }
@@ -149,12 +150,15 @@ function VideoPreview({
   );
 }
 
-export function StreamsArchive({ customerCode }: { customerCode: string }) {
+export function StreamsArchive() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [missing, setMissing] = useState<string[]>([]);
+  // Pulled from /api/admin/streams/videos — drives the inline preview
+  // iframe URL. No more empty-string prop when no live input is set.
+  const [customerCode, setCustomerCode] = useState<string>('');
 
   const [previewUid, setPreviewUid] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -185,6 +189,7 @@ export function StreamsArchive({ customerCode }: { customerCode: string }) {
       setVideos(vData.videos ?? []);
       setConfigured(vData.configured);
       setMissing(vData.missing ?? []);
+      setCustomerCode(vData.customerCode ?? '');
       if (pData.ok) {
         const items = (pData.items ?? []).map((i) => i.uid);
         setPlaylistOrder(items);

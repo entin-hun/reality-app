@@ -447,13 +447,11 @@ npx wrangler secret put CLOUDFLARE_STREAM_CUSTOMER_CODE`}
           )}
         </section>
 
-        {/* VOD archive + playlist editor */}
-        {current?.customerCode && (
-          <StreamsArchive customerCode={current.customerCode} />
-        )}
-        {!current?.customerCode && (
-          <StreamsArchive customerCode="" />
-        )}
+        {/* VOD archive + playlist editor.
+            StreamsArchive pulls its own customerCode from
+            /api/admin/streams/videos so it works regardless of whether
+            a live input is currently set. */}
+        <StreamsArchive />
 
         {/* Setup notes */}
         <section className="card-dark rounded-xl p-5 mt-6">

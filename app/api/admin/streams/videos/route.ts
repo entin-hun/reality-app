@@ -14,7 +14,7 @@
 
 import { NextResponse } from 'next/server';
 import { requireStreamsAdmin } from '@/lib/auth/admin-streams';
-import { isStreamConfigured, refreshVideos, setVideoMeta } from '@/lib/cf-stream';
+import { getEnv, isStreamConfigured, refreshVideos, setVideoMeta } from '@/lib/cf-stream';
 
 export const runtime = 'nodejs';
 
@@ -22,6 +22,8 @@ interface VideosResponse {
   ok: boolean;
   configured: boolean;
   missing?: string[];
+  /** CF Stream customer subdomain — used by the admin preview iframe. */
+  customerCode?: string;
   videos: {
     uid: string;
     label: string;
@@ -75,6 +77,10 @@ export async function GET() {
       videos: [],
     } satisfies VideosResponse);
   }
+  // Pull the customer subdomain straight from the runtime env so the
+  // admin preview iframe is always wired up — never relies on a prop
+  // chain from /dashboard layout state.
+  const customerCode = getEnv().CUSTOMER_CODE;
   try {
     const list = await refreshVideos();
     // Sort newest first.
@@ -82,6 +88,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       configured: true,
+      customerCode,
       videos: list.map((v) => ({
         uid: v.uid,
         label: v.label,
