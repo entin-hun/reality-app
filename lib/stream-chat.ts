@@ -203,9 +203,16 @@ export async function getCurrentVote(): Promise<Vote | null> {
 
 export async function setCurrentVote(vote: Vote | null): Promise<void> {
   if (vote === null) {
+    // Snapshot the previous current vote into history before clearing it.
+    const prev = await getCurrentVote();
+    if (prev) await archiveVote(prev);
     await kvDel(KV_VOTE_CURRENT);
     return;
   }
+  // If we're replacing an existing current vote, archive the previous one
+  // so the operator can still browse it on /dashboard/votes.
+  const prev = await getCurrentVote();
+  if (prev && prev.id !== vote.id) await archiveVote(prev);
   await kvPut(KV_VOTE_CURRENT, JSON.stringify(vote));
 }
 
@@ -309,7 +316,11 @@ export async function castBallot(
 export async function closeVote(voteId: string): Promise<Vote | null> {
   const vote = await getCurrentVote();
   if (!vote || vote.id !== voteId) return null;
-  if (vote.status === 'closed') return vote;
+  if (vote.status === 'closed') {
+    // Already closed — but make sure it's in history.
+    await archiveVote(vote);
+    return vote;
+  }
   const ballots = await getBallots(voteId);
   const tally: Record<string, number> = {};
   for (const o of vote.options) tally[o.id] = 0;
@@ -322,6 +333,7 @@ export async function closeVote(voteId: string): Promise<Vote | null> {
   }));
   const closed: Vote = { ...vote, status: 'closed', results };
   await setCurrentVote(closed);
+  await archiveVote(closed);
   return closed;
 }
 
@@ -342,6 +354,76 @@ export async function getTally(voteId: string): Promise<Record<string, number>> 
 export async function hasVoted(voteId: string, email: string): Promise<boolean> {
   const ballots = await getBallots(voteId);
   return ballots.some((b) => b.email === email);
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Vote history (archive of every vote — even after it's been replaced)
+// ─────────────────────────────────────────────────────────────────────────
+
+const KV_VOTE_HISTORY = 'streams:vote:history';
+
+/**
+ * Snapshot a vote into the history index. Called automatically when a
+ * vote is replaced (so the previous vote is preserved) or closed.
+ *
+ * History entries are immutable — re-saving a vote overwrites its row,
+ * so callers should only archive votes that are no longer "current".
+ */
+export async function archiveVote(vote: Vote): Promise<void> {
+  const raw = await kvGet(KV_VOTE_HISTORY);
+  let list: Vote[] = [];
+  try {
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(parsed)) list = parsed as Vote[];
+  } catch {
+    list = [];
+  }
+  const idx = list.findIndex((v) => v.id === vote.id);
+  if (idx >= 0) list[idx] = vote;
+  else list.unshift(vote);
+  await kvPut(KV_VOTE_HISTORY, JSON.stringify(list));
+}
+
+/** Return every archived vote, newest first. Includes the current vote
+ *  if it isn't already archived. */
+export async function listVotes(): Promise<Vote[]> {
+  const raw = await kvGet(KV_VOTE_HISTORY);
+  let list: Vote[] = [];
+  try {
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(parsed)) list = parsed as Vote[];
+  } catch {
+    list = [];
+  }
+  // Ensure the current vote is part of the list (it might be a vote that
+  // is open right now and hasn't been archived yet).
+  const current = await getCurrentVote();
+  if (current && !list.find((v) => v.id === current.id)) {
+    list.unshift(current);
+  }
+  return list;
+}
+
+/** Drop a vote from history. Current vote cannot be deleted — first close
+ *  it. Returns true if a history row was removed. */
+export async function deleteVote(voteId: string): Promise<boolean> {
+  const raw = await kvGet(KV_VOTE_HISTORY);
+  let list: Vote[] = [];
+  try {
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(parsed)) list = parsed as Vote[];
+  } catch {
+    list = [];
+  }
+  const next = list.filter((v) => v.id !== voteId);
+  if (next.length === list.length) return false;
+  await kvPut(KV_VOTE_HISTORY, JSON.stringify(next));
+  return true;
+}
+
+/** Hard-reset vote history — only used by tests/admin tooling. */
+export async function clearVoteHistory(): Promise<void> {
+  await kvDel(KV_VOTE_HISTORY);
 }
 
 // ─────────────────────────────────────────────────────────────────────────

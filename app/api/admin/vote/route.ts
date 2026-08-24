@@ -1,25 +1,28 @@
 /**
- * Admin — open / close a live vote.
+ * Admin — open / close / list / delete a live vote.
+ *
+ *   GET  /api/admin/vote
+ *     → { ok: true, current: Vote|null, history: Vote[] }
  *
  *   POST /api/admin/vote
- *     body: { action: 'open', question: string, options?: [{label}],
- *             durationSec?: number }
- *     body: { action: 'close', voteId?: string }
+ *     body: { action: 'open', question, options?, durationSec? }
+ *     body: { action: 'close', voteId? }
+ *     body: { action: 'delete', voteId }
  *
  *   Auth: requireStreamsAdmin() (Rendszeradminisztrator or Producer).
  *
- * - 'open' replaces any existing vote. `options` is optional; if omitted
- *    the vote starts with zero options and admins can mark chat messages
- *    as candidates via /api/admin/chat/mark-for-vote.
- * - 'close' snapshots the tally into the vote record and marks it
- *    closed. The record stays in KV so the UI can render the result.
+ * - 'open' replaces any existing vote. Previous vote is auto-archived.
+ * - 'close' snapshots the tally and archives the vote.
+ * - 'delete' drops a vote from history (refuses to delete the current vote).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireStreamsAdmin } from '@/lib/auth/admin-streams';
 import {
   closeVote,
+  deleteVote,
   getCurrentVote,
+  listVotes,
   newId,
   setCurrentVote,
   type Vote,
@@ -38,6 +41,16 @@ function guardError(reason: 'unauthenticated' | 'forbidden') {
   return NextResponse.json({ ok: false, reason }, {
     status: reason === 'unauthenticated' ? 401 : 403,
   });
+}
+
+export async function GET() {
+  const guard = await requireStreamsAdmin();
+  if (!guard.ok) return guardError(guard.reason);
+  const [current, history] = await Promise.all([
+    getCurrentVote(),
+    listVotes(),
+  ]);
+  return NextResponse.json({ ok: true, current, history });
 }
 
 export async function POST(req: NextRequest) {
@@ -131,6 +144,31 @@ export async function POST(req: NextRequest) {
       );
     }
     return NextResponse.json({ ok: true, vote: closed });
+  }
+
+  if (body.action === 'delete') {
+    const voteId = typeof body.voteId === 'string' ? body.voteId : '';
+    if (!voteId) {
+      return NextResponse.json(
+        { ok: false, reason: 'missing-vote-id' },
+        { status: 400 }
+      );
+    }
+    const current = await getCurrentVote();
+    if (current?.id === voteId) {
+      return NextResponse.json(
+        { ok: false, reason: 'cannot-delete-current' },
+        { status: 400 }
+      );
+    }
+    const removed = await deleteVote(voteId);
+    if (!removed) {
+      return NextResponse.json(
+        { ok: false, reason: 'unknown-vote' },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ ok: true });
   }
 
   return NextResponse.json(

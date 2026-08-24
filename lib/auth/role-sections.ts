@@ -168,14 +168,15 @@ export const ADMIN_SECTIONS: ReadonlyArray<AdminSectionDef> = [
   },
 
   // ── Content (Tartalomkeszito) ────────────────────────────────────
-  {
-    key: 'pages',
-    href: '/dashboard/cms/pages',
-    i18nKey: 'pages',
-    icon: 'file',
-    group: 'content',
-    requiredRoles: ['Rendszeradminisztrator', 'Tartalomkeszito'],
-  },
+  // NOTE: 'pages' (CMS page editor) intentionally hidden — see app/dashboard/cms/page.tsx
+  // {
+  //   key: 'pages',
+  //   href: '/dashboard/cms/pages',
+  //   i18nKey: 'pages',
+  //   icon: 'file',
+  //   group: 'content',
+  //   requiredRoles: ['Rendszeradminisztrator', 'Tartalomkeszto'],
+  // },
   {
     key: 'news',
     href: '/dashboard/news',
