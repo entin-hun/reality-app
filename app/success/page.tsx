@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { sendGAEvent } from '@/components/GoogleAnalytics';
 
 const QRCodeSVG = dynamic(
   () => import('qrcode.react').then((mod) => mod.QRCodeSVG),
@@ -15,6 +16,7 @@ export default function SuccessPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setWatchUrl(`${window.location.origin}/watch`);
+      sendGAEvent('purchase', { value: 1, currency: 'EUR' });
     }
   }, []);
 

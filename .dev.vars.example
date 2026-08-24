@@ -37,3 +37,15 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxx
 CLOUDFLARE_STREAM_ACCOUNT_ID=
 CLOUDFLARE_STREAM_API_TOKEN=
 # CLOUDFLARE_STREAM_CUSTOMER_CODE=
+
+# Google Analytics 4 — Data API service-account credentials.
+# Required for the /dashboard/analytics page to show real GA reports.
+# The public measurement id (NEXT_PUBLIC_GA_MEASUREMENT_ID) is read from
+# .env (not this file) because NEXT_PUBLIC_* must be available at build time.
+#
+# Setup: create a GCP service account with role "Google Analytics Data API Viewer",
+# add its email as a Viewer in the GA4 property, then put the three values below.
+#
+GA_PROPERTY_ID=
+GA_CLIENT_EMAIL=
+GA_PRIVATE_KEY=

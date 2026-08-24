@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { cookies, headers } from 'next/headers';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
@@ -6,6 +7,7 @@ import { pickLocale, isRtl, LOCALES, type Locale } from '@/lib/i18n';
 import { CookieConsent } from '@/components/legal/CookieConsent';
 import { LegalFooter } from '@/components/legal/LegalFooter';
 import { MailerLiteScripts } from '@/components/MailerLiteScripts';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 
 // ---------------------------------------------------------------------------
 // Brand constants — referenced from JSON-LD + OG + Twitter.
@@ -253,6 +255,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body className="bg-brand-dark text-white antialiased min-h-screen">
+        {/* Google Analytics 4 — global pageview + custom-event tracker.
+            Reads NEXT_PUBLIC_GA_MEASUREMENT_ID; no-ops when unset.
+            Wrapped in Suspense because useSearchParams() requires a
+            boundary under Next 15. */}
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         {/* MailerLite loader — mounted here (not in <head>) so it can be
             a client component that gates off /admin* / /dashboard* etc.
             See components/MailerLiteScripts.tsx for details. */}

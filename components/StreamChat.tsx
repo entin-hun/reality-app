@@ -26,6 +26,7 @@ import {
   Turnstile,
   type TurnstileHandle,
 } from '@/components/Turnstile';
+import { sendGAEvent } from '@/components/GoogleAnalytics';
 
 interface ChatMessage {
   id: string;
@@ -212,6 +213,10 @@ export function StreamChat({
         }
         setDraft('');
         turnstileRef.current?.reset();
+        sendGAEvent('chat_message_sent', {
+          stream_id: snapshot?.vote?.id ?? 'open',
+          message_length: text.length,
+        });
         await refresh();
       } catch {
         setError('network');
@@ -256,6 +261,10 @@ export function StreamChat({
           setError(data?.reason || 'cast-failed');
           return;
         }
+        sendGAEvent('vote_cast', {
+          vote_id: voteId,
+          option_id: optionId,
+        });
         await refresh();
       } catch {
         setError('network');
@@ -281,6 +290,10 @@ export function StreamChat({
           setError(data?.reason || 'open-failed');
           return;
         }
+        sendGAEvent('stream_start', {
+          vote_question: question,
+          duration_sec: durationSec,
+        });
         await refresh();
       } catch {
         setError('network');
@@ -302,6 +315,7 @@ export function StreamChat({
           setError(data?.reason || 'close-failed');
           return;
         }
+        sendGAEvent('stream_end', { vote_id: voteId });
         await refresh();
       } catch {
         setError('network');

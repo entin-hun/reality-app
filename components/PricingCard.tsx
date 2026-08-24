@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { sendGAEvent } from './GoogleAnalytics';
 
 const QRCodeSVG = dynamic(
   () => import('qrcode.react').then((mod) => mod.QRCodeSVG),
@@ -47,6 +48,7 @@ export function PricingCard() {
     // Simulate API call to /api/checkout
     await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
+    sendGAEvent('checkout_start', { source: 'pricing_card' });
     router.push('/checkout');
   };
 

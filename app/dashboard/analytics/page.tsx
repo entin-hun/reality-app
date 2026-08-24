@@ -1,40 +1,25 @@
-import { readEvents } from '@/lib/analytics/store';
-import { seedDemoEvents } from '@/lib/analytics/seed';
-import { summarize } from '@/lib/analytics/aggregate';
-import { DashboardClient } from '@/components/analytics/DashboardClient';
-import type { Locale } from '@/lib/analytics/i18n';
-import { headers } from 'next/headers';
+/**
+ * /dashboard/analytics — server entry that mounts <GaDashboard />.
+ *
+ * The previous version of this page aggregated events from the in-house
+ * KV/JSON store (lib/analytics/store.ts). That store seeded demo data
+ * for visual testing and never reflected real visitor numbers, which is
+ * why the surface looked "mock".
+ *
+ * This rewrite delegates the entire UX to the GA Data API-backed
+ * <GaDashboard /> component. The gtag.js tracker is wired globally via
+ * the root layout (see components/GoogleAnalytics.tsx); pageviews and
+ * events land in the GA4 property identified by NEXT_PUBLIC_GA_MEASUREMENT_ID.
+ *
+ * The server component does no fetching itself: the data is auth-gated
+ * client-side and the API route handles the Data API call.
+ */
+
+import { GaDashboard } from '@/components/analytics/GaDashboard';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-function detectLocale(): Locale {
-  // Best-effort: read Accept-Language header from the request.
-  try {
-    return 'hu'; // Default locale
-  } catch {
-    return 'hu';
-  }
-}
-
-export default async function AnalyticsDashboardPage() {
-  // Auto-seed on first visit if the store is empty so a brand-new dashboard
-  // does not look blank. Production would gate this on an env flag.
-  let events = await readEvents();
-  if (events.length === 0) {
-    await seedDemoEvents();
-    events = await readEvents();
-  }
-
-  const locale: Locale = detectLocale();
-  const now = Date.now();
-  const sinceMs = now - 7 * 24 * 60 * 60 * 1000;
-  const summary = summarize(events, { sinceMs, untilMs: now });
-
-  return (
-    <DashboardClient
-      initialLocale={locale}
-      initialSummary={summary}
-    />
-  );
+export default function AnalyticsDashboardPage() {
+  return <GaDashboard />;
 }

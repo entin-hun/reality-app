@@ -14,6 +14,7 @@
  */
 
 import { useState, useRef, FormEvent } from 'react';
+import { sendGAEvent } from './GoogleAnalytics';
 import {
   validateContact,
   CONTACT_SUBJECTS,
@@ -99,6 +100,7 @@ export function ContactForm({ locale, messages, turnstileSiteKey }: Props) {
       }
 
       setSubmitState({ status: 'success', message: data.id });
+      sendGAEvent('contact_submit', { submission_id: data.id, locale });
       form.reset();
       setGdprAccepted(false);
     } catch {

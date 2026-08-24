@@ -57,5 +57,13 @@
 		// Enable image optimization
 		// see https://opennext.js.org/cloudflare/howtos/image
 		"binding": "IMAGES"
+	},
+	"vars": {
+		// Non-secret environment variables (visible in plaintext in worker
+		// config). Use for NEXT_PUBLIC_* values that the browser bundle
+		// needs to inline at build time and that the worker also reads at
+		// runtime.
+		// See components/GoogleAnalytics.tsx + lib/analytics/ga-client.ts.
+		"NEXT_PUBLIC_GA_MEASUREMENT_ID": "G-3XQJLCY6YF"
 	}
 }
