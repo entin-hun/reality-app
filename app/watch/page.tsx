@@ -32,6 +32,7 @@
  */
 
 import { Suspense, useEffect, useRef, useState } from 'react';
+import { StreamChat } from '@/components/StreamChat';
 
 // Discriminated union returned by /api/streams/current.
 interface LiveStream {
@@ -358,33 +359,38 @@ function WatchContent() {
   }
   if (state.kind === 'live') {
     return (
-      <PlayerSurface
-        src={buildIframeSrc(state.current.iframeUrl)}
-        iframeKey={state.iframeKey}
-        onEnded={() => {
-          // A live stream ending should fall back to the playlist (if
-          // one is configured). We don't have a clean way to refetch
-          // synchronously here — the main interval will catch it.
-          // For UX, re-poll now.
-          void fetch('/api/streams/current', { cache: 'no-store' })
-            .then((r) => r.json())
-            .then((data) => {
-              if (data?.mode === 'playlist' && Array.isArray(data.playlist)) {
-                const items = data.playlist as PlaylistItem[];
-                if (items.length > 0) {
-                  playlistRef.current = { items, index: 0 };
-                  setState({
-                    kind: 'playlist',
-                    items,
-                    index: 0,
-                    iframeKey: 0,
-                  });
+      <>
+        <PlayerSurface
+          src={buildIframeSrc(state.current.iframeUrl)}
+          iframeKey={state.iframeKey}
+          onEnded={() => {
+            // A live stream ending should fall back to the playlist (if
+            // one is configured). We don't have a clean way to refetch
+            // synchronously here — the main interval will catch it.
+            // For UX, re-poll now.
+            void fetch('/api/streams/current', { cache: 'no-store' })
+              .then((r) => r.json())
+              .then((data) => {
+                if (data?.mode === 'playlist' && Array.isArray(data.playlist)) {
+                  const items = data.playlist as PlaylistItem[];
+                  if (items.length > 0) {
+                    playlistRef.current = { items, index: 0 };
+                    setState({
+                      kind: 'playlist',
+                      items,
+                      index: 0,
+                      iframeKey: 0,
+                    });
+                  }
                 }
-              }
-            })
-            .catch(() => {});
-        }}
-      />
+              })
+              .catch(() => {});
+          }}
+        />
+        <StreamChat
+          turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+        />
+      </>
     );
   }
   // playlist
@@ -404,6 +410,9 @@ function WatchContent() {
         index={state.index}
         total={state.items.length}
         label={item.label || item.uid}
+      />
+      <StreamChat
+        turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
       />
     </>
   );
