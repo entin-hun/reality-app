@@ -49,3 +49,13 @@ CLOUDFLARE_STREAM_API_TOKEN=
 GA_PROPERTY_ID=
 GA_CLIENT_EMAIL=
 GA_PRIVATE_KEY=
+
+# PostHog — server-side project token for posthog-node.
+# The public token (NEXT_PUBLIC_POSTHOG_*) is read from .env (not this file)
+# because it's already inlined into the client bundle at build time.
+# This secret is used by lib/analytics/posthog-server.ts for server-side
+# capture() / identify() calls and to talk to the PostHog HTTP API.
+#
+# Setup: PostHog → Project → Settings → Project → API keys → Project API key
+POSTHOG_PROJECT_API_KEY=
+POSTHOG_HOST=https://eu.i.posthog.com
